@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="city_1">Moscow</string>
+    <string name="buttonCity">City</string>
+    <string name="buttonLocation">Location</string>
+    <string name="forecastToday" translatable="false">0°C</string>
+    <string name="ForecastDescription">Cloudy all day long</string>
+    <string name="humidityTV">Humidity:</string>
+    <string name="windTV">Wind:</string>
+    <string name="barometerTV">Barometer:</string>
+    <string name="humidityInfo" translatable="false">85%</string>
+    <string name="windInfo">4 km/h</string>
+    <string name="barometerInfo">748 mb</string>
+</resources>

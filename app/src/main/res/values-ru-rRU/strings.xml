@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="ForecastDescription">Облачно в течение дня</string>
+    <string name="barometerTV">Давление:</string>
+    <string name="buttonCity">Город</string>
+    <string name="buttonLocation">Местоположение</string>
+    <string name="city_1">Москва</string>
+    <string name="windInfo">4 м\\с</string>
+    <string name="windTV">Ветер:</string>
+    <string name="humidityTV">Влажность:</string>
+    <string name="barometerInfo" translatable="false">748 мм рт.ст.</string>
+</resources>

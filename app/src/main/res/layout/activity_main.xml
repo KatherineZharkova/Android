@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/cityName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/city_1"
+        android:textAlignment="gravity"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toTopOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonCity"
+        app:layout_constraintEnd_toStartOf="@+id/cityName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/buttonLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cityName"
+        app:layout_constraintTop_toTopOf="@+id/cityName"
+        app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="@string/forecastToday"
+        android:textAlignment="gravity"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+
+    <TextView
+        android:id="@+id/descriptionTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="casual"
+        android:text="@string/ForecastDescription"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/humidityTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperature"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/humidityTV"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/humidityTV"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/pressureTV"
+        app:layout_constraintEnd_toStartOf="@+id/humidityInfo"
+        app:layout_constraintStart_toStartOf="@+id/descriptionTV"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTV" />
+
+    <TextView
+        android:id="@+id/pressureTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/windTV"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/barometerTV"
+        app:layout_constraintEnd_toEndOf="@+id/humidityTV"
+        app:layout_constraintStart_toStartOf="@+id/descriptionTV"
+        app:layout_constraintTop_toBottomOf="@+id/humidityTV" />
+
+    <TextView
+        android:id="@+id/barometerTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/barometerTV"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pressureTV"
+        app:layout_constraintStart_toStartOf="@+id/descriptionTV"
+        app:layout_constraintTop_toBottomOf="@+id/pressureTV" />
+
+    <TextView
+        android:id="@+id/humidityInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:text="@string/humidityInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/humidityTV"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionTV"
+        app:layout_constraintStart_toEndOf="@+id/humidityTV"
+        app:layout_constraintTop_toTopOf="@+id/humidityTV" />
+
+    <TextView
+        android:id="@+id/windInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:text="@string/windInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/pressureTV"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionTV"
+        app:layout_constraintStart_toEndOf="@+id/pressureTV"
+        app:layout_constraintTop_toTopOf="@+id/pressureTV" />
+
+    <TextView
+        android:id="@+id/barometerInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:text="@string/barometerInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/barometerTV"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionTV"
+        app:layout_constraintStart_toEndOf="@+id/barometerTV"
+        app:layout_constraintTop_toTopOf="@+id/barometerTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
