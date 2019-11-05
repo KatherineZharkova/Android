@@ -90,33 +90,34 @@
         android:text="@string/humidityTV"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/pressureTV"
+        app:layout_constraintBottom_toTopOf="@id/windTV"
         app:layout_constraintEnd_toStartOf="@id/humidityInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
         app:layout_constraintTop_toBottomOf="@id/descriptionTV" />
 
     <TextView
-        android:id="@+id/pressureTV"
-        android:layout_width="0dp"
+        android:id="@+id/windTV"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/windTV"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/barometerTV"
-        app:layout_constraintEnd_toEndOf="@id/humidityTV"
+        app:layout_constraintEnd_toStartOf="@+id/windInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
         app:layout_constraintTop_toBottomOf="@id/humidityTV" />
 
     <TextView
         android:id="@+id/barometerTV"
-        android:layout_width="0dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/barometerTV"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/pressureTV"
+        app:layout_constraintEnd_toStartOf="@+id/barometerInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
-        app:layout_constraintTop_toBottomOf="@id/pressureTV" />
+        app:layout_constraintTop_toBottomOf="@id/windTV" />
 
     <TextView
         android:id="@+id/humidityInfo"
@@ -139,10 +140,11 @@
         android:paddingEnd="@dimen/padding"
         android:text="@string/windInfo"
         android:textAppearance="@android:style/TextAppearance.Small"
-        app:layout_constraintBottom_toBottomOf="@id/pressureTV"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/windTV"
         app:layout_constraintEnd_toEndOf="@id/descriptionTV"
-        app:layout_constraintStart_toEndOf="@id/pressureTV"
-        app:layout_constraintTop_toTopOf="@id/pressureTV" />
+        app:layout_constraintStart_toEndOf="@id/windTV"
+        app:layout_constraintTop_toTopOf="@id/windTV" />
 
     <TextView
         android:id="@+id/barometerInfo"
