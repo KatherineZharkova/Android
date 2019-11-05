@@ -1,14 +1,24 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="city_1">Moscow</string>
-    <string name="buttonCity">City</string>
-    <string name="buttonLocation">Location</string>
-    <string name="forecastToday" translatable="false">0°C</string>
+    <string name="chooseCityButton">City</string>
+    <string name="settingsButton">Settings</string>
+    <string name="temperatureInfo" translatable="false">0°C</string>
     <string name="ForecastDescription">Cloudy all day long</string>
-    <string name="humidityTV">Humidity:</string>
-    <string name="windTV">Wind:</string>
-    <string name="barometerTV">Barometer:</string>
+    <string name="humidityTV">"Humidity "</string>
+    <string name="windTV">"Wind "</string>
+    <string name="barometerTV">"Barometer "</string>
     <string name="humidityInfo" translatable="false">85%</string>
     <string name="windInfo">4 km/h</string>
     <string name="barometerInfo">748 mb</string>
+    <string name="cityInput">Please, insert or choose a city…</string>
+    <string name="city_2">London</string>
+    <string name="city_3">Tokyo</string>
+    <string name="city_4">Sidney</string>
+    <string name="city_5">New York</string>
+    <string name="okButton">GO</string>
+    <string name="show_extra_details">Show extra details   </string>
+    <string name="settingsTitle">Settings</string>
+    <string name="nightModeSwitch">"NightMode   "</string>
+    <string name="saveButton">save</string>
 </resources>
