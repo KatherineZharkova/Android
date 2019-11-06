@@ -16,9 +16,9 @@
     <string name="city_3">Tokyo</string>
     <string name="city_4">Sidney</string>
     <string name="city_5">New York</string>
-    <string name="okButton">GO</string>
+    <string name="okButton">APPLY</string>
     <string name="show_extra_details">Show extra details   </string>
     <string name="settingsTitle">Settings</string>
     <string name="nightModeSwitch">"NightMode   "</string>
-    <string name="saveButton">save</string>
+    <string name="saveButton">APPLY</string>
 </resources>

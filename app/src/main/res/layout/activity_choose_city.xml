@@ -7,34 +7,47 @@
     android:theme="@style/AppTheme"
     tools:context=".ChooseCityActivity">
 
+    <TextView
+        android:id="@+id/ChooseCityTitle"
+        android:layout_width="379dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding"
+        android:text="@string/settingsTitle"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/cityInputBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
         android:hint="@string/cityInput"
         android:importantForAutofill="no"
         android:inputType="text"
         android:textAlignment="gravity"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@id/goButton"
-        app:layout_constraintEnd_toStartOf="@id/goButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/ChooseCityTitle"
+        app:layout_constraintStart_toStartOf="@+id/ChooseCityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/ChooseCityTitle" />
 
     <Button
         android:id="@+id/goButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/okButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/City1"
@@ -42,17 +55,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/city_1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@id/goButton"
-        app:layout_constraintStart_toStartOf="@id/cityInputBox"
-        app:layout_constraintTop_toBottomOf="@id/goButton" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintEnd_toEndOf="@+id/cityInputBox"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cityInputBox"
+        app:layout_constraintTop_toBottomOf="@+id/cityInputBox" />
 
     <TextView
         android:id="@+id/City2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city_2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintEnd_toEndOf="@id/City1"
         app:layout_constraintStart_toStartOf="@id/City1"
         app:layout_constraintTop_toBottomOf="@id/City1" />
@@ -62,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city_3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintEnd_toEndOf="@id/City2"
         app:layout_constraintStart_toStartOf="@id/City2"
         app:layout_constraintTop_toBottomOf="@id/City2" />
@@ -72,7 +86,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city_4"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintEnd_toEndOf="@id/City3"
         app:layout_constraintStart_toStartOf="@id/City3"
         app:layout_constraintTop_toBottomOf="@id/City3" />
@@ -82,7 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city_5"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintEnd_toEndOf="@id/City4"
         app:layout_constraintStart_toStartOf="@id/City4"
         app:layout_constraintTop_toBottomOf="@id/City4" />
@@ -96,7 +110,7 @@
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="@id/goButton"
+        app:layout_constraintEnd_toEndOf="@+id/cityInputBox"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/cityInputBox"
         app:layout_constraintTop_toBottomOf="@id/City5" />
