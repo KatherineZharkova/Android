@@ -1,5 +1,6 @@
 package ru.cocovella.WeatherApp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -92,7 +93,7 @@ public class ChooseCityActivity extends AppCompatActivity {
     private void makeLog() {
         Log.d(getLocalClassName(), Thread.currentThread().getStackTrace()[3].getMethodName());
         String message = getLocalClassName() + " >> " + Thread.currentThread().getStackTrace()[3].getMethodName();
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -111,6 +112,18 @@ public class ChooseCityActivity extends AppCompatActivity {
     protected void onDestroy() {
         makeLog();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("city", city.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        city.setText(savedInstanceState.getString("city"));
     }
 
     @Override
