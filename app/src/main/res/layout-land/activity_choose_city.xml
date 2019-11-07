@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChooseCityActivity">
+
+    <TextView
+        android:id="@+id/chooseCityTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding"
+        android:text="@string/settingsTitle"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/cityInputBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:hint="@string/cityInput"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textAlignment="gravity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@id/showExtrasTV"
+        app:layout_constraintStart_toStartOf="@id/chooseCityTitle"
+        app:layout_constraintTop_toBottomOf="@id/chooseCityTitle" />
+
+    <Button
+        android:id="@+id/weatherSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button"
+        android:text="@string/okButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/citiesRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/cityInputBox"
+        app:layout_constraintStart_toStartOf="@id/cityInputBox"
+        app:layout_constraintTop_toBottomOf="@id/cityInputBox">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_1" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_2" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_3" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_4" />
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_5" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/showExtrasTV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/show_extra_details"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@id/cityInputBox"
+        app:layout_constraintEnd_toEndOf="@id/chooseCityTitle"
+        app:layout_constraintStart_toEndOf="@+id/cityInputBox"
+        app:layout_constraintTop_toTopOf="@id/cityInputBox" />
+
+    <CheckBox
+        android:id="@+id/humidityCB"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="@string/humidityTV"
+        app:layout_constraintEnd_toEndOf="@id/showExtrasTV"
+        app:layout_constraintStart_toStartOf="@id/showExtrasTV"
+        app:layout_constraintTop_toBottomOf="@id/showExtrasTV" />
+
+    <CheckBox
+        android:id="@+id/windCB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/windTV"
+        app:layout_constraintEnd_toEndOf="@id/humidityCB"
+        app:layout_constraintStart_toStartOf="@id/humidityCB"
+        app:layout_constraintTop_toBottomOf="@id/humidityCB" />
+
+    <CheckBox
+        android:id="@+id/barometerCB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/barometerTV"
+        app:layout_constraintEnd_toEndOf="@id/windCB"
+        app:layout_constraintStart_toStartOf="@id/windCB"
+        app:layout_constraintTop_toBottomOf="@id/windCB" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

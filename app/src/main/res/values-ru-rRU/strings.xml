@@ -2,12 +2,22 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="ForecastDescription">Облачно в течение дня</string>
-    <string name="barometerTV">Давление:</string>
-    <string name="buttonCity">Город</string>
-    <string name="buttonLocation">Местоположение</string>
+    <string name="barometerTV">"Давление "</string>
+    <string name="chooseCityButton">Город</string>
+    <string name="settingsButton">Настройки</string>
     <string name="city_1">Москва</string>
     <string name="windInfo">4 м\\с</string>
-    <string name="windTV">Ветер:</string>
-    <string name="humidityTV">Влажность:</string>
-    <string name="barometerInfo" translatable="false">748 мм рт.ст.</string>
+    <string name="windTV">"Ветер "</string>
+    <string name="humidityTV">"Влажность "</string>
+    <string name="barometerInfo">748 мм рт.ст.</string>
+    <string name="cityInput">Введи город или выбери ниже…</string>
+    <string name="city_2">Лондон</string>
+    <string name="city_3">Токио</string>
+    <string name="city_4">Сидней</string>
+    <string name="city_5">Нью-Йорк</string>
+    <string name="okButton">Применить</string>
+    <string name="show_extra_details">Дополнительная информация   </string>
+    <string name="nightModeSwitch">"Холодная тема   "</string>
+    <string name="settingsTitle">Настройки</string>
+    <string name="saveButton">Применить</string>
 </resources>
