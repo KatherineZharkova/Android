@@ -32,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putInt("THEME", isChecked ? R.style.ColdTheme : R.style.AppTheme);
                 editor.putBoolean("ThemeSwitch", isChecked);
                 editor.apply();
+                recreate();
             }
         });
 
@@ -43,5 +44,10 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveButton.performClick();
     }
 }

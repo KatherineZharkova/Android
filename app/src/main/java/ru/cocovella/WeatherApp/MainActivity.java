@@ -1,7 +1,6 @@
 package ru.cocovella.WeatherApp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,14 +30,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-        setExtraInfo("humidity", humidityTV, humidityInfo);
-        setExtraInfo("wind", windTV, windInfo);
-        setExtraInfo("barometer", barometerTV, barometerInfo);
-
         onChooseCityButtonClick();
         onSettingsButtonClick();
     }
-
 
     private void initViews() {
         cityName = findViewById(R.id.cityName);
@@ -49,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         humidityTV = findViewById(R.id.humidityTV);
         humidityInfo = findViewById(R.id.humidityInfo);
+        setExtraInfo("humidity", humidityTV, humidityInfo);
+
         windTV = findViewById(R.id.windTV);
         windInfo = findViewById(R.id.windInfo);
+        setExtraInfo("wind", windTV, windInfo);
+
         barometerTV = findViewById(R.id.barometerTV);
         barometerInfo = findViewById(R.id.barometerInfo);
+        setExtraInfo("barometer", barometerTV, barometerInfo);
     }
 
     private void onChooseCityButtonClick() {
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void onSettingsButtonClick() {
@@ -74,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private String getCityName() {
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("humidity", getIntent().getBooleanExtra("humidity", false));
             editor.putBoolean("wind", getIntent().getBooleanExtra("wind", false));
             editor.putBoolean("barometer", getIntent().getBooleanExtra("barometer", false));
+            editor.putInt("radioCity", getIntent().getIntExtra("radioCity", -1));
             editor.apply();
             return cityFromIntent;
         } else {
@@ -98,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
             keyTV.setVisibility(View.GONE);
             keyInfo.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // отключила эту функцию, чтобы MainActivity всегда была Main, а остальные - "диалоговыми" окнами
     }
 
 }

@@ -9,36 +9,42 @@
     <TextView
         android:id="@+id/cityName"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="@string/city_1"
         android:textAlignment="gravity"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/chooseCityButton"
         app:layout_constraintEnd_toStartOf="@id/settingsButton"
         app:layout_constraintStart_toEndOf="@id/chooseCityButton"
-        app:layout_constraintTop_toTopOf="@id/chooseCityButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/chooseCityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button"
         android:text="@string/chooseCityButton"
         android:textAllCaps="true"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/cityName"
         app:layout_constraintEnd_toStartOf="@id/cityName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/cityName" />
 
     <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button"
         android:contentDescription="@string/settingsButton"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/cityName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cityName"
         app:layout_constraintTop_toTopOf="@id/cityName"
@@ -90,6 +96,7 @@
         android:text="@string/humidityTV"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/windTV"
         app:layout_constraintEnd_toStartOf="@id/humidityInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
@@ -104,7 +111,7 @@
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/barometerTV"
-        app:layout_constraintEnd_toStartOf="@+id/windInfo"
+        app:layout_constraintEnd_toStartOf="@id/windInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
         app:layout_constraintTop_toBottomOf="@id/humidityTV" />
 
@@ -115,14 +122,14 @@
         android:text="@string/barometerTV"
         android:textAppearance="@android:style/TextAppearance.Small"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/barometerInfo"
+        app:layout_constraintEnd_toStartOf="@id/barometerInfo"
         app:layout_constraintStart_toStartOf="@id/descriptionTV"
         app:layout_constraintTop_toBottomOf="@id/windTV" />
 
     <TextView
         android:id="@+id/humidityInfo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingStart="@dimen/padding"
         android:paddingEnd="@dimen/padding"
         android:text="@string/humidityInfo"
@@ -135,7 +142,7 @@
     <TextView
         android:id="@+id/windInfo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingStart="@dimen/padding"
         android:paddingEnd="@dimen/padding"
         android:text="@string/windInfo"
@@ -149,7 +156,7 @@
     <TextView
         android:id="@+id/barometerInfo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingStart="@dimen/padding"
         android:paddingEnd="@dimen/padding"
         android:text="@string/barometerInfo"

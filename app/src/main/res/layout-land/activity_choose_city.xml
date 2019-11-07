@@ -36,75 +36,61 @@
         android:textAlignment="gravity"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/showExtrasTV"
-        app:layout_constraintStart_toStartOf="@+id/chooseCityTitle"
-        app:layout_constraintTop_toBottomOf="@+id/chooseCityTitle" />
+        app:layout_constraintEnd_toStartOf="@id/showExtrasTV"
+        app:layout_constraintStart_toStartOf="@id/chooseCityTitle"
+        app:layout_constraintTop_toBottomOf="@id/chooseCityTitle" />
 
     <Button
-        android:id="@+id/goButton"
+        android:id="@+id/weatherSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button"
         android:text="@string/okButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/City1"
+    <RadioGroup
+        android:id="@+id/citiesRadioGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/city_1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/cityInputBox"
-        app:layout_constraintStart_toStartOf="@+id/chooseCityTitle"
-        app:layout_constraintTop_toBottomOf="@+id/cityInputBox" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/cityInputBox"
+        app:layout_constraintStart_toStartOf="@id/cityInputBox"
+        app:layout_constraintTop_toBottomOf="@id/cityInputBox">
 
-    <TextView
-        android:id="@+id/City2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/city_2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@id/City1"
-        app:layout_constraintStart_toStartOf="@id/City1"
-        app:layout_constraintTop_toBottomOf="@id/City1" />
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_1" />
 
-    <TextView
-        android:id="@+id/City3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/city_3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@id/City2"
-        app:layout_constraintStart_toStartOf="@id/City2"
-        app:layout_constraintTop_toBottomOf="@id/City2" />
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_2" />
 
-    <TextView
-        android:id="@+id/City4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/city_4"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@id/City3"
-        app:layout_constraintStart_toStartOf="@id/City3"
-        app:layout_constraintTop_toBottomOf="@id/City3" />
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_3" />
 
-    <TextView
-        android:id="@+id/City5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/city_5"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@id/City4"
-        app:layout_constraintStart_toStartOf="@id/City4"
-        app:layout_constraintTop_toBottomOf="@id/City4" />
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_4" />
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city_5" />
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/showExtrasTV"
@@ -116,10 +102,10 @@
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/cityInputBox"
-        app:layout_constraintEnd_toEndOf="@+id/chooseCityTitle"
+        app:layout_constraintBottom_toBottomOf="@id/cityInputBox"
+        app:layout_constraintEnd_toEndOf="@id/chooseCityTitle"
         app:layout_constraintStart_toEndOf="@+id/cityInputBox"
-        app:layout_constraintTop_toTopOf="@+id/cityInputBox" />
+        app:layout_constraintTop_toTopOf="@id/cityInputBox" />
 
     <CheckBox
         android:id="@+id/humidityCB"
