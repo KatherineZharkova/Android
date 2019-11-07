@@ -104,7 +104,7 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@id/cityInputBox"
         app:layout_constraintEnd_toEndOf="@id/chooseCityTitle"
-        app:layout_constraintStart_toEndOf="@+id/cityInputBox"
+        app:layout_constraintStart_toEndOf="@id/cityInputBox"
         app:layout_constraintTop_toTopOf="@id/cityInputBox" />
 
     <CheckBox
