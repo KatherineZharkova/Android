@@ -12,7 +12,7 @@ import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity {
     SharedPreferences settings;
-    Button saveButton;
+    Button exitButton;
     Switch nightModeSwitch;
 
     @Override
@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        nightModeSwitch = findViewById(R.id.nightModeSwitch);
+        nightModeSwitch = findViewById(R.id.themeSwitch);
         nightModeSwitch.setChecked(settings.getBoolean("ThemeSwitch", false));
         nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -36,18 +36,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        exitButton = findViewById(R.id.exitButton);
+        exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        saveButton.performClick();
+        exitButton.performClick();
     }
 }

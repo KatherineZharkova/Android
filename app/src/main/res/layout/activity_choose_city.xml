@@ -8,9 +8,9 @@
     tools:context=".ChooseCityActivity">
 
     <TextView
-        android:id="@+id/ChooseCityTitle"
-        android:layout_width="379dp"
-        android:layout_height="48dp"
+        android:id="@+id/weatherSettingsTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -20,6 +20,18 @@
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/exitButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/arrow_btn"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +39,9 @@
         android:id="@+id/cityInputBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
         android:hint="@string/cityInput"
         android:importantForAutofill="no"
@@ -35,23 +49,9 @@
         android:textAlignment="gravity"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@id/ChooseCityTitle"
-        app:layout_constraintStart_toStartOf="@id/ChooseCityTitle"
-        app:layout_constraintTop_toBottomOf="@id/ChooseCityTitle" />
-
-    <Button
-        android:id="@+id/weatherSettingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="270dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
-        android:text="@string/okButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="@id/weatherSettingsTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weatherSettingsTitle" />
 
     <RadioGroup
         android:id="@+id/citiesRadioGroup"
@@ -60,8 +60,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/showExtrasTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cityInputBox">
@@ -99,17 +97,19 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/showExtrasTV"
+        android:id="@+id/checkBoxTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/show_extra_details"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="@id/cityInputBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/cityInputBox"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/citiesRadioGroup" />
 
     <CheckBox
@@ -120,9 +120,9 @@
         android:layout_marginTop="8dp"
         android:checked="true"
         android:text="@string/humidityTV"
-        app:layout_constraintEnd_toEndOf="@id/showExtrasTV"
-        app:layout_constraintStart_toStartOf="@id/showExtrasTV"
-        app:layout_constraintTop_toBottomOf="@id/showExtrasTV" />
+        app:layout_constraintEnd_toEndOf="@id/checkBoxTitle"
+        app:layout_constraintStart_toStartOf="@id/checkBoxTitle"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxTitle" />
 
     <CheckBox
         android:id="@+id/windCB"
@@ -142,5 +142,7 @@
         app:layout_constraintEnd_toEndOf="@id/windCB"
         app:layout_constraintStart_toStartOf="@id/windCB"
         app:layout_constraintTop_toBottomOf="@id/windCB" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

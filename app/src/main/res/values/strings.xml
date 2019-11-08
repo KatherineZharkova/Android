@@ -3,7 +3,7 @@
     <string name="city_1">Moscow</string>
     <string name="chooseCityButton">City</string>
     <string name="settingsButton">Settings</string>
-    <string name="temperatureInfo" translatable="false">0°C</string>
+    <string name="temperatureInfo" translatable="false">17°C</string>
     <string name="ForecastDescription">Cloudy all day long</string>
     <string name="humidityTV">"Humidity "</string>
     <string name="windTV">"Wind "</string>
@@ -17,8 +17,10 @@
     <string name="city_4">Sidney</string>
     <string name="city_5">New York</string>
     <string name="okButton">APPLY</string>
-    <string name="show_extra_details">Show extra details   </string>
+    <string name="show_extra_details">Also show…</string>
     <string name="settingsTitle">Settings</string>
-    <string name="nightModeSwitch">"NightMode   "</string>
+    <string name="themeSwitch">Theme</string>
     <string name="saveButton">APPLY</string>
+    <string name="pink">pink</string>
+    <string name="blue">blue</string>
 </resources>

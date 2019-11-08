@@ -6,19 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
 
 public class ChooseCityActivity extends AppCompatActivity {
     SharedPreferences settings;
     EditText city;
-    Button applyButton;
+    Button exitButton;
     RadioGroup citiesRG;
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -40,13 +39,11 @@ public class ChooseCityActivity extends AppCompatActivity {
         initViews();
         inflateViews();
         onApplyListener();
-
-        makeLog();
     }
 
     private void initViews() {
         city = findViewById(R.id.cityInputBox);
-        applyButton = findViewById(R.id.weatherSettingsButton);
+        exitButton = findViewById(R.id.exitButton);
         citiesRG = findViewById(R.id.citiesRadioGroup);
         radioButton1 = findViewById(R.id.radioButton1);
         radioButton2 = findViewById(R.id.radioButton2);
@@ -76,42 +73,24 @@ public class ChooseCityActivity extends AppCompatActivity {
     }
 
     private void onApplyListener() {
-        applyButton.setOnClickListener(new View.OnClickListener() {
+        exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.putExtra("radioCity", citiesRG.getCheckedRadioButtonId());
-                intent.putExtra("city", city.getText().toString());
-                intent.putExtra("humidity", humidityCB.isChecked());
-                intent.putExtra("wind", windCB.isChecked());
-                intent.putExtra("barometer", barometerCB.isChecked());
-                startActivity(intent);
+                updateSettings();
+                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                finish();
             }
         });
     }
 
-    private void makeLog() {
-        Log.d(getLocalClassName(), Thread.currentThread().getStackTrace()[3].getMethodName());
-        String message = getLocalClassName() + " >> " + Thread.currentThread().getStackTrace()[3].getMethodName();
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        makeLog();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        makeLog();
-    }
-
-    @Override
-    protected void onDestroy() {
-        makeLog();
-        super.onDestroy();
+    private void updateSettings() {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("city", city.getText().toString());
+        editor.putBoolean("humidity", humidityCB.isChecked());
+        editor.putBoolean("wind", windCB.isChecked());
+        editor.putBoolean("barometer", barometerCB.isChecked());
+        editor.putInt("radioCity", citiesRG.getCheckedRadioButtonId());
+        editor.apply();
     }
 
     @Override
@@ -124,24 +103,6 @@ public class ChooseCityActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         city.setText(savedInstanceState.getString("city"));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        makeLog();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        makeLog();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        makeLog();
     }
 
 }

@@ -2,12 +2,12 @@
 <resources>
     <color name="colorPrimary">#51E91E63</color>
     <color name="colorPrimaryDark">#020000</color>
-    <color name="colorAccent">#E91E63</color>
+    <color name="colorAccent">#e91e63</color>
     <color name="colorBackground">#FCC0AD</color>
 
-    <color name="colorPrimaryCold">#7500AEFF</color>
+    <color name="colorPrimaryCold">#8003A9F4</color>
     <color name="colorPrimaryDarkCold">#020000</color>
-    <color name="colorAccentCold">#0055FF</color>
-    <color name="colorBackgroundCold">#6CCEFA</color>
+    <color name="colorAccentCold">#01579b</color>
+    <color name="colorBackgroundCold">#b3e5fc</color>
 
 </resources>

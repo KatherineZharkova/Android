@@ -16,8 +16,10 @@
     <string name="city_4">Сидней</string>
     <string name="city_5">Нью-Йорк</string>
     <string name="okButton">Применить</string>
-    <string name="show_extra_details">Дополнительная информация   </string>
-    <string name="nightModeSwitch">"Холодная тема   "</string>
+    <string name="show_extra_details">Показать…</string>
+    <string name="themeSwitch">Тема</string>
     <string name="settingsTitle">Настройки</string>
     <string name="saveButton">Применить</string>
+    <string name="pink">розовая</string>
+    <string name="blue">голубая</string>
 </resources>

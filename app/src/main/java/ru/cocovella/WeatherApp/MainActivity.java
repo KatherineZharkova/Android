@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    String TAG = "MAIN_ACTIVITY ";
     TextView cityName;
     Button chooseCityButton;
     ImageButton settingsButton;
@@ -32,29 +29,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        updateSettings();
         initViews();
         onChooseCityButtonClick();
         onSettingsButtonClick();
-
-        makeLog();
-    }
-
-    private void updateSettings() {
-        if (getIntent().getStringExtra("city") != null) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("city", getIntent().getStringExtra("city"));
-            editor.putBoolean("humidity", getIntent().getBooleanExtra("humidity", false));
-            editor.putBoolean("wind", getIntent().getBooleanExtra("wind", false));
-            editor.putBoolean("barometer", getIntent().getBooleanExtra("barometer", false));
-            editor.putInt("radioCity", getIntent().getIntExtra("radioCity", 0));
-            editor.apply();
-        }
     }
 
     private void initViews() {
         cityName = findViewById(R.id.cityName);
-        cityName.setText(getCityName());
+        String tmp = settings.getString("city", "Moscow");
+        cityName.setText(tmp);
 
         chooseCityButton = findViewById(R.id.chooseCityButton);
         settingsButton = findViewById(R.id.settingsButton);
@@ -70,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
         barometerTV = findViewById(R.id.barometerTV);
         barometerInfo = findViewById(R.id.barometerInfo);
         showExtraInfo("barometer", barometerTV, barometerInfo);
-    }
-
-    private String getCityName() {
-        String cityFromIntent = getIntent().getStringExtra("city");
-        String cityFromPrefs = settings.getString("city", "Moscow");
-        return cityFromIntent != null ?  cityFromIntent : cityFromPrefs;
     }
 
     private void showExtraInfo(String key, TextView keyTV, TextView keyInfo) {
@@ -103,57 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-
-
-
-    private void makeLog() {
-        Log.d(TAG, Thread.currentThread().getStackTrace()[3].getMethodName());
-        String message = getLocalClassName() + " >> " + Thread.currentThread().getStackTrace()[3].getMethodName();
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        makeLog();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        makeLog();
-    }
-
-    @Override
-    protected void onDestroy() {
-        makeLog();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        makeLog();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        makeLog();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        makeLog();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // отключила эту функцию, чтобы MainActivity всегда была Main, а остальные - "диалоговыми" окнами
-        makeLog();
     }
 
 }
