@@ -2,9 +2,7 @@ package ru.cocovella.WeatherApp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +10,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import ru.cocovella.WeatherApp.Model.Settings;
 
 
 public class ChooseCityActivity extends AppCompatActivity {
-    SharedPreferences settings;
+    Settings settings;
     EditText city;
-    Button exitButton;
+    Button applyButton;
     RadioGroup citiesRG;
     RadioButton radioButton1;
     RadioButton radioButton2;
@@ -31,19 +30,20 @@ public class ChooseCityActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        settings = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        setTheme(settings.getInt("THEME", R.style.AppTheme));
+        settings = Settings.getInstance();
+        setTheme(settings.getThemeID());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_city);
 
         initViews();
         inflateViews();
-        onApplyListener();
+        radioGroupListener();
+        applyButtonListener();
     }
 
     private void initViews() {
         city = findViewById(R.id.cityInputBox);
-        exitButton = findViewById(R.id.exitButton);
+        applyButton = findViewById(R.id.exitButton);
         citiesRG = findViewById(R.id.citiesRadioGroup);
         radioButton1 = findViewById(R.id.radioButton1);
         radioButton2 = findViewById(R.id.radioButton2);
@@ -56,41 +56,40 @@ public class ChooseCityActivity extends AppCompatActivity {
     }
 
     private void inflateViews() {
-        city.setText(settings.getString("city", "Moscow"));
+        city.setText(settings.getCity());
+        citiesRG.check(settings.getRadioCityID());
+        humidityCB.setChecked(settings.isHumidityCB());
+        windCB.setChecked(settings.isWindCB());
+        barometerCB.setChecked(settings.isBarometerCB());
+    }
 
-        citiesRG.check(settings.getInt("radioCity", R.id.radioButton1));
+    private void radioGroupListener() {
         citiesRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton tmp = findViewById(checkedId);
-                city.setText(tmp.getText().toString());
+                RadioButton radioCity = findViewById(checkedId);
+                city.setText(radioCity.getText().toString());
             }
         });
-
-        humidityCB.setChecked(settings.getBoolean("humidity", true));
-        windCB.setChecked(settings.getBoolean("wind", true));
-        barometerCB.setChecked(settings.getBoolean("barometer", true));
     }
 
-    private void onApplyListener() {
-        exitButton.setOnClickListener(new View.OnClickListener() {
+    private void applyButtonListener() {
+        applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateSettings();
                 startActivity(new Intent(getBaseContext(), MainActivity.class));
-                finish();
+                finishAffinity();
             }
         });
     }
 
     private void updateSettings() {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("city", city.getText().toString());
-        editor.putBoolean("humidity", humidityCB.isChecked());
-        editor.putBoolean("wind", windCB.isChecked());
-        editor.putBoolean("barometer", barometerCB.isChecked());
-        editor.putInt("radioCity", citiesRG.getCheckedRadioButtonId());
-        editor.apply();
+        settings.setCity(city.getText().toString());
+        settings.setHumidityCB(humidityCB.isChecked());
+        settings.setWindCB(windCB.isChecked());
+        settings.setBarometerCB(barometerCB.isChecked());
+        settings.setRadioCityID(citiesRG.getCheckedRadioButtonId());
     }
 
     @Override
