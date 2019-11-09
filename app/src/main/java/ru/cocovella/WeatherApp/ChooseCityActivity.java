@@ -78,8 +78,7 @@ public class ChooseCityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateSettings();
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
-                finishAffinity();
+                finish();
             }
         });
     }

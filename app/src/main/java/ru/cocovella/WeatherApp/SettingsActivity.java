@@ -37,9 +37,9 @@ public class SettingsActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
-                finishAffinity();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

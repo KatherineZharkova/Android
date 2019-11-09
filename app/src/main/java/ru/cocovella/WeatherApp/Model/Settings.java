@@ -6,6 +6,7 @@ public class Settings {
 
     private static Settings instance;
     private String city;
+    private String description;
     private String temperature;
     private String humidity;
     private boolean isHumidityCB;
@@ -33,11 +34,19 @@ public class Settings {
     }
 
     public String getCity() {
-        return city == null ? "Moscow" : city;
+        return city;
     }
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTemperature() {

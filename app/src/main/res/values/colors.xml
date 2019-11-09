@@ -10,4 +10,6 @@
     <color name="colorAccentCold">#01579b</color>
     <color name="colorBackgroundCold">#b3e5fc</color>
 
+    <color name="whiteTransparent">#6AFFFFFF</color>
+
 </resources>

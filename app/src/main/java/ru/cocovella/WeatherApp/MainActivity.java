@@ -1,5 +1,6 @@
 package ru.cocovella.WeatherApp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,29 +30,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
+        inflateViews();
         onChooseCityButtonClick();
         onSettingsButtonClick();
     }
 
+    @Override
+    protected void onResume() {
+        inflateViews();
+        super.onResume();
+    }
+
     private void initViews() {
         cityName = findViewById(R.id.cityName);
-        cityName.setText(settings.getCity());
-
         chooseCityButton = findViewById(R.id.chooseCityButton);
         settingsButton = findViewById(R.id.settingsButton);
-
         humidityTV = findViewById(R.id.humidityTV);
         humidityInfo = findViewById(R.id.humidityInfo);
-        showExtraInfo(settings.isHumidityCB(), humidityTV, humidityInfo);
-
         windTV = findViewById(R.id.windTV);
         windInfo = findViewById(R.id.windInfo);
-        showExtraInfo(settings.isWindCB(), windTV, windInfo);
-
         barometerTV = findViewById(R.id.barometerTV);
         barometerInfo = findViewById(R.id.barometerInfo);
-        showExtraInfo(settings.isBarometerCB(), barometerTV, barometerInfo);
+    }
 
+    private void inflateViews() {
+        cityName.setText(settings.getCity());
+        showExtraInfo(settings.isHumidityCB(), humidityTV, humidityInfo);
+        showExtraInfo(settings.isWindCB(), windTV, windInfo);
+        showExtraInfo(settings.isBarometerCB(), barometerTV, barometerInfo);
     }
 
     private void showExtraInfo(boolean isVisible, TextView title, TextView info) {
@@ -65,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         chooseCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ChooseCityActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChooseCityActivity.class);
                 startActivity(intent);
             }
         });
@@ -75,10 +81,17 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivityForResult(intent, 7);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 7 && resultCode == RESULT_OK) {
+            recreate();
+        }
+    }
 }
