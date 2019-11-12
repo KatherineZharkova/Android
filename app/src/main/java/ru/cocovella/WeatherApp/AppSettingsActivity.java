@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.Model.Tags;
 
-public class SettingsActivity extends AppCompatActivity {
+public class AppSettingsActivity extends AppCompatActivity implements Tags {
     Settings settings;
     Button exitButton;
     Switch themeSwitch;
@@ -33,14 +34,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        exitButton = findViewById(R.id.exitButton);
+        exitButton = findViewById(R.id.applyButton);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK, new Intent());
                 finish();
             }
         });
+
     }
 }

@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.Model.Tags;
 
 
-public class ChooseCityActivity extends AppCompatActivity {
+public class WeatherSettingsActivity extends AppCompatActivity implements Tags {
     Settings settings;
     EditText city;
     Button applyButton;
@@ -37,13 +38,13 @@ public class ChooseCityActivity extends AppCompatActivity {
 
         initViews();
         inflateViews();
-        radioGroupListener();
-        applyButtonListener();
+        setRadioGroup();
+        setApplyButton();
     }
 
     private void initViews() {
         city = findViewById(R.id.cityInputBox);
-        applyButton = findViewById(R.id.exitButton);
+        applyButton = findViewById(R.id.applyButton);
         citiesRG = findViewById(R.id.citiesRadioGroup);
         radioButton1 = findViewById(R.id.radioButton1);
         radioButton2 = findViewById(R.id.radioButton2);
@@ -63,7 +64,7 @@ public class ChooseCityActivity extends AppCompatActivity {
         barometerCB.setChecked(settings.isBarometerCB());
     }
 
-    private void radioGroupListener() {
+    private void setRadioGroup() {
         citiesRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -73,11 +74,12 @@ public class ChooseCityActivity extends AppCompatActivity {
         });
     }
 
-    private void applyButtonListener() {
+    private void setApplyButton() {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateSettings();
+                applyIntent();
                 finish();
             }
         });
@@ -91,16 +93,45 @@ public class ChooseCityActivity extends AppCompatActivity {
         settings.setRadioCityID(citiesRG.getCheckedRadioButtonId());
     }
 
+    private void applyIntent() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra(CITY_KEY, city.getText().toString());
+        if (requestWeatherFromServer()) {
+            intent.putExtra(HUMIDITY_KEY, humidityCB.isChecked());
+            intent.putExtra(WIND_KEY, windCB.isChecked());
+            intent.putExtra(BAROMETER_KEY, barometerCB.isChecked());
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_ERROR, intent);
+        }
+    }
+
+    private boolean requestWeatherFromServer() {
+        // пока имитация ответа сервера,
+        // если запрашиваемый город не найден, return false;
+        // а если найден, то вполучаем и сохраняем данные
+        if (city.getText().toString().trim().equals("")) {
+            return false;
+        } else {
+            settings.setDescription(getString(R.string.ForecastDescription));
+            settings.setTemperature("17");
+            settings.setHumidity("85");
+            settings.setWind("4");
+            settings.setBarometer("845");
+            return true;
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("city", city.getText().toString());
+        outState.putString(CITY_KEY, city.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        city.setText(savedInstanceState.getString("city"));
+        city.setText(savedInstanceState.getString(CITY_KEY));
     }
 
 }

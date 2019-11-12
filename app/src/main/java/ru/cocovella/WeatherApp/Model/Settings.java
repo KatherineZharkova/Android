@@ -18,11 +18,6 @@ public class Settings {
     private int themeID;
 
     private Settings() {
-        city = "Moscow";
-        isHumidityCB = true;
-        isWindCB = true;
-        isBarometerCB = true;
-        radioCityID = R.id.radioButton1;
         themeID = R.style.AppTheme;
     }
 
@@ -50,7 +45,7 @@ public class Settings {
     }
 
     public String getTemperature() {
-        return temperature;
+        return temperature + "°C";
     }
 
     public void setTemperature(String temperature) {

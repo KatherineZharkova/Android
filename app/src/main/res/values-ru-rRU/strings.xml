@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="ForecastDescription">Облачно в течение дня</string>
+    <string name="ForecastDescription">🌺 Солнечно и ясно весь день ☀</string>
     <string name="barometerTV">"Давление "</string>
-    <string name="chooseCityButton">Город</string>
-    <string name="settingsButton">Настройки</string>
     <string name="city_1">Москва</string>
-    <string name="windInfo">4 м\\с</string>
     <string name="windTV">"Ветер "</string>
     <string name="humidityTV">"Влажность "</string>
-    <string name="barometerInfo">748 мм рт.ст.</string>
     <string name="cityInput">Введи город или выбери ниже…</string>
     <string name="city_2">Лондон</string>
     <string name="city_3">Токио</string>
     <string name="city_4">Сидней</string>
-    <string name="city_5">Нью-Йорк</string>
-    <string name="okButton">Применить</string>
+    <string name="city_5">Вашингтон</string>
     <string name="show_extra_details">Показать…</string>
     <string name="themeSwitch">Тема</string>
     <string name="settingsTitle">Настройки</string>
-    <string name="saveButton">Применить</string>
     <string name="pink">розовая</string>
     <string name="blue">голубая</string>
+    <string name="welcome">Привет! Выбери город…</string>
+    <string name="barometerUnit">" мм рт.ст."</string>
+    <string name="windUnit">" м\\с"</string>
+    <string name="humidityUnit">%</string>
+    <string name="error_city_not_found">Ошибка: Запрашиваемый город не наден</string>
 </resources>

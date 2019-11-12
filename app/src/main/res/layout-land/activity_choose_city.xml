@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChooseCityActivity">
+    tools:context=".WeatherSettingsActivity">
 
     <TextView
         android:id="@+id/weatherSettingsTitle"
@@ -19,11 +19,11 @@
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/exitButton"
+        app:layout_constraintStart_toEndOf="@id/applyButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/exitButton"
+        android:id="@+id/applyButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
