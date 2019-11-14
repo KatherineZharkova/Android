@@ -1,106 +1,153 @@
 package ru.cocovella.WeatherApp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.Model.Tags;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements Tags {
     TextView cityName;
-    Button chooseCityButton;
-    ImageButton settingsButton;
+    TextView temperature;
+    TextView description;
+    Button weatherSetButton;
+    Button weatherBrowserButton;
+    Button appSetButton;
+    LinearLayout humidity;
     TextView humidityTV;
     TextView humidityInfo;
+    LinearLayout wind;
     TextView windTV;
     TextView windInfo;
+    LinearLayout barometer;
     TextView barometerTV;
     TextView barometerInfo;
-    SharedPreferences settings;
+    Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        settings = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        setTheme(settings.getInt("THEME", R.style.AppTheme));
+        settings = Settings.getInstance();
+        setTheme(settings.getThemeID());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initViews();
-        onChooseCityButtonClick();
-        onSettingsButtonClick();
+        inflateViews();
+        setWeatherSettingsButton();
+        setInfoButton();
+        setAppSettingsButton();
     }
 
     private void initViews() {
         cityName = findViewById(R.id.cityName);
-        cityName.setText(getCityName());
-
-        chooseCityButton = findViewById(R.id.chooseCityButton);
-        settingsButton = findViewById(R.id.settingsButton);
-
+        temperature = findViewById(R.id.temperature);
+        description = findViewById(R.id.descriptionTV);
+        weatherSetButton = findViewById(R.id.findCityButton);
+        weatherBrowserButton = findViewById(R.id.infoButton);
+        appSetButton = findViewById(R.id.settingsButton);
+        humidity = findViewById(R.id.humidity);
         humidityTV = findViewById(R.id.humidityTV);
         humidityInfo = findViewById(R.id.humidityInfo);
-        setExtraInfo("humidity", humidityTV, humidityInfo);
-
+        wind = findViewById(R.id.wind);
         windTV = findViewById(R.id.windTV);
         windInfo = findViewById(R.id.windInfo);
-        setExtraInfo("wind", windTV, windInfo);
-
+        barometer = findViewById(R.id.barometer);
         barometerTV = findViewById(R.id.barometerTV);
         barometerInfo = findViewById(R.id.barometerInfo);
-        setExtraInfo("barometer", barometerTV, barometerInfo);
     }
 
-    private void onChooseCityButtonClick() {
-        chooseCityButton.setOnClickListener(new View.OnClickListener() {
+    private void inflateViews() {
+        if (getIntent().getStringExtra(CITY_KEY) == null) {
+            if (settings.getCity() == null) {
+                cityName.setText(getString(R.string.welcome));
+            } else {
+                cityName.setText(settings.getCity());
+                temperature.setText(settings.getTemperature());
+                description.setText(settings.getDescription());
+                humidityInfo.setText(settings.getHumidity());
+                windInfo.setText(settings.getWind());
+                barometerInfo.setText(settings.getBarometer());
+                showExtraInfo(settings.isHumidityCB(), humidity);
+                showExtraInfo(settings.isWindCB(), wind);
+                showExtraInfo(settings.isBarometerCB(), barometer);
+            }
+        }
+    }
+
+    private void showExtraInfo(boolean isVisible, LinearLayout item) {
+        item.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private void setWeatherSettingsButton() {
+        weatherSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ChooseCityActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, WeatherSettingsActivity.class);
+                startActivityForResult(intent, REQ_CODE_WEATHER_SETTINGS);
             }
         });
     }
 
-    private void onSettingsButtonClick() {
-        settingsButton.setOnClickListener(new View.OnClickListener() {
+    private void setInfoButton() {
+        weatherBrowserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(intent);
+                Uri uri = Uri.parse("https://www.google.ru/search?q=" + settings.getCity() + "+weather+forecast");
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }
         });
     }
 
-    private String getCityName() {
-        String cityFromIntent = getIntent().getStringExtra("city");
-
-        if (cityFromIntent != null) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("city", cityFromIntent);
-            editor.putBoolean("humidity", getIntent().getBooleanExtra("humidity", false));
-            editor.putBoolean("wind", getIntent().getBooleanExtra("wind", false));
-            editor.putBoolean("barometer", getIntent().getBooleanExtra("barometer", false));
-            editor.putInt("radioCity", getIntent().getIntExtra("radioCity", -1));
-            editor.apply();
-            return cityFromIntent;
-        } else {
-            return settings.getString("city", "Atlantis");
-        }
-    }
-
-    private void setExtraInfo(String key, TextView keyTV, TextView keyInfo) {
-        if (!settings.getBoolean(key, true)) {
-            keyTV.setVisibility(View.GONE);
-            keyInfo.setVisibility(View.GONE);
-        }
+    private void setAppSettingsButton() {
+        appSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AppSettingsActivity.class);
+                startActivityForResult(intent, REQ_CODE_APP_SETTINGS);
+            }
+        });
     }
 
     @Override
-    public void onBackPressed() {
-        // отключила эту функцию, чтобы MainActivity всегда была Main, а остальные - "диалоговыми" окнами
-    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQ_CODE_APP_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                recreate();
+            } else if (resultCode == RESULT_CANCELED) {
+                settings.setThemeID(settings.getThemeID() == R.style.AppTheme ?
+                        R.style.ColdTheme : R.style.AppTheme);
+            }
+        }
+
+        if (requestCode == REQ_CODE_WEATHER_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    cityName.setText(data.getStringExtra(CITY_KEY));
+                    temperature.setText(settings.getTemperature());
+                    description.setText(settings.getDescription());
+                    humidityInfo.setText(settings.getHumidity());
+                    windInfo.setText(settings.getWind());
+                    barometerInfo.setText(settings.getBarometer());
+                    showExtraInfo(data.getBooleanExtra(HUMIDITY_KEY, false), humidity);
+                    showExtraInfo(data.getBooleanExtra(WIND_KEY, false), wind);
+                    showExtraInfo(data.getBooleanExtra(BAROMETER_KEY, false), barometer);
+                }
+            } else if (resultCode == RESULT_ERROR){
+                cityName.setText(R.string.error_city_not_found);
+                temperature.setText("");
+                description.setText("");
+                humidity.setVisibility(View.GONE);
+                wind.setVisibility(View.GONE);
+                barometer.setVisibility(View.GONE);
+            }
+        }
+    }
 }

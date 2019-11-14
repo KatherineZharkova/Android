@@ -1,24 +1,23 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="city_1">Moscow</string>
-    <string name="chooseCityButton">City</string>
-    <string name="settingsButton">Settings</string>
-    <string name="temperatureInfo" translatable="false">0°C</string>
-    <string name="ForecastDescription">Cloudy all day long</string>
-    <string name="humidityTV">"Humidity "</string>
-    <string name="windTV">"Wind "</string>
-    <string name="barometerTV">"Barometer "</string>
-    <string name="humidityInfo" translatable="false">85%</string>
-    <string name="windInfo">4 km/h</string>
-    <string name="barometerInfo">748 mb</string>
-    <string name="cityInput">Please, insert or choose a city…</string>
-    <string name="city_2">London</string>
-    <string name="city_3">Tokyo</string>
-    <string name="city_4">Sidney</string>
-    <string name="city_5">New York</string>
-    <string name="okButton">APPLY</string>
-    <string name="show_extra_details">Show extra details   </string>
+    <string name="welcome">Welcome! Choose a City…</string>
+    <string name="error_city_not_found">Error: city not found, please try again.</string>
+    <string name="ForecastDescription">🌺 Sunny skies all day long ☀</string>
     <string name="settingsTitle">Settings</string>
-    <string name="nightModeSwitch">"NightMode   "</string>
-    <string name="saveButton">APPLY</string>
+    <string name="cityInput">Please, insert or choose a city…</string>
+    <string name="city_1">Moscow, RU</string>
+    <string name="city_2">London, UK</string>
+    <string name="city_3">Tokyo, JP</string>
+    <string name="city_4">Sidney, AU</string>
+    <string name="city_5">Washington, US</string>
+    <string name="show_extra_details">Also show…</string>
+    <string name="humidityTV">"Humidity "</string>
+    <string name="humidityUnit">%</string>
+    <string name="windTV">"Wind "</string>
+    <string name="windUnit">" km/h"</string>
+    <string name="barometerTV">"Barometer "</string>
+    <string name="barometerUnit">" mb"</string>
+    <string name="themeSwitch">Theme</string>
+    <string name="pink">pink</string>
+    <string name="blue">blue</string>
 </resources>
