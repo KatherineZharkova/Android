@@ -3,7 +3,6 @@ package ru.cocovella.WeatherApp.View;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class ForecastFragment extends Fragment implements Tags {
+public class ForecastFragment extends Fragment implements Tags, View.OnClickListener {
     private TextView cityName;
     private TextView temperature;
     private TextView description;
@@ -32,39 +31,34 @@ public class ForecastFragment extends Fragment implements Tags {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_forecast, container, false);
-            settings = Settings.getInstance();
-            initViews(view);
-            setInfoButton(view);
-        return view;
+        return inflater.inflate(R.layout.fragment_forecast, container, false);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-         inflateViews();
+    public void onStart() {
+        super.onStart();
+        settings = Settings.getInstance();
+        initViews();
+        inflateViews();
     }
 
-    private void initViews(View v) {
-        cityName = v.findViewById(R.id.cityName);
-        temperature = v.findViewById(R.id.temperature);
-        description = v.findViewById(R.id.descriptionTV);
-        humidity = v.findViewById(R.id.humidity);
-        humidityInfo = v.findViewById(R.id.humidityInfo);
-        wind = v.findViewById(R.id.wind);
-        windInfo = v.findViewById(R.id.windInfo);
-        barometer = v.findViewById(R.id.barometer);
-        barometerInfo = v.findViewById(R.id.barometerInfo);
-    }
+    private void initViews() {
+        cityName = Objects.requireNonNull(getView()).findViewById(R.id.cityName);
+        temperature = getView().findViewById(R.id.temperature);
+        description = getView().findViewById(R.id.descriptionTV);
+        humidity = getView().findViewById(R.id.humidity);
+        humidityInfo = getView().findViewById(R.id.humidityInfo);
+        wind = getView().findViewById(R.id.wind);
+        windInfo = getView().findViewById(R.id.windInfo);
+        barometer = getView().findViewById(R.id.barometer);
+        barometerInfo = getView().findViewById(R.id.barometerInfo);
+        getView().findViewById(R.id.webButton).setOnClickListener(this);
+        }
 
-    private void setInfoButton(View v) {
-        v.findViewById(R.id.webButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.google.ru/search?q=" + Settings.getInstance().getCity() + "+weather+forecast");
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        Uri uri = Uri.parse("https://www.google.ru/search?q=" + Settings.getInstance().getCity() + "+weather+forecast");
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
     private void inflateViews() {
@@ -81,9 +75,7 @@ public class ForecastFragment extends Fragment implements Tags {
             showExtraInfo(settings.isBarometerCB(), barometer);
         } else {
             FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-            transaction.replace(R.id.container, new MessageFragment())
-                    .addToBackStack(null)
-                    .commit();
+            transaction.replace(R.id.container, new MessageFragment()).commit();
         }
     }
 
@@ -102,7 +94,7 @@ public class ForecastFragment extends Fragment implements Tags {
         }
     }
 
-    private void showExtraInfo(boolean isVisible, LinearLayout item) {
+    private void showExtraInfo(boolean isVisible, View item) {
         item.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 

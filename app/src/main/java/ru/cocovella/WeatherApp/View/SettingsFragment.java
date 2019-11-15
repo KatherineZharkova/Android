@@ -14,20 +14,24 @@ import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class SettingsFragment extends Fragment implements Tags {
+public class SettingsFragment extends Fragment implements Tags, View.OnClickListener {
     private Settings settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-            settings = Settings.getInstance();
-            setThemeSwitch(view);
-            setApplyButton(view);
-        return view;
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    private void setThemeSwitch(View v) {
-        Switch themeSwitch = v.findViewById(R.id.themeSwitch);
+    @Override
+    public void onStart() {
+        super.onStart();
+        settings = Settings.getInstance();
+        setThemeSwitch();
+        setApplyButton();
+    }
+
+    private void setThemeSwitch() {
+        Switch themeSwitch = Objects.requireNonNull(getView()).findViewById(R.id.themeSwitch);
         themeSwitch.setChecked(settings.getThemeID() == R.style.ColdTheme);
         themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -38,18 +42,13 @@ public class SettingsFragment extends Fragment implements Tags {
         });
     }
 
-    private void setApplyButton(View v) {
-        v.findViewById(R.id.applyButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-                transaction.add(R.id.container, new ForecastFragment())
-                        .remove(Objects.requireNonNull(getFragmentManager().findFragmentById(R.id.container)))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+    private void setApplyButton() {
+        Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(this);
     }
 
-
+    @Override
+    public void onClick(View v) {
+        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+        transaction.replace(R.id.container, new ForecastFragment()).commit();
+    }
 }

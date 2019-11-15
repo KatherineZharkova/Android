@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".View.ForecastFragment">
 
@@ -18,9 +18,9 @@
             android:id="@+id/cityName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/welcome"
-            android:gravity="center_horizontal"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/welcome"
             android:textSize="@dimen/TitleTextSize"
             android:textStyle="bold"
             tools:text="@string/city_1" />

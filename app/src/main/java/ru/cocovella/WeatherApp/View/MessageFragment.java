@@ -16,16 +16,19 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message, container, false);
-        setMessageText(view);
-        setMessageButton(view);
-        return view;
+        return inflater.inflate(R.layout.fragment_message, container, false);
     }
 
-    private void setMessageText(View view) {
-        TextView messageTV = view.findViewById(R.id.messageText);
-        String message = getString(R.string.welcome);
+    @Override
+    public void onStart() {
+        super.onStart();
+        setMessageText();
+        setMessageButton();
+    }
 
+    private void setMessageText() {
+        TextView messageTV = Objects.requireNonNull(getView()).findViewById(R.id.messageText);
+        String message = getString(R.string.welcome);
         if (Settings.getInstance().getCity() == null) {
             message = getString(R.string.welcome);
         } else if (Settings.getInstance().getCity().length() < 2) {
@@ -34,15 +37,12 @@ public class MessageFragment extends Fragment {
         messageTV.setText(message);
     }
 
-
-    private void setMessageButton(View v) {
-        v.findViewById(R.id.messageButton).setOnClickListener(new View.OnClickListener() {
+    private void setMessageButton() {
+        Objects.requireNonNull(getView()).findViewById(R.id.messageButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-                transaction.replace(R.id.container, new ForecastPreferencesFragment())
-//                        .addToBackStack(null)
-                        .commit();
+                transaction.replace(R.id.container, new ForecastPreferencesFragment()).commit();
             }
         });
     }

@@ -3,7 +3,6 @@ package ru.cocovella.WeatherApp.View;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,27 +27,31 @@ public class ForecastPreferencesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_forecast_preferences, container, false);
-            settings = Settings.getInstance();
-            initViews(view);
-            inflateViews();
-            setRadioListener();
-            setApplyButton();
-        return view;
+        return inflater.inflate(R.layout.fragment_forecast_preferences, container, false);
     }
 
-    private void initViews(View v) {
-        city = v.findViewById(R.id.cityInputBox);
-        applyButton = v.findViewById(R.id.applyButton);
-        citiesRG = v.findViewById(R.id.citiesRadioGroup);
-            v.findViewById(R.id.radioButton1);
-            v.findViewById(R.id.radioButton2);
-            v.findViewById(R.id.radioButton3);
-            v.findViewById(R.id.radioButton4);
-            v.findViewById(R.id.radioButton5);
-        humidityCB = v.findViewById(R.id.humidityCB);
-        windCB  = v.findViewById(R.id.windCB);
-        barometerCB = v.findViewById(R.id.barometerCB);
+    @Override
+    public void onStart() {
+        super.onStart();
+        settings = Settings.getInstance();
+        initViews();
+        inflateViews();
+        setRadioListener();
+        setApplyButton();
+    }
+
+    private void initViews() {
+        city = Objects.requireNonNull(getView()).findViewById(R.id.cityInputBox);
+        applyButton = getView().findViewById(R.id.applyButton);
+        citiesRG = getView().findViewById(R.id.citiesRadioGroup);
+        getView().findViewById(R.id.radioButton1);
+        getView().findViewById(R.id.radioButton2);
+        getView().findViewById(R.id.radioButton3);
+        getView().findViewById(R.id.radioButton4);
+        getView().findViewById(R.id.radioButton5);
+        humidityCB = getView().findViewById(R.id.humidityCB);
+        windCB  = getView().findViewById(R.id.windCB);
+        barometerCB = getView().findViewById(R.id.barometerCB);
     }
 
     private void inflateViews() {
@@ -75,9 +78,8 @@ public class ForecastPreferencesFragment extends Fragment {
             public void onClick(View v) {
                 updateSettings();
                 FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-                transaction.replace(R.id.container, new ForecastFragment())
-                        .addToBackStack(null)
-                        .commit();
+                transaction.replace(R.id.container, new ForecastFragment()).commit();
+
             }
         });
     }
