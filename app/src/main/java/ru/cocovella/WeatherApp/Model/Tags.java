@@ -8,4 +8,5 @@ public interface Tags {
     String WIND_KEY = "WIND_KEY_15949";
     String BAROMETER_KEY = "BAROMETER_KEY_15950";
     int RESULT_ERROR = 404;
+    String FORECAST_FRAGMENT = "FORECAST_BACK_STACK_FLAG";
 }
