@@ -1,9 +1,11 @@
 package ru.cocovella.WeatherApp.Model;
 
+import java.util.ArrayList;
 import ru.cocovella.WeatherApp.R;
 
-public class Settings {
 
+public class Settings implements Tags, Observable{
+    private ArrayList<Observer> observers = new ArrayList<>();
     private static Settings instance;
     private String city;
     private String description;
@@ -16,9 +18,13 @@ public class Settings {
     private boolean isBarometerCB;
     private int radioCityID;
     private int themeID;
+    private int serverResultCode;
+    private String message;
 
     private Settings() {
+        city = "";
         themeID = R.style.AppTheme;
+        serverResultCode = 0;
     }
 
     public static Settings getInstance() {
@@ -40,7 +46,7 @@ public class Settings {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -48,7 +54,7 @@ public class Settings {
         return temperature + "°C";
     }
 
-    public void setTemperature(String temperature) {
+    void setTemperature(String temperature) {
         this.temperature = temperature;
     }
 
@@ -56,7 +62,7 @@ public class Settings {
         return humidity;
     }
 
-    public void setHumidity(String humidity) {
+    void setHumidity(String humidity) {
         this.humidity = humidity;
     }
 
@@ -72,7 +78,7 @@ public class Settings {
         return wind;
     }
 
-    public void setWind(String wind) {
+    void setWind(String wind) {
         this.wind = wind;
     }
 
@@ -88,7 +94,7 @@ public class Settings {
         return barometer;
     }
 
-    public void setBarometer(String barometer) {
+    void setBarometer(String barometer) {
         this.barometer = barometer;
     }
 
@@ -114,6 +120,40 @@ public class Settings {
 
     public void setThemeID(int themeID) {
         this.themeID = themeID;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean getServerResultCode() {
+        return serverResultCode == CONFIRMATION_CODE;
+    }
+
+    void setServerResultCode(int resultCode) {
+        this.serverResultCode = resultCode;
+        notifyObservers();
+    }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update();
+        }
     }
 
 }

@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
-
-import ru.cocovella.WeatherApp.MainActivity;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -25,8 +21,9 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     @Override
     public void onStart() {
         super.onStart();
+        initViews(Objects.requireNonNull(getView()));
         setTheme();
-        initViews();
+
     }
 
     private void setTheme() {
@@ -35,21 +32,30 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
                         R.color.colorPrimary : R.color.colorPrimaryCold));
     }
 
-    private void initViews() {
-        assert getView() != null;
-        getView().findViewById(R.id.preferencesButton).setOnClickListener(this);
-        getView().findViewById(R.id.homeButton).setOnClickListener(this);
-        getView().findViewById(R.id.settingsButton).setOnClickListener(this);
+    private void initViews(View view) {
+        view.findViewById(R.id.preferencesButton).setOnClickListener(this);
+        view.findViewById(R.id.homeButton).setOnClickListener(this);
+        view.findViewById(R.id.settingsButton).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        Fragment fragment = new ForecastFragment();
-        switch (v.getId()) {
-            case R.id.preferencesButton : fragment = new ForecastPreferencesFragment(); break;
-            case R.id.settingsButton : fragment = new SettingsFragment();
-        }
         FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-        transaction.replace(R.id.container, fragment).commit();
+
+        switch (v.getId()) {
+            case R.id.preferencesButton :
+                transaction.replace(R.id.container, new ForecastPreferencesFragment())
+                        .addToBackStack(null); break;
+
+            case R.id.settingsButton :
+                transaction.replace(R.id.container, new SettingsFragment())
+                        .addToBackStack(null); break;
+
+            case R.id.homeButton :
+                if (Settings.getInstance().getServerResultCode())
+                    transaction.replace(R.id.container, new ForecastFragment())
+                            .addToBackStack(null); break;
+        }
+        transaction.commit();
     }
 }

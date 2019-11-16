@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements Tags {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,22 +29,13 @@ public class MessageFragment extends Fragment {
 
     private void setMessageText() {
         TextView messageTV = Objects.requireNonNull(getView()).findViewById(R.id.messageText);
-        String message = getString(R.string.welcome);
-        if (Settings.getInstance().getCity() == null) {
-            message = getString(R.string.welcome);
-        } else if (Settings.getInstance().getCity().length() < 2) {
-            message = getString(R.string.error_city_not_found);
-        }
-        messageTV.setText(message);
+        messageTV.setText(Settings.getInstance().getMessage());
     }
 
     private void setMessageButton() {
-        Objects.requireNonNull(getView()).findViewById(R.id.messageButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-                transaction.replace(R.id.container, new ForecastPreferencesFragment()).commit();
-            }
+        Objects.requireNonNull(getView()).findViewById(R.id.messageButton).setOnClickListener(v -> {
+            FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+            transaction.replace(R.id.container, new ForecastPreferencesFragment()).addToBackStack(null).commit();
         });
     }
 

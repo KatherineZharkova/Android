@@ -1,4 +1,4 @@
-package ru.cocovella.WeatherApp;
+package ru.cocovella.WeatherApp.Presenter;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 import java.util.List;
 import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.R;
 import ru.cocovella.WeatherApp.View.MessageFragment;
 
 
@@ -24,28 +25,21 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        showWelcome();
+        if (Settings.getInstance().getCity().isEmpty()) {
+            showWelcome();
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        showWelcome();
-        debugBackStack();
+    private void showWelcome() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Settings.getInstance().setMessage(getString(R.string.welcome));
+        transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
     }
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
-        showWelcome();
         debugBackStack();
-    }
-
-    private void showWelcome() {
-        if (getSupportFragmentManager().getFragments().size() < 2) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, new MessageFragment()).commit();
-        }
     }
 
     private void debugBackStack() {

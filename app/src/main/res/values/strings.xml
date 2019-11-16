@@ -20,5 +20,5 @@
     <string name="themeSwitch">Theme</string>
     <string name="pink">pink</string>
     <string name="blue">blue</string>
-    <string name="preferencesTitle">Forecast Preferences</string>
+    <string name="preferencesTitle">Preferences</string>
 </resources>

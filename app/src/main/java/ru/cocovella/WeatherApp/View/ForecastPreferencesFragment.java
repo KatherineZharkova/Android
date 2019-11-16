@@ -12,11 +12,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import java.util.Objects;
+import ru.cocovella.WeatherApp.Model.ForecastServer;
+import ru.cocovella.WeatherApp.Model.Observer;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
 
-public class ForecastPreferencesFragment extends Fragment {
+public class ForecastPreferencesFragment extends Fragment implements Observer {
     private Settings settings;
     private EditText city;
     private Button applyButton;
@@ -63,24 +65,17 @@ public class ForecastPreferencesFragment extends Fragment {
     }
 
     private void setRadioListener() {
-        citiesRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioCity = Objects.requireNonNull(getView()).findViewById(checkedId);
-                city.setText(radioCity.getText().toString());
-            }
+        citiesRG.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton radioCity = Objects.requireNonNull(getView()).findViewById(checkedId);
+            city.setText(radioCity.getText().toString());
         });
     }
 
     private void setApplyButton() {
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSettings();
-                FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-                transaction.replace(R.id.container, new ForecastFragment()).commit();
-
-            }
+        applyButton.setOnClickListener(v -> {
+            updateSettings();
+            settings.addObserver(this);
+            new ForecastServer().request();
         });
     }
 
@@ -90,5 +85,19 @@ public class ForecastPreferencesFragment extends Fragment {
         settings.setWindCB(windCB.isChecked());
         settings.setBarometerCB(barometerCB.isChecked());
         settings.setRadioCityID(citiesRG.getCheckedRadioButtonId());
+    }
+
+    @Override
+    public void update() {
+        settings = Settings.getInstance();
+        if (settings.getServerResultCode()) {
+            FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+            transaction.replace(R.id.container, new ForecastFragment()).addToBackStack(null).commit();
+        } else {
+            settings.setMessage(getString(R.string.error_city_not_found));
+            FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+            transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
+        }
+        settings.removeObserver(this);
     }
 }

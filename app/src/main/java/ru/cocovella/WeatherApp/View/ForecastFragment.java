@@ -3,20 +3,18 @@ package ru.cocovella.WeatherApp.View;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
-import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class ForecastFragment extends Fragment implements Tags, View.OnClickListener {
+public class ForecastFragment extends Fragment implements View.OnClickListener {
     private TextView cityName;
     private TextView temperature;
     private TextView description;
@@ -26,7 +24,6 @@ public class ForecastFragment extends Fragment implements Tags, View.OnClickList
     private TextView windInfo;
     private LinearLayout barometer;
     private TextView barometerInfo;
-    private Settings settings;
 
 
     @Override
@@ -37,7 +34,6 @@ public class ForecastFragment extends Fragment implements Tags, View.OnClickList
     @Override
     public void onStart() {
         super.onStart();
-        settings = Settings.getInstance();
         initViews();
         inflateViews();
     }
@@ -53,7 +49,7 @@ public class ForecastFragment extends Fragment implements Tags, View.OnClickList
         barometer = getView().findViewById(R.id.barometer);
         barometerInfo = getView().findViewById(R.id.barometerInfo);
         getView().findViewById(R.id.webButton).setOnClickListener(this);
-        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -62,36 +58,16 @@ public class ForecastFragment extends Fragment implements Tags, View.OnClickList
     }
 
     private void inflateViews() {
-
-        if (requestForecast()) {
-            cityName.setText(settings.getCity());
-            temperature.setText(settings.getTemperature());
-            description.setText(settings.getDescription());
-            humidityInfo.setText(settings.getHumidity());
-            windInfo.setText(settings.getWind());
-            barometerInfo.setText(settings.getBarometer());
-            showExtraInfo(settings.isHumidityCB(), humidity);
-            showExtraInfo(settings.isWindCB(), wind);
-            showExtraInfo(settings.isBarometerCB(), barometer);
-        } else {
-            FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-            transaction.replace(R.id.container, new MessageFragment()).commit();
-        }
-    }
-
-    private boolean requestForecast() {
-        // имитация запроса на сервер погоды;
-        // если получим код ошибки - return false;
-        if (settings.getCity() != null && settings.getCity().length() > 2) {
-            settings.setTemperature("17");
-            settings.setDescription(getString(R.string.ForecastDescription));
-            settings.setHumidity("85");
-            settings.setWind("4");
-            settings.setBarometer("845");
-            return true;
-        } else {
-            return false;
-        }
+        Settings settings = Settings.getInstance();
+        cityName.setText(settings.getCity());
+        temperature.setText(settings.getTemperature());
+        description.setText(settings.getDescription());
+        humidityInfo.setText(settings.getHumidity());
+        windInfo.setText(settings.getWind());
+        barometerInfo.setText(settings.getBarometer());
+        showExtraInfo(settings.isHumidityCB(), humidity);
+        showExtraInfo(settings.isWindCB(), wind);
+        showExtraInfo(settings.isBarometerCB(), barometer);
     }
 
     private void showExtraInfo(boolean isVisible, View item) {
