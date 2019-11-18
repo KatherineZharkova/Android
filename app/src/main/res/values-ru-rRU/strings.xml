@@ -16,9 +16,10 @@
     <string name="settingsTitle">Настройки</string>
     <string name="pink">розовая</string>
     <string name="blue">голубая</string>
-    <string name="welcome">Привет! Выбери город…</string>
+    <string name="welcome">Привет!     Выбери город…</string>
     <string name="barometerUnit">" мм рт.ст."</string>
     <string name="windUnit">" м\\с"</string>
     <string name="humidityUnit">%</string>
-    <string name="error_city_not_found">Ошибка: Запрашиваемый город не наден</string>
+    <string name="error_city_not_found">Запрашиваемый город не наден ☀</string>
+    <string name="preferencesTitle">Настройки погоды</string>
 </resources>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="welcome">Welcome! Choose a City…</string>
-    <string name="error_city_not_found">Error: city not found, please try again.</string>
+    <string name="welcome">Welcome!     Choose a City…</string>
+    <string name="error_city_not_found">Error: city not found, please try again ☀</string>
     <string name="ForecastDescription">🌺 Sunny skies all day long ☀</string>
     <string name="settingsTitle">Settings</string>
     <string name="cityInput">Please, insert or choose a city…</string>
@@ -20,4 +20,5 @@
     <string name="themeSwitch">Theme</string>
     <string name="pink">pink</string>
     <string name="blue">blue</string>
+    <string name="preferencesTitle">Preferences</string>
 </resources>

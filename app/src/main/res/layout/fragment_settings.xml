@@ -3,56 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AppSettingsActivity">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
+
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/settingsTitle"
+        android:textAllCaps="true"
+        android:textSize="@dimen/TitleTextSize"
+        app:layout_constraintEnd_toStartOf="@id/applyButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/applyButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/ok_btn"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/settingsTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:padding="@dimen/padding"
-        android:text="@string/settingsTitle"
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@id/applyButton"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/themeSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:width="250dp"
+        android:layout_marginTop="@dimen/margin"
         android:background="@color/whiteTransparent"
         android:padding="@dimen/padding"
         android:showText="true"
         android:switchPadding="16dp"
+        android:switchTextAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="@string/themeSwitch"
         android:textAlignment="gravity"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textOff="@string/pink"
         android:textOn="@string/blue"
+        android:textSize="@dimen/DefaultTextSize"
         android:thumbTextPadding="@dimen/padding"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsTitle"
-        tools:checked="true"
+        app:layout_constraintTop_toBottomOf="@id/applyButton"
+        tools:checked="false"
         tools:ignore="UnusedAttribute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
