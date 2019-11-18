@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Presenter.MainActivity">
 
-
-    <fragment
-        android:id="@+id/navigationFragment"
-        android:name="ru.cocovella.WeatherApp.View.NavigationFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout="@layout/fragment_navigation" />
-
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="0dp"
@@ -29,5 +18,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="ru.cocovella.WeatherApp.View.NavigationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

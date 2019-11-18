@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".View.ForecastFragment">
 
@@ -16,7 +16,7 @@
         android:gravity="center"
         android:textSize="@dimen/TitleTextSize"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/webButton"
+        app:layout_constraintEnd_toStartOf="@id/webButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/city_1" />
@@ -27,7 +27,7 @@
         android:layout_height="50dp"
         android:background="@drawable/idea_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cityName"
+        app:layout_constraintStart_toEndOf="@id/cityName"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ButtonStyle" />
 
@@ -40,7 +40,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityName"
+        app:layout_constraintTop_toBottomOf="@id/cityName"
         tools:text="17°C" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperature"
+        app:layout_constraintTop_toBottomOf="@id/temperature"
         tools:text="@string/ForecastDescription" />
 
     <LinearLayout
@@ -62,7 +62,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTV"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTV"
         tools:visibility="visible">
 
         <TextView
@@ -96,7 +96,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/humidity"
+        app:layout_constraintTop_toBottomOf="@id/humidity"
         tools:visibility="visible">
 
         <TextView
@@ -129,7 +129,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wind"
+        app:layout_constraintTop_toBottomOf="@id/wind"
         tools:visibility="visible">
 
         <TextView
