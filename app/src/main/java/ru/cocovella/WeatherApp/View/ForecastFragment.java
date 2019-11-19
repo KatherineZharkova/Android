@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
@@ -24,6 +26,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private TextView windInfo;
     private LinearLayout barometer;
     private TextView barometerInfo;
+    private RecyclerView recyclerView;
 
 
     @Override
@@ -49,6 +52,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         barometer = getView().findViewById(R.id.barometer);
         barometerInfo = getView().findViewById(R.id.barometerInfo);
         getView().findViewById(R.id.webButton).setOnClickListener(this);
+        recyclerView = getView().findViewById(R.id.week_forecast);
     }
 
     @Override
@@ -60,7 +64,8 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private void inflateViews() {
         Settings settings = Settings.getInstance();
         cityName.setText(settings.getCity());
-        temperature.setText(settings.getTemperature());
+        String tmp = settings.getTemperature() + "°C";
+        temperature.setText(tmp);
         description.setText(settings.getDescription());
         humidityInfo.setText(settings.getHumidity());
         windInfo.setText(settings.getWind());
@@ -68,10 +73,18 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         showExtraInfo(settings.isHumidityCB(), humidity);
         showExtraInfo(settings.isWindCB(), wind);
         showExtraInfo(settings.isBarometerCB(), barometer);
+        setRecyclerView();
     }
 
     private void showExtraInfo(boolean isVisible, View item) {
         item.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private void setRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setHasFixedSize(true);
+        ForecastCardAdapter adapter = new ForecastCardAdapter();
+        recyclerView.setAdapter(adapter);
     }
 
 }

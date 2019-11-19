@@ -1,6 +1,8 @@
 package ru.cocovella.WeatherApp.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import ru.cocovella.WeatherApp.R;
 
 
@@ -11,12 +13,12 @@ public class Settings implements Tags, Observable{
     private String description;
     private String temperature;
     private String humidity;
+    private ArrayList<String> citiesChoice;
     private boolean isHumidityCB;
     private String wind;
     private boolean isWindCB;
     private String barometer;
     private boolean isBarometerCB;
-    private int radioCityID;
     private int themeID;
     private int serverResultCode;
     private String message;
@@ -51,11 +53,21 @@ public class Settings implements Tags, Observable{
     }
 
     public String getTemperature() {
-        return temperature + "°C";
+        return temperature;
     }
 
     void setTemperature(String temperature) {
         this.temperature = temperature;
+    }
+
+    public ArrayList<String> getCitiesChoice() {
+        return citiesChoice;
+    }
+
+    public void setCitiesChoice(String[] array) {
+        if (citiesChoice == null) {
+            this.citiesChoice = new ArrayList<>(Arrays.asList(array));
+        }
     }
 
     public String getHumidity() {
@@ -104,14 +116,6 @@ public class Settings implements Tags, Observable{
 
     public void setBarometerCB(boolean barometerCB) {
         isBarometerCB = barometerCB;
-    }
-
-    public int getRadioCityID() {
-        return radioCityID;
-    }
-
-    public void setRadioCityID(int radioCityID) {
-        this.radioCityID = radioCityID;
     }
 
     public int getThemeID() {

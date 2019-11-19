@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".View.ForecastFragment">
@@ -11,11 +11,12 @@
     <TextView
         android:id="@+id/cityName"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
         android:textSize="@dimen/TitleTextSize"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/webButton"
         app:layout_constraintEnd_toStartOf="@id/webButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +67,6 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/humidityTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/humidityTV"
@@ -80,7 +80,6 @@
             tools:text="77" />
 
         <TextView
-            android:id="@+id/humidityUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/humidityUnit" />
@@ -89,7 +88,7 @@
 
     <LinearLayout
         android:id="@+id/wind"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -100,7 +99,6 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/windTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/windTV"
@@ -113,7 +111,6 @@
             tools:text="7" />
 
         <TextView
-            android:id="@+id/windUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/windUnit" />
@@ -122,7 +119,7 @@
 
     <LinearLayout
         android:id="@+id/barometer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -133,7 +130,6 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/barometerTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/barometerTV"
@@ -146,11 +142,22 @@
             tools:text="777" />
 
         <TextView
-            android:id="@+id/barometerUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/barometerUnit" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/week_forecast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barometer"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

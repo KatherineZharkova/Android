@@ -2,7 +2,6 @@
 <resources>
     <dimen name="padding">8dp</dimen>
     <dimen name="margin">12dp</dimen>
-    <dimen name="detailsWidth">200dp</dimen>
     <dimen name="TitleTextSize">30sp</dimen>
     <dimen name="DefaultTextSize">18sp</dimen>
 </resources>
