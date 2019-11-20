@@ -4,4 +4,5 @@
     <dimen name="margin">12dp</dimen>
     <dimen name="TitleTextSize">30sp</dimen>
     <dimen name="DefaultTextSize">18sp</dimen>
+    <dimen name="cardCornerRadius">39dp</dimen>
 </resources>

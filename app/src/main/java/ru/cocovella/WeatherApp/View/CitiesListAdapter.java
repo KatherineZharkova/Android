@@ -39,7 +39,7 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.It
 
 
     public interface OnItemClickListener {
-        void onItemClick(String text, int position);
+        void onItemClick(String itemName, int position);
     }
 
     void setOnItemClickListener(OnItemClickListener itemClickListener){

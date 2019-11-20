@@ -61,9 +61,8 @@ public class ForecastPreferencesFragment extends Fragment implements Observer {
         recyclerView.setHasFixedSize(true);
         settings.setCitiesChoice(getResources().getStringArray(R.array.cities));
         CitiesListAdapter adapter = new CitiesListAdapter(settings.getCitiesChoice());
-        adapter.setOnItemClickListener((text, position) -> city.setText(text));
+        adapter.setOnItemClickListener((itemName, position) -> city.setText(itemName));
         recyclerView.setAdapter(adapter);
-
     }
 
     private void setApplyButton() {

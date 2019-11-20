@@ -2,46 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".View.ForecastFragment">
 
 
-    <TextView
-        android:id="@+id/cityName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="@dimen/TitleTextSize"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/webButton"
-        app:layout_constraintEnd_toStartOf="@id/webButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/city_1" />
-
-    <Button
-        android:id="@+id/webButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/idea_btn"
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cityName"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ButtonStyle" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/TitleTextSize"
+            android:textStyle="bold"
+            android:layout_marginEnd="@dimen/padding"
+            tools:text="@string/city_1" />
+
+        <Button
+            android:id="@+id/webButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:background="@drawable/idea_btn"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/temperature"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:textSize="@dimen/TitleTextSize"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cityName"
+        app:layout_constraintTop_toBottomOf="@id/header"
         tools:text="17°C" />
 
     <TextView
@@ -56,7 +59,7 @@
 
     <LinearLayout
         android:id="@+id/humidity"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -88,7 +91,7 @@
 
     <LinearLayout
         android:id="@+id/wind"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -119,7 +122,7 @@
 
     <LinearLayout
         android:id="@+id/barometer"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -157,6 +160,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barometer"
+        app:layout_constraintVertical_bias="1.0"
         tools:itemCount="1"
         tools:listitem="@layout/item_card" />
 
