@@ -8,12 +8,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.Random;
-import ru.cocovella.WeatherApp.Model.Settings;
+import ru.cocovella.WeatherApp.Model.ForecastServer;
 import ru.cocovella.WeatherApp.R;
 
 
 public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapter.Item> {
+    private ArrayList<ForecastServer.Forecast> forecasts;
+
+    ForecastCardAdapter(ArrayList<ForecastServer.Forecast> forecasts) {
+        if (forecasts != null) {
+            this.forecasts = forecasts;
+        }
+    }
 
     @NonNull
     @Override
@@ -26,16 +32,16 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Item holder, int position) {
-        holder.setWhen(position);
-        holder.setTemperature(position);
-        holder.setIcon();
+        ForecastServer.Forecast f = forecasts.get(position);
+        holder.setWhen(f.getDayTime());
+        holder.setTemperature(f.getTemperature());
+        holder.setIcon(f.getIcon());
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return forecasts.size();
     }
-
 
 
 
@@ -51,32 +57,19 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
             icon = view.findViewById(R.id.icon);
         }
 
-        void setWhen(int position){
-            ArrayList<String> dayTime = new ArrayList<>();
-            dayTime.add("06:00");
-            dayTime.add("09:00");
-            dayTime.add("12:00");
-            dayTime.add("15:00");
-            dayTime.add("18:00");
-            dayTime.add("21:00");
-            dayTime.add("24:00");
-            when.setText(dayTime.get(position));
+        void setWhen(String dayTime){
+            this.when.setText(dayTime);
         }
 
-        void setTemperature(int position) {
-            int currentTemperature = Integer.parseInt(Settings.getInstance().getTemperature());
-            int[] changes = {-3, -1, 3, 5, 4, 1, 0};
-            String result = currentTemperature + changes[position] + "°C";
-            temperature.setText(result);
+        void setTemperature(int temperature) {
+            String result = temperature + "°C";
+            this.temperature.setText(result);
         }
 
-        void setIcon() {
-            Typeface weatherFont = Typeface.createFromAsset(icon.getContext().getAssets(), "fonts/weather.ttf");
-            icon.setTypeface(weatherFont);
-            String[] icons = {"\uF0C8", "\uF0C5", "\uF075", "\uF071", "\uF056", "\uF074", "\uF010"};
-            icon.setText(icons[new Random().nextInt(icons.length)]);
+        void setIcon(String icon) {
+            this.icon.setTypeface(Typeface.createFromAsset(this.icon.getContext().getAssets(), "fonts/weather.ttf"));
+            this.icon.setText(icon);
         }
-
 
     }
 }

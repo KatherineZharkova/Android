@@ -83,7 +83,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private void setRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
-        ForecastCardAdapter adapter = new ForecastCardAdapter();
+        ForecastCardAdapter adapter = new ForecastCardAdapter(Settings.getInstance().getForecasts());
         recyclerView.setAdapter(adapter);
     }
 
