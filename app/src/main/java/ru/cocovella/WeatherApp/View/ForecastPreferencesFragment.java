@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
@@ -81,7 +82,6 @@ public class ForecastPreferencesFragment extends Fragment implements Observer {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             String prompt = "Request forecast for " + Objects.requireNonNull(city.getText()).toString() + "?";
-
             Snackbar snackbar = Snackbar.make(getView(), prompt, Snackbar.LENGTH_LONG);
             snackbar.setAction("confirm", v1 -> {
                         updateSettings();

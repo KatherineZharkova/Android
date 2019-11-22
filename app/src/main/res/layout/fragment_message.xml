@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/TitleTextSize"
+        android:textSize="@dimen/TextSizeTitle"
         android:textStyle="bold"
         tools:text="@string/welcome" />
 
@@ -21,7 +21,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/padding"
+        android:layout_margin="@dimen/padding_8"
         android:background="@drawable/lookup_btn"
         tools:ignore="ButtonStyle" />
 

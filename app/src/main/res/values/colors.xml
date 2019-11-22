@@ -11,5 +11,6 @@
     <color name="colorBackgroundCold">#b3e5fc</color>
 
     <color name="whiteTransparent">#6AFFFFFF</color>
+    <color name="gray">#303030</color>
 
 </resources>

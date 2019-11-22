@@ -12,7 +12,7 @@
         android:id="@+id/preferencesButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
+        android:layout_margin="@dimen/padding_8"
         android:background="@drawable/lookup_btn"
         tools:ignore="ButtonStyle" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/homeButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
+        android:layout_margin="@dimen/padding_8"
         android:background="@drawable/cloud_btn"
         tools:ignore="ButtonStyle" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/settingsButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
+        android:layout_margin="@dimen/padding_8"
         android:background="@drawable/sets_btn"
         tools:ignore="ButtonStyle" />
 
