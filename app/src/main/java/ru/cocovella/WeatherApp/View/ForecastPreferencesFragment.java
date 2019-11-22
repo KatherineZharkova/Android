@@ -3,14 +3,13 @@ package ru.cocovella.WeatherApp.View;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.ForecastServer;
 import ru.cocovella.WeatherApp.Model.Observer;
@@ -21,8 +20,7 @@ import ru.cocovella.WeatherApp.R;
 public class ForecastPreferencesFragment extends Fragment implements Observer {
     private Settings settings;
     private EditText city;
-    private Button applyButton;
-    private RadioGroup citiesRG;
+    private RecyclerView recyclerView;
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
@@ -35,56 +33,56 @@ public class ForecastPreferencesFragment extends Fragment implements Observer {
     @Override
     public void onStart() {
         super.onStart();
-        settings = Settings.getInstance();
         initViews();
         inflateViews();
-        setRadioListener();
-        setApplyButton();
     }
 
     private void initViews() {
         city = Objects.requireNonNull(getView()).findViewById(R.id.cityInputBox);
-        applyButton = getView().findViewById(R.id.applyButton);
-        citiesRG = getView().findViewById(R.id.citiesRadioGroup);
-        getView().findViewById(R.id.radioButton1);
-        getView().findViewById(R.id.radioButton2);
-        getView().findViewById(R.id.radioButton3);
-        getView().findViewById(R.id.radioButton4);
-        getView().findViewById(R.id.radioButton5);
         humidityCB = getView().findViewById(R.id.humidityCB);
         windCB  = getView().findViewById(R.id.windCB);
         barometerCB = getView().findViewById(R.id.barometerCB);
+        recyclerView = getView().findViewById(R.id.recycler_view);
     }
 
     private void inflateViews() {
+        settings = Settings.getInstance();
         city.setText(settings.getCity());
-        citiesRG.check(settings.getRadioCityID());
         humidityCB.setChecked(settings.isHumidityCB());
         windCB.setChecked(settings.isWindCB());
         barometerCB.setChecked(settings.isBarometerCB());
+        setApplyButton();
+        setRecyclerView();
     }
 
-    private void setRadioListener() {
-        citiesRG.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton radioCity = Objects.requireNonNull(getView()).findViewById(checkedId);
-            city.setText(radioCity.getText().toString());
-        });
+    private void setRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager
+                (getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+        settings.setCitiesChoice(getResources().getStringArray(R.array.cities));
+        CitiesListAdapter adapter = new CitiesListAdapter(settings.getCitiesChoice());
+        adapter.setOnItemClickListener((itemName, position) -> city.setText(itemName));
+        recyclerView.setAdapter(adapter);
     }
 
     private void setApplyButton() {
-        applyButton.setOnClickListener(v -> {
-            updateSettings();
-            settings.addObserver(this);
-            new ForecastServer().request();
-        });
+        Objects.requireNonNull(getView()).findViewById(R.id.applyButton)
+                .setOnClickListener(v -> {
+                    updateSettings();
+                    settings.addObserver(this);
+                    new ForecastServer().request();
+                });
     }
 
     private void updateSettings() {
-        settings.setCity(city.getText().toString());
+        String newCity = city.getText().toString();
+        settings.setCity(newCity);
+        if(!settings.getCitiesChoice().contains(newCity)) {
+            settings.getCitiesChoice().add(newCity);
+        }
         settings.setHumidityCB(humidityCB.isChecked());
         settings.setWindCB(windCB.isChecked());
         settings.setBarometerCB(barometerCB.isChecked());
-        settings.setRadioCityID(citiesRG.getCheckedRadioButtonId());
     }
 
     @Override

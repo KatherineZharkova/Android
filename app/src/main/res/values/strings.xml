@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="welcome">Welcome!     Choose a City…</string>
+    <string name="welcome">Welcome! Choose a City…</string>
     <string name="error_city_not_found">Error: city not found, please try again ☀</string>
     <string name="ForecastDescription">🌺 Sunny skies all day long ☀</string>
     <string name="settingsTitle">Settings</string>
@@ -12,7 +12,7 @@
     <string name="city_5">Washington, US</string>
     <string name="show_extra_details">Also show…</string>
     <string name="humidityTV">"Humidity "</string>
-    <string name="humidityUnit">%</string>
+    <string name="humidityUnit" translatable="false">%</string>
     <string name="windTV">"Wind "</string>
     <string name="windUnit">" km/h"</string>
     <string name="barometerTV">"Barometer "</string>
