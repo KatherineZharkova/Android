@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
@@ -53,8 +54,12 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
             case R.id.homeButton :
                 if (Settings.getInstance().getServerResultCode())
-                    transaction.replace(R.id.container, new ForecastFragment())
-                            .addToBackStack(null); break;
+                Snackbar.make(Objects.requireNonNull(getView()),
+                        "If you leave the screen your preferences will be lost.", Snackbar.LENGTH_LONG).setAction("Confirm", view -> {
+                            transaction.replace(R.id.container, new ForecastFragment()).addToBackStack(null);
+//                            Toast.makeText(getContext(), "Кнопка в Snackbar нажата", Toast.LENGTH_LONG).show();
+                        }).show();
+                break;
         }
         transaction.commit();
     }

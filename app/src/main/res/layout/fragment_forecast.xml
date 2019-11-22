@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".View.ForecastFragment">
@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,30 +18,31 @@
 
         <TextView
             android:id="@+id/cityName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding"
+            android:layout_weight="1"
+            android:textAlignment="center"
             android:textSize="@dimen/TitleTextSize"
             android:textStyle="bold"
-            android:layout_marginEnd="@dimen/padding"
-            tools:text="@string/city_1" />
+            tools:text="@string/city_3" />
 
         <Button
             android:id="@+id/webButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:gravity="end"
             android:layout_gravity="end"
             android:background="@drawable/idea_btn"
-            tools:ignore="ButtonStyle" />
+            android:gravity="end" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textSize="@dimen/TitleTextSize"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header"

@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class ForecastServer {
     private Settings settings = Settings.getInstance();
-    private int resultCode = 404;
+    private int resultCode = Tags.CONFIRMATION_CODE;
 //    private int resultCode = new Random().nextInt(2) + 403;
 
     public void request() {
