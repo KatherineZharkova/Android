@@ -11,7 +11,7 @@
         <item name="android:textSize">@dimen/TextSizeDefault</item>
     </style>
 
-    <style name="ColdTheme" parent="ThemeOverlay.MaterialComponents">
+    <style name="ColdTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryCold</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkCold</item>
         <item name="colorAccent">@color/colorAccentCold</item>
@@ -38,6 +38,5 @@
         <item name="android:layout_marginStart">@dimen/padding_8</item>
         <item name="android:layout_marginEnd">@dimen/padding_8</item>
     </style>
-
 
 </resources>

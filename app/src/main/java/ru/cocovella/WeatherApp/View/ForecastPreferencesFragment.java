@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
@@ -31,6 +30,7 @@ public class ForecastPreferencesFragment extends Fragment implements Observer {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.setRetainInstance(true);
         return inflater.inflate(R.layout.fragment_forecast_preferences, container, false);
     }
 
@@ -118,4 +118,5 @@ public class ForecastPreferencesFragment extends Fragment implements Observer {
         }
         settings.removeObserver(this);
     }
+
 }

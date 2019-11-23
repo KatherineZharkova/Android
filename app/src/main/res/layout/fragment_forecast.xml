@@ -27,13 +27,14 @@
             android:textStyle="bold"
             tools:text="@string/city_3" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/webButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/idea_btn"
-            android:gravity="end" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            app:icon="@drawable/web"
+            app:iconSize="30dp" />
+
     </LinearLayout>
 
     <TextView

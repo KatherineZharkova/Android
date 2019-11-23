@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/preferencesButton"
+        android:icon="@drawable/city"
+        android:title="@string/preferences" />
+
+    <item
+        android:id="@+id/homeButton"
+        android:icon="@drawable/home"
+        android:title="@string/forecast" />
+
+    <item
+        android:id="@+id/settingsButton"
+        android:icon="@drawable/settings"
+        android:title="@string/settingsTitle" />
+
+</menu>
