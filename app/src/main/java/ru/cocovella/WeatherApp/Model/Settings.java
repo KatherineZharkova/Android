@@ -26,7 +26,7 @@ public class Settings implements Tags, Observable{
 
     private Settings() {
         city = "";
-        themeID = R.style.AppTheme;
+        themeID = R.style.ColdTheme;
         serverResultCode = 0;
     }
 

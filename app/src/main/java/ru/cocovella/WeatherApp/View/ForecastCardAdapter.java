@@ -24,9 +24,7 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
     @NonNull
     @Override
     public Item onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.item_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
         return new Item(view);
     }
 

@@ -8,44 +8,33 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
-import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class SettingsFragment extends Fragment implements Tags, View.OnClickListener {
+public class SettingsFragment extends Fragment {
     private Settings settings = Settings.getInstance();
     private int currentTheme  = settings.getThemeID();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        setThemeSwitch(view);
+        setApplyButton(view);
+        return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        setThemeSwitch();
-        setApplyButton();
-    }
-
-    private void setThemeSwitch() {
-        Switch themeSwitch = Objects.requireNonNull(getView()).findViewById(R.id.themeSwitch);
+    private void setThemeSwitch(View view) {
+        Switch themeSwitch = view.findViewById(R.id.themeSwitch);
         themeSwitch.setChecked(settings.getThemeID() == R.style.ColdTheme);
         themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
                 settings.setThemeID(isChecked ? R.style.ColdTheme : R.style.AppTheme));
     }
 
-    private void setApplyButton() {
-        Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(this);
+    private void setApplyButton(View view) {
+        view.findViewById(R.id.applyButton).setOnClickListener(v -> {
+            if (currentTheme != settings.getThemeID()) Objects.requireNonNull(getActivity()).recreate();
+            if (getFragmentManager() != null) getFragmentManager().popBackStack();
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        if (currentTheme != settings.getThemeID()) {
-            Objects.requireNonNull(getActivity()).recreate();
-        }
-        if (getFragmentManager() != null) {
-            getFragmentManager().popBackStack();
-        }
-    }
 }

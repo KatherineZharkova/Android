@@ -21,4 +21,7 @@
     <string name="welcome">Привет! Выбери город…</string>
     <string name="windTV">"Ветер "</string>
     <string name="windUnit">" м\\с"</string>
+    <string name="InputErrorMessage">Неверное название города</string>
+    <string name="forecast">Погода</string>
+    <string name="preferences">Город</string>
 </resources>

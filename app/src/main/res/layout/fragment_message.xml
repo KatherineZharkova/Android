@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".View.MessageFragment">
@@ -12,17 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/TitleTextSize"
+        android:textSize="@dimen/TextSizeTitle"
         android:textStyle="bold"
         tools:text="@string/welcome" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/messageButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/padding"
-        android:background="@drawable/lookup_btn"
-        tools:ignore="ButtonStyle" />
+        app:cornerRadius="@dimen/cardCornerRadius"
+        app:icon="@drawable/city"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </LinearLayout>

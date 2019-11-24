@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center"
-    android:orientation="horizontal"
-    tools:context=".View.NavigationFragment">
-
-    <Button
-        android:id="@+id/preferencesButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
-        android:background="@drawable/lookup_btn"
-        tools:ignore="ButtonStyle" />
-
-    <Button
-        android:id="@+id/homeButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
-        android:background="@drawable/cloud_btn"
-        tools:ignore="ButtonStyle" />
-
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/padding"
-        android:background="@drawable/sets_btn"
-        tools:ignore="ButtonStyle" />
-
-</LinearLayout>
+    android:layout_gravity="bottom"
+    android:background="?colorPrimary"
+    app:itemIconTint="@android:color/black"
+    app:itemTextColor="@android:color/black"
+    app:menu="@menu/bottom_bar"
+    tools:context=".View.NavigationFragment" />

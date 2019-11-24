@@ -55,4 +55,9 @@ public class MainActivity extends FragmentActivity {
                         "#" + backStackLogLastEntryNumber + " : " + fragmentNamesList);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        debugBackStack();
+    }
 }

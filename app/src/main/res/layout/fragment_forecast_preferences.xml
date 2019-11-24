@@ -11,44 +11,45 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:fontFamily="@font/finger_paint"
         android:gravity="center"
         android:text="@string/preferencesTitle"
-        android:textSize="@dimen/TitleTextSize"
+        android:textSize="@dimen/TextSizeTitle"
         app:layout_constraintEnd_toStartOf="@id/applyButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/applyButton"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:background="@drawable/ok_btn"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="@string/ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputBox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        android:gravity="center_vertical"
-        android:hint="@string/cityInput"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weatherSettingsTitle" />
+        app:layout_constraintTop_toBottomOf="@id/weatherSettingsTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/cityInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:gravity="center_vertical"
+            android:hint="@string/cityInput"
+            android:inputType="textPersonName"
+            android:textStyle="bold|italic" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/moreDetails"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,23 +68,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_6"
             android:text="@string/show_extra_details"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold|italic" />
 
         <CheckBox
             android:id="@+id/humidityCB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:checked="true"
             android:text="@string/humidityTV" />
 
         <CheckBox
             android:id="@+id/windCB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/windTV" />
 
         <CheckBox
