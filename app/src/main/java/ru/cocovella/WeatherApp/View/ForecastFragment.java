@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
@@ -37,8 +38,18 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        welcome();
         initViews();
         inflateViews();
+    }
+
+    private void welcome() {
+        String cityName = Settings.getInstance().getCity();
+        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+        if (cityName.isEmpty() || !Settings.getInstance().getCitiesChoice().contains(cityName)) {
+            Settings.getInstance().setMessage(getString(R.string.welcome));
+            transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
+        }
     }
 
     private void initViews() {

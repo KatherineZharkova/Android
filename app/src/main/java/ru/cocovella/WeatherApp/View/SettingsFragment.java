@@ -19,21 +19,15 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         setThemeSwitch(view);
-        setApplyButton(view);
         return view;
     }
 
     private void setThemeSwitch(View view) {
         Switch themeSwitch = view.findViewById(R.id.themeSwitch);
         themeSwitch.setChecked(settings.getThemeID() == R.style.ColdTheme);
-        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
-                settings.setThemeID(isChecked ? R.style.ColdTheme : R.style.AppTheme));
-    }
-
-    private void setApplyButton(View view) {
-        view.findViewById(R.id.applyButton).setOnClickListener(v -> {
-            if (currentTheme != settings.getThemeID()) Objects.requireNonNull(getActivity()).recreate();
-            if (getFragmentManager() != null) getFragmentManager().popBackStack();
+        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            settings.setThemeID(isChecked ? R.style.ColdTheme : R.style.AppTheme);
+            if (currentTheme != settings.getThemeID()) { Objects.requireNonNull(getActivity()).recreate(); }
         });
     }
 

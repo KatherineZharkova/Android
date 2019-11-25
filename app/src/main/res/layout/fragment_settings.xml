@@ -8,22 +8,15 @@
 
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
         android:text="@string/settingsTitle"
         android:textAllCaps="true"
         android:textSize="@dimen/TextSizeTitle"
-        app:layout_constraintEnd_toStartOf="@id/applyButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/applyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/ok"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
@@ -44,7 +37,7 @@
         android:thumbTextPadding="@dimen/padding_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/applyButton"
+        app:layout_constraintTop_toBottomOf="@id/title"
         tools:checked="false"
         tools:ignore="UnusedAttribute" />
 

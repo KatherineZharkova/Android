@@ -5,10 +5,11 @@ import java.util.Arrays;
 import ru.cocovella.WeatherApp.R;
 
 
-public class Settings implements Tags, Observable{
+public class Settings implements Keys, Observable{
     private static Settings instance;
     private String city;
     private String description;
+    private String icon;
     private int temperature;
     private String humidity;
     private ArrayList<String> citiesChoice;
@@ -19,7 +20,7 @@ public class Settings implements Tags, Observable{
     private boolean isBarometerCB;
     private int themeID;
     private int serverResultCode;
-    private ArrayList<ForecastServer.Forecast> forecasts = new ArrayList<>();
+    private ArrayList<ForecastLoader.Forecast> forecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
     private String message;
 
@@ -51,6 +52,14 @@ public class Settings implements Tags, Observable{
 
     void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public int getTemperature() {
@@ -139,11 +148,11 @@ public class Settings implements Tags, Observable{
         return serverResultCode == CONFIRMATION_CODE;
     }
 
-    public ArrayList<ForecastServer.Forecast> getForecasts() {
+    public ArrayList<ForecastLoader.Forecast> getForecasts() {
         return forecasts;
     }
 
-    void setForecasts(ArrayList<ForecastServer.Forecast> forecasts) {
+    void setForecasts(ArrayList<ForecastLoader.Forecast> forecasts) {
         this.forecasts = forecasts;
     }
 

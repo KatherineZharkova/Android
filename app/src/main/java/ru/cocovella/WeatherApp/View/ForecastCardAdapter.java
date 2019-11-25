@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import ru.cocovella.WeatherApp.Model.ForecastServer;
+import ru.cocovella.WeatherApp.Model.ForecastLoader;
 import ru.cocovella.WeatherApp.R;
 
 
 public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapter.Item> {
-    private ArrayList<ForecastServer.Forecast> forecasts;
+    private ArrayList<ForecastLoader.Forecast> forecasts;
 
-    ForecastCardAdapter(ArrayList<ForecastServer.Forecast> forecasts) {
+    ForecastCardAdapter(ArrayList<ForecastLoader.Forecast> forecasts) {
         if (forecasts != null) {
             this.forecasts = forecasts;
         }
@@ -30,7 +30,7 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Item holder, int position) {
-        ForecastServer.Forecast f = forecasts.get(position);
+        ForecastLoader.Forecast f = forecasts.get(position);
         holder.setWhen(f.getDayTime());
         holder.setTemperature(f.getTemperature());
         holder.setIcon(f.getIcon());

@@ -5,25 +5,20 @@
     <string name="ForecastDescription">🌺 Sunny skies all day long ☀</string>
     <string name="settingsTitle">Settings</string>
     <string name="cityInput">Please, insert or choose a city…</string>
-    <string name="city_1">Moscow, RU</string>
-    <string name="city_2">London, UK</string>
-    <string name="city_3">Tokyo, JP</string>
-    <string name="city_4">Sidney, AU</string>
-    <string name="city_5">Washington, US</string>
     <string name="show_extra_details">Also show…</string>
     <string name="humidityTV">"Humidity "</string>
     <string name="humidityUnit" translatable="false">%</string>
     <string name="windTV">"Wind "</string>
-    <string name="windUnit">" km/h"</string>
+    <string name="windUnit">m/s</string>
     <string name="barometerTV">"Barometer "</string>
-    <string name="barometerUnit">" mb"</string>
+    <string name="barometerUnit">" hpa"</string>
     <string name="themeSwitch">Theme</string>
     <string name="pink">pink</string>
     <string name="blue">blue</string>
     <string name="preferencesTitle">Preferences</string>
     <string name="InputErrorMessage">Please insert correct location name</string>
     <string name="checkCityNameRegex" translatable="false">^[A-ZА-Я]{1}[a-zа-я]{2,4}([-a-z-а-я]{0,1})?([,A-ZА-Я]{0,1})?([a-zа-я]{0,9})?([,]{0,1})?( [A-ZА-Я]{1})?([A-Za-zА-Яа-я]{2})?([a-zа-я]{0,1})?([,a-zа-я]{0,1})?([a-zа-я]{0,5})?([,]{0,1})?( [A-ZА-Я]{1})?([A-Za-zА-Яа-я]{1,2})?([a-zа-я]{0,3})?$</string>
-    <string name="ok" translatable="false">OK</string>
+    <string name="ok" translatable="false">Apply</string>
     <string name="forecast">Forecast</string>
     <string name="preferences">Preferences</string>
 </resources>
