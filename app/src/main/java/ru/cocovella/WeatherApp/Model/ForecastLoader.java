@@ -42,8 +42,6 @@ public class ForecastLoader implements Keys {
 
                         JSONObject jsonObject = new JSONObject(rawData.toString());
                         Log.d(LOG_TAG, "json: " + jsonObject.toString());
-                        settings.setServerResultCode(jsonObject.getInt("cod"));
-                        Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode());
                         parseJSON(jsonObject);
                     }
                 } catch (FileNotFoundException exc) {
@@ -153,6 +151,10 @@ public class ForecastLoader implements Keys {
 
             forecasts.add(new Forecast(time, icon, temperature));
         }
+
+        settings.setServerResultCode(jsonObject.getInt("cod"));
+        Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode());
+
         return forecasts;
     }
 

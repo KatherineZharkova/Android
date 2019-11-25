@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity implements Observer {
 
         } else {
                 settings.setMessage(getString(R.string.error_city_not_found));
-                transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
+                transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commitAllowingStateLoss();
         }
     }
 }
