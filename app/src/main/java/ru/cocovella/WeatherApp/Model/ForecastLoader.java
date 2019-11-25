@@ -138,7 +138,7 @@ public class ForecastLoader implements Keys {
     }
 
 
-
+    //TODO: распарсить сутки
     private ArrayList<Forecast> parseDayTimesForecast() {
         ArrayList<Forecast> forecasts = new ArrayList<>();
         String[] dayTimes = {"06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"};

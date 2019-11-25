@@ -19,6 +19,7 @@ import ru.cocovella.WeatherApp.R;
 
 public class ForecastFragment extends Fragment implements View.OnClickListener {
     private TextView cityName;
+    private TextView icon;
     private TextView temperature;
     private TextView description;
     private LinearLayout humidity;
@@ -54,6 +55,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
 
     private void initViews() {
         cityName = Objects.requireNonNull(getView()).findViewById(R.id.cityName);
+        icon = getView().findViewById(R.id.icon);
         temperature = getView().findViewById(R.id.temperature);
         description = getView().findViewById(R.id.descriptionTV);
         humidity = getView().findViewById(R.id.humidity);
@@ -75,6 +77,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private void inflateViews() {
         Settings settings = Settings.getInstance();
         cityName.setText(settings.getCity());
+        icon.setText(settings.getIcon());
         String tmp = settings.getTemperature() + "°C";
         temperature.setText(tmp);
         description.setText(settings.getDescription());
