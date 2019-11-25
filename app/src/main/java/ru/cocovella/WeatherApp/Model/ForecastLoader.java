@@ -9,15 +9,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
+import java.util.Locale;
 
 
 public class ForecastLoader implements Keys {
     private Settings settings = Settings.getInstance();
     private static final String WEATHER_API_KEY = Keys.API_KEY1;
-    private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+    private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
     private static final String KEY = "x-api-key";
 
 
@@ -61,15 +62,17 @@ public class ForecastLoader implements Keys {
 
     private void parseJSON(JSONObject jsonObject) {
         try {
-            JSONObject main = jsonObject.getJSONObject("main");
-            JSONObject details = jsonObject.getJSONArray("weather").getJSONObject(0);
-            String city = jsonObject.getString("name") + ", "
-                    + jsonObject.getJSONObject("sys").getString("country");
-            String description = details.getString("description");
-            String icon = getWeatherIcon(jsonObject);
+            JSONObject cityObject = jsonObject.getJSONObject("city");
+            JSONObject list = jsonObject.getJSONArray("list").getJSONObject(0);
+            JSONObject main = list.getJSONObject("main");
+            JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
+
+            String city = cityObject.getString("name") + ", " + cityObject.getString("country");
+            String description = weather.getString("description");
+            String icon = getWeatherIcon(cityObject, weather);
             int temperature = main.getInt("temp");
             String humidity = main.getString("humidity");
-            String wind = jsonObject.getJSONObject("wind").getString("speed");
+            String wind = list.getJSONObject("wind").getString("speed");
             String pressure = main.getString("pressure");
 
             settings.setCity(city);
@@ -81,7 +84,7 @@ public class ForecastLoader implements Keys {
             settings.setWind(wind);
             settings.setBarometer(pressure);
 
-            settings.setForecasts(new ForecastLoader().parseDayTimesForecast());
+            settings.setForecasts(parseDayTimesForecast(jsonObject));
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "One or more fields not found in the JSON data");
@@ -89,13 +92,11 @@ public class ForecastLoader implements Keys {
         }
     }
 
-    private String getWeatherIcon(JSONObject jsonObject) throws JSONException {
-        JSONObject details = jsonObject.getJSONArray("weather").getJSONObject(0);
+    private String getWeatherIcon(JSONObject city, JSONObject weather) throws JSONException {
         String icon = "";
-
-        long sunrise = jsonObject.getJSONObject("sys").getLong("sunrise") * 1000;
-        long sunset = jsonObject.getJSONObject("sys").getLong("sunset") * 1000;
-        int actualId = details.getInt("id");
+        long sunrise = city.getLong("sunrise") * 1000;
+        long sunset =  city.getLong("sunset") * 1000;
+        int actualId = weather.getInt("id");
         int id = actualId / 100;
 
         if(actualId == 800) {
@@ -137,17 +138,20 @@ public class ForecastLoader implements Keys {
         return icon;
     }
 
-
-    //TODO: распарсить сутки
-    private ArrayList<Forecast> parseDayTimesForecast() {
+    private ArrayList<Forecast> parseDayTimesForecast(JSONObject jsonObject) throws JSONException {
         ArrayList<Forecast> forecasts = new ArrayList<>();
-        String[] dayTimes = {"06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"};
-        String[] icons = {"\uF0C8", "\uF0C5", "\uF075", "\uF071", "\uF056", "\uF074", "\uF010"};
-        int[] temperatures = {-3, -1, 3, 5, 4, 1, 0};
-        for (int i = 0; i < dayTimes.length; i++) {
-            String icon = icons[new Random().nextInt(icons.length)];
-            int temperature = settings.getTemperature() + temperatures[i];
-            forecasts.add(new Forecast(dayTimes[i], icon, temperature));
+        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.UK);
+
+        for (int i = 1; i <= 8; i++) {
+            JSONObject list = jsonObject.getJSONArray("list").getJSONObject(i);
+            JSONObject cityObject = jsonObject.getJSONObject("city");
+            JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
+
+            String time = dateFormat.format(new Date(list.getLong("dt") * 1000));
+            String icon = getWeatherIcon(cityObject, weather);
+            int temperature = list.getJSONObject("main").getInt("temp");
+
+            forecasts.add(new Forecast(time, icon, temperature));
         }
         return forecasts;
     }
