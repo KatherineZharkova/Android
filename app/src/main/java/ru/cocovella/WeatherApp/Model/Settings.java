@@ -144,8 +144,17 @@ public class Settings implements Keys, Observable{
         this.message = message;
     }
 
-    public boolean getServerResultCode() {
-        return serverResultCode == CONFIRMATION_CODE;
+    public int getServerResultCode() {
+        if (serverResultCode == CONFIRMATION_CODE) {
+            return 1;
+        } else if (serverResultCode == 0) {
+            return 0;
+        } else return -1;
+    }
+
+    void setServerResultCode(int resultCode) {
+        this.serverResultCode = resultCode;
+        notifyObservers();
     }
 
     public ArrayList<ForecastLoader.Forecast> getForecasts() {
@@ -154,11 +163,6 @@ public class Settings implements Keys, Observable{
 
     void setForecasts(ArrayList<ForecastLoader.Forecast> forecasts) {
         this.forecasts = forecasts;
-    }
-
-    void setServerResultCode(int resultCode) {
-        this.serverResultCode = resultCode;
-        notifyObservers();
     }
 
     @Override

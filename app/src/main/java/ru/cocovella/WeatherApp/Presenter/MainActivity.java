@@ -68,10 +68,12 @@ public class MainActivity extends FragmentActivity implements Observer {
         Settings settings = Settings.getInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (settings.getServerResultCode()) {
-                transaction.replace(R.id.container, new ForecastFragment()).addToBackStack(null).commitAllowingStateLoss();
-
-        } else {
+        if (settings.getServerResultCode() == 1) {
+            transaction.replace(R.id.container, new ForecastFragment()).addToBackStack(null).commitAllowingStateLoss();
+        } else if (settings.getServerResultCode() == 0) {
+            settings.setMessage("Please wait...");
+            transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commitAllowingStateLoss();
+        } else if (settings.getServerResultCode() == -1){
                 settings.setMessage(getString(R.string.error_city_not_found));
                 transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commitAllowingStateLoss();
         }

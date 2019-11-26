@@ -1,5 +1,6 @@
 package ru.cocovella.WeatherApp.Model;
 
+import android.os.Handler;
 import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,43 +21,55 @@ public class ForecastLoader implements Keys {
     private static final String WEATHER_API_KEY = Keys.API_KEY1;
     private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
     private static final String KEY = "x-api-key";
+    private Handler handler = new Handler();
+    private static JSONObject jsonObject = null;
 
 
     public void request() {
+        settings.setServerResultCode(0);
         new Thread(() -> {
-
             try {
                 URL url = new URL(String.format(WEATHER_API_URL, settings.getCity()));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 try {
                     connection.addRequestProperty(KEY, WEATHER_API_KEY);
+                    connection.setConnectTimeout(2000);
 
-                    if (connection.getConnectTimeout() > 5000) {
-                        connection.disconnect();
-                    } else {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        StringBuilder rawData = new StringBuilder(1024);
-                        String tempVariable;
-                        while ((tempVariable = reader.readLine()) != null) { rawData.append(tempVariable).append("\n"); }
-                        reader.close();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder rawData = new StringBuilder(1024);
+                    String tempVariable;
+                    while ((tempVariable = reader.readLine()) != null) { rawData.append(tempVariable).append("\n"); }
+                    reader.close();
 
-                        JSONObject jsonObject = new JSONObject(rawData.toString());
-                        Log.d(LOG_TAG, "json: " + jsonObject.toString());
+                    jsonObject = new JSONObject(rawData.toString());
+                    Log.d(LOG_TAG, "json: " + jsonObject.toString());
+                    handler.post(() -> {
                         parseJSON(jsonObject);
-                    }
+                        parseDayTimesForecast(jsonObject);
+                    });
+
                 } catch (FileNotFoundException exc) {
-                    settings.setServerResultCode(0);
+                    settings.setServerResultCode(-1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } finally {
                     connection.disconnect();
+                    if (jsonObject != null) {
+                        handler.post(() -> {
+                            try {
+                                settings.setServerResultCode(jsonObject.getInt("cod"));
+                                Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
     }
-
 
     private void parseJSON(JSONObject jsonObject) {
         try {
@@ -81,8 +94,6 @@ public class ForecastLoader implements Keys {
             settings.setHumidity(humidity);
             settings.setWind(wind);
             settings.setBarometer(pressure);
-
-            settings.setForecasts(parseDayTimesForecast(jsonObject));
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "One or more fields not found in the JSON data");
@@ -136,26 +147,29 @@ public class ForecastLoader implements Keys {
         return icon;
     }
 
-    private ArrayList<Forecast> parseDayTimesForecast(JSONObject jsonObject) throws JSONException {
+    private void parseDayTimesForecast(JSONObject jsonObject) {
         ArrayList<Forecast> forecasts = new ArrayList<>();
         DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.UK);
 
-        for (int i = 1; i <= 8; i++) {
-            JSONObject list = jsonObject.getJSONArray("list").getJSONObject(i);
-            JSONObject cityObject = jsonObject.getJSONObject("city");
-            JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
+            try {
+                for (int i = 1; i <= 8; i++) {
 
-            String time = dateFormat.format(new Date(list.getLong("dt") * 1000));
-            String icon = getWeatherIcon(cityObject, weather);
-            int temperature = list.getJSONObject("main").getInt("temp");
+                    JSONObject list = jsonObject.getJSONArray("list").getJSONObject(i);
+                    JSONObject cityObject = jsonObject.getJSONObject("city");
+                    JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
 
-            forecasts.add(new Forecast(time, icon, temperature));
-        }
+                    String time = dateFormat.format(new Date(list.getLong("dt") * 1000));
+                    String icon = getWeatherIcon(cityObject, weather);
+                    int temperature = list.getJSONObject("main").getInt("temp");
 
-        settings.setServerResultCode(jsonObject.getInt("cod"));
-        Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode());
+                    forecasts.add(new Forecast(time, icon, temperature));
 
-        return forecasts;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        settings.setForecasts(forecasts);
     }
 
     public class Forecast {
