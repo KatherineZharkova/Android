@@ -5,8 +5,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,18 +20,20 @@ public class ForecastLoader implements Keys {
     private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
     private static final String KEY = "x-api-key";
     private Handler handler = new Handler();
-    private static JSONObject jsonObject = null;
+    private static JSONObject jsonObject;
 
 
     public void request() {
-        settings.setServerResultCode(0);
         new Thread(() -> {
+            settings.setServerResultCode(0);
             try {
                 URL url = new URL(String.format(WEATHER_API_URL, settings.getCity()));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 try {
+                    jsonObject = null;
                     connection.addRequestProperty(KEY, WEATHER_API_KEY);
                     connection.setConnectTimeout(2000);
+                    connection.connect();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     StringBuilder rawData = new StringBuilder(1024);
@@ -47,26 +47,16 @@ public class ForecastLoader implements Keys {
                         parseJSON(jsonObject);
                         parseDayTimesForecast(jsonObject);
                     });
-
-                } catch (FileNotFoundException exc) {
-                    settings.setServerResultCode(-1);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 } finally {
                     connection.disconnect();
                     if (jsonObject != null) {
-                        handler.post(() -> {
-                            try {
-                                settings.setServerResultCode(jsonObject.getInt("cod"));
-                                Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        });
+                        int res = jsonObject.getInt("cod");
+                        if (res > 0) handler.post(() -> settings.setServerResultCode(res));
                     }
+                    handler.post(() -> Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode()));
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                settings.setServerResultCode(-1);
             }
         }).start();
     }

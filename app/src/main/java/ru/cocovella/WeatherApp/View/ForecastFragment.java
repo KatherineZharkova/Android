@@ -45,9 +45,9 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     }
 
     private void welcome() {
-        String cityName = Settings.getInstance().getCity();
+        int resultCode = Settings.getInstance().getServerResultCode();
         FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-        if (cityName.isEmpty() || !Settings.getInstance().getCitiesChoice().contains(cityName)) {
+        if (resultCode <= 0) {
             Settings.getInstance().setMessage(getString(R.string.welcome));
             transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
         }
