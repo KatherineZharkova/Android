@@ -6,11 +6,6 @@
     <string name="barometerUnit">" мм рт.ст."</string>
     <string name="blue">голубая</string>
     <string name="cityInput">Введи город или выбери ниже…</string>
-    <string name="city_1">Москва</string>
-    <string name="city_2">Лондон</string>
-    <string name="city_3">Токио</string>
-    <string name="city_4">Сидней</string>
-    <string name="city_5">Вашингтон</string>
     <string name="error_city_not_found">Запрашиваемый город не наден ☀</string>
     <string name="humidityTV">"Влажность "</string>
     <string name="pink">розовая</string>

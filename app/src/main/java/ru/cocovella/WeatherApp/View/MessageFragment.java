@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Objects;
 import ru.cocovella.WeatherApp.Model.Settings;
-import ru.cocovella.WeatherApp.Model.Tags;
 import ru.cocovella.WeatherApp.R;
 
 
-public class MessageFragment extends Fragment implements Tags {
+public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

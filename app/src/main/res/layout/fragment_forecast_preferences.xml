@@ -8,28 +8,18 @@
 
     <TextView
         android:id="@+id/weatherSettingsTitle"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/preferencesTitle"
         android:textSize="@dimen/TextSizeTitle"
-        app:layout_constraintEnd_toStartOf="@id/applyButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/applyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/ok"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/cityInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weatherSettingsTitle">
@@ -40,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12"
             android:gravity="center_vertical"
-            android:hint="@string/cityInput"
             android:inputType="textPersonName"
             android:textStyle="bold|italic" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/margin_12"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/applyButton"
         app:layout_constraintEnd_toStartOf="@id/moreDetails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cityInputBox" />
@@ -60,7 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/applyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_view"
         app:layout_constraintTop_toBottomOf="@id/cityInputBox">
@@ -92,5 +81,11 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

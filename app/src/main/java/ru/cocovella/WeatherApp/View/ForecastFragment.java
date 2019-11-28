@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import ru.cocovella.WeatherApp.R;
 
 public class ForecastFragment extends Fragment implements View.OnClickListener {
     private TextView cityName;
+    private TextView icon;
     private TextView temperature;
     private TextView description;
     private LinearLayout humidity;
@@ -37,12 +39,23 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        welcome();
         initViews();
         inflateViews();
     }
 
+    private void welcome() {
+        int resultCode = Settings.getInstance().getServerResultCode();
+        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+        if (resultCode <= 0) {
+            Settings.getInstance().setMessage(getString(R.string.welcome));
+            transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
+        }
+    }
+
     private void initViews() {
         cityName = Objects.requireNonNull(getView()).findViewById(R.id.cityName);
+        icon = getView().findViewById(R.id.icon);
         temperature = getView().findViewById(R.id.temperature);
         description = getView().findViewById(R.id.descriptionTV);
         humidity = getView().findViewById(R.id.humidity);
@@ -64,6 +77,7 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
     private void inflateViews() {
         Settings settings = Settings.getInstance();
         cityName.setText(settings.getCity());
+        icon.setText(settings.getIcon());
         String tmp = settings.getTemperature() + "°C";
         temperature.setText(tmp);
         description.setText(settings.getDescription());

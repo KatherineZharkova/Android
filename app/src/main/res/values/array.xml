@@ -2,9 +2,9 @@
 <resources>
     <string-array name="cities">
         <item>Moscow, RU</item>
-        <item>London, UK</item>
+        <item>London, GB</item>
         <item>Tokyo, JP</item>
-        <item>Sidney, AU</item>
-        <item>Washington, US</item>
+        <item>Sydney, AU</item>
+        <item>New York, US</item>
     </string-array>
 </resources>
