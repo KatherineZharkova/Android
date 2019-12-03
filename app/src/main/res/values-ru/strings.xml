@@ -19,4 +19,5 @@
     <string name="InputErrorMessage">Неверное название города</string>
     <string name="forecast">Погода</string>
     <string name="preferences">Город</string>
+    <string name="feels_like">По ощущениям…</string>
 </resources>

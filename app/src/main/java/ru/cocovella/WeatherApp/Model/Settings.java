@@ -28,7 +28,6 @@ public class Settings implements Keys, Observable{
     private Settings() {
         city = "";
         themeID = R.style.ColdTheme;
-        serverResultCode = 0;
     }
 
     public static Settings getInstance() {

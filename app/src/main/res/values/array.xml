@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="cities">
+        <item>My location</item>
         <item>Moscow, RU</item>
         <item>London, GB</item>
         <item>Tokyo, JP</item>

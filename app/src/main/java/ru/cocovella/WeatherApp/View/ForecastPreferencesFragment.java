@@ -52,12 +52,12 @@ public class ForecastPreferencesFragment extends Fragment {
         humidityCB.setChecked(settings.isHumidityCB());
         windCB.setChecked(settings.isWindCB());
         barometerCB.setChecked(settings.isBarometerCB());
-        validate();
+        setSpellingCheck();
         setRecyclerView();
         setApplyButton();
     }
 
-    private void validate() {
+    private void setSpellingCheck() {
         city.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus || Objects.requireNonNull(city.getText()).toString().isEmpty()) return;
             Pattern pattern = Pattern.compile(getString(R.string.checkCityNameRegex));
@@ -84,9 +84,7 @@ public class ForecastPreferencesFragment extends Fragment {
     }
 
     private void updateSettings() {
-        String newCity = Objects.requireNonNull(city.getText()).toString();
-        settings.setCity(newCity);
-
+        settings.setCity(Objects.requireNonNull(city.getText()).toString());
         settings.setHumidityCB(humidityCB.isChecked());
         settings.setWindCB(windCB.isChecked());
         settings.setBarometerCB(barometerCB.isChecked());

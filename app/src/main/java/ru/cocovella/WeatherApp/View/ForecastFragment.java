@@ -17,7 +17,7 @@ import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
 
-public class ForecastFragment extends Fragment implements View.OnClickListener {
+public class ForecastFragment extends Fragment {
     private TextView cityName;
     private TextView icon;
     private TextView temperature;
@@ -41,13 +41,14 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         super.onStart();
         welcome();
         initViews();
+        setWebButton();
         inflateViews();
     }
 
     private void welcome() {
         int resultCode = Settings.getInstance().getServerResultCode();
         FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-        if (resultCode <= 0) {
+        if (resultCode != 1) {
             Settings.getInstance().setMessage(getString(R.string.welcome));
             transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
         }
@@ -64,14 +65,14 @@ public class ForecastFragment extends Fragment implements View.OnClickListener {
         windInfo = getView().findViewById(R.id.windInfo);
         barometer = getView().findViewById(R.id.barometer);
         barometerInfo = getView().findViewById(R.id.barometerInfo);
-        getView().findViewById(R.id.webButton).setOnClickListener(this);
         recyclerView = getView().findViewById(R.id.week_forecast);
     }
 
-    @Override
-    public void onClick(View v) {
-        Uri uri = Uri.parse("https://www.google.ru/search?q=" + Settings.getInstance().getCity() + "+weather+forecast");
-        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    private void setWebButton() {
+        Objects.requireNonNull(getView()).findViewById(R.id.webButton).setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.google.ru/search?q=" + Settings.getInstance().getCity() + "+weather+forecast");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        });
     }
 
     private void inflateViews() {
