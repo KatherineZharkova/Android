@@ -25,14 +25,13 @@ public class ForecastLoader implements Keys {
 
     public void request() {
         new Thread(() -> {
-            settings.setServerResultCode(0);
+            settings.setServerResultCode(CONFIRMATION_WAIT);
             try {
                 URL url = new URL(String.format(WEATHER_API_URL, settings.getCity()));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 try {
                     jsonObject = null;
                     connection.addRequestProperty(KEY, WEATHER_API_KEY);
-                    connection.setConnectTimeout(2000);
                     connection.connect();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -56,7 +55,7 @@ public class ForecastLoader implements Keys {
                     handler.post(() -> Log.i(Keys.LOG_TAG, "RESULT CODE = " + settings.getServerResultCode()));
                 }
             } catch (Exception e) {
-                settings.setServerResultCode(-1);
+                settings.setServerResultCode(CONFIRMATION_ERROR);
             }
         }).start();
     }
@@ -139,7 +138,7 @@ public class ForecastLoader implements Keys {
 
     private void parseDayTimesForecast(JSONObject jsonObject) {
         ArrayList<Forecast> forecasts = new ArrayList<>();
-        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.UK);
+        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.ROOT);
 
             try {
                 for (int i = 1; i <= 8; i++) {

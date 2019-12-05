@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
+
+import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -39,19 +41,9 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        welcome();
         initViews();
         setWebButton();
         inflateViews();
-    }
-
-    private void welcome() {
-        int resultCode = Settings.getInstance().getServerResultCode();
-        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-        if (resultCode != 1) {
-            Settings.getInstance().setMessage(getString(R.string.welcome));
-            transaction.replace(R.id.container, new MessageFragment()).addToBackStack(null).commit();
-        }
     }
 
     private void initViews() {

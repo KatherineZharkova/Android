@@ -2,6 +2,8 @@ package ru.cocovella.WeatherApp.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+
 import ru.cocovella.WeatherApp.R;
 
 
@@ -22,7 +24,6 @@ public class Settings implements Keys, Observable{
     private int serverResultCode;
     private ArrayList<ForecastLoader.Forecast> forecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
-    private String message;
 
 
     private Settings() {
@@ -70,12 +71,13 @@ public class Settings implements Keys, Observable{
     }
 
     public ArrayList<String> getCitiesChoice() {
+        Collections.sort(citiesChoice);
         return citiesChoice;
     }
 
     public void setCitiesChoice(String[] array) {
         if (citiesChoice == null) {
-            this.citiesChoice = new ArrayList<>(Arrays.asList(array));
+            citiesChoice = new ArrayList<>(Arrays.asList(array));
         }
     }
 
@@ -135,20 +137,8 @@ public class Settings implements Keys, Observable{
         this.themeID = themeID;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public int getServerResultCode() {
-        if (serverResultCode == CONFIRMATION_CODE) {
-            return 1;
-        } else if (serverResultCode == 0) {
-            return 0;
-        } else return -1;
+        return serverResultCode;
     }
 
     void setServerResultCode(int resultCode) {

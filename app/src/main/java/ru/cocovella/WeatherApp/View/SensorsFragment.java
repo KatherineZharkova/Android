@@ -41,11 +41,11 @@ public class SensorsFragment extends Fragment {
         sensorManager = (SensorManager) requireNonNull(getActivity()).getSystemService(Context.SENSOR_SERVICE);
         temperatureSensor = requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         if (temperatureSensor == null) {
-            temperatureTV.setText("No temperature sensor in this device");
+            temperatureTV.setText("No temperature sensor found");
         }
         humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
         if (humiditySensor == null) {
-            humidityTV.setText("No humidity sensor in this device");
+            humidityTV.setText("No humidity sensor found");
         }
     }
 
@@ -61,7 +61,7 @@ public class SensorsFragment extends Fragment {
         @Override
         public void onSensorChanged(SensorEvent event) {
             StringBuilder temperature = new StringBuilder();
-            temperature.append(event.values[0]).append("°C");
+            temperature.append("Temperature ").append(event.values[0]).append("°C");
             temperatureTV.setText(temperature);
             sensorManager.unregisterListener(temperatureListener, temperatureSensor);
         }
@@ -75,7 +75,7 @@ public class SensorsFragment extends Fragment {
         @Override
         public void onSensorChanged(SensorEvent event) {
             StringBuilder humidity = new StringBuilder();
-            humidity.append(event.values[0]);
+            humidity.append("Humidity ").append(event.values[0]).append("%");
             humidityTV.setText(humidity);
             sensorManager.unregisterListener(humidityListener, humiditySensor);
         }

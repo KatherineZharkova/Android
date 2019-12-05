@@ -6,7 +6,7 @@
     <string name="barometerUnit">" мм рт.ст."</string>
     <string name="blue">голубая</string>
     <string name="cityInput">Введи город или выбери ниже…</string>
-    <string name="error_city_not_found">Запрашиваемый город не наден ☀</string>
+    <string name="error_city_not_found">Запрашиваемый город не найден ☀</string>
     <string name="humidityTV">"Влажность "</string>
     <string name="pink">розовая</string>
     <string name="preferencesTitle">Настройки погоды</string>
@@ -20,4 +20,6 @@
     <string name="forecast">Погода</string>
     <string name="preferences">Город</string>
     <string name="feels_like">По ощущениям…</string>
+    <string name="ok">Применить</string>
+    <string name="please_wait">Запрос выполняется</string>
 </resources>
