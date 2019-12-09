@@ -1,17 +1,24 @@
 package ru.cocovella.WeatherApp.View;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONObject;
+
 import java.util.Objects;
 import java.util.regex.Pattern;
-import ru.cocovella.WeatherApp.Model.ForecastLoader;
+
+import ru.cocovella.WeatherApp.Model.DataLoader;
+import ru.cocovella.WeatherApp.Model.DataParser;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -79,7 +86,10 @@ public class ForecastPreferencesFragment extends Fragment {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
                     updateSettings();
-                    new ForecastLoader().request();
+            new Thread(() -> {
+                JSONObject jsonObject = new DataLoader().load();
+                Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(jsonObject));
+            }).start();
         });
     }
 

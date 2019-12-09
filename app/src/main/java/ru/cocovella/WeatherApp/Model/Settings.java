@@ -22,7 +22,7 @@ public class Settings implements Keys, Observable{
     private boolean isBarometerCB;
     private int themeID;
     private int serverResultCode;
-    private ArrayList<ForecastLoader.Forecast> forecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
 
 
@@ -146,11 +146,11 @@ public class Settings implements Keys, Observable{
         notifyObservers();
     }
 
-    public ArrayList<ForecastLoader.Forecast> getForecasts() {
+    public ArrayList<DataParser.Forecast> getForecasts() {
         return forecasts;
     }
 
-    void setForecasts(ArrayList<ForecastLoader.Forecast> forecasts) {
+    void setForecasts(ArrayList<DataParser.Forecast> forecasts) {
         this.forecasts = forecasts;
     }
 
