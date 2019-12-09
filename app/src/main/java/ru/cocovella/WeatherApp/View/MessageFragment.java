@@ -8,11 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.Objects;
-import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
 
 public class MessageFragment extends Fragment {
+    private String message;
+
+    public MessageFragment(){
+    }
+
+    public MessageFragment(String message) {
+        this.message = message;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,7 +36,7 @@ public class MessageFragment extends Fragment {
 
     private void setMessageText() {
         TextView messageTV = Objects.requireNonNull(getView()).findViewById(R.id.messageText);
-        messageTV.setText(Settings.getInstance().getMessage());
+        messageTV.setText(message);
     }
 
     private void setMessageButton() {
