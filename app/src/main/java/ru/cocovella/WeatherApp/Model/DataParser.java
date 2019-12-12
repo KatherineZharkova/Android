@@ -48,11 +48,10 @@ public class DataParser implements Keys {
             settings.setHumidity(humidity);
             settings.setWind(wind);
             settings.setBarometer(pressure);
-
             return true;
 
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "One or more fields not found in the JSON data");
+            Log.e(LOG_TAG, "Some fields are not found in the JSON data");
             e.printStackTrace();
             return false;
         }
@@ -67,40 +66,17 @@ public class DataParser implements Keys {
 
         if(actualId == 800) {
             long currentTime = new Date().getTime();
-            if(currentTime >= sunrise && currentTime < sunset) {
-                icon = "\uF00D";    //sunny
-            } else {
-                icon = "\uF02E";  //clear_night
-            }
+            icon = currentTime >= sunrise && currentTime < sunset ? "\uF00D" : "\uF02E";    //sunny or clear_night
         } else {
             switch (id) {
-                case 2: {
-                    icon = "\uF01E";    //thunder
-                    break;
-                }
-                case 3: {
-                    icon = "\uF009";  // drizzle
-                    break;
-                }
-                case 5: {
-                    icon = "\uF019";  // rainy
-                    break;
-                }
-                case 6: {
-                    icon = "\uF01B";  //snowy
-                    break;
-                }
-                case 7: {
-                    icon = "\uF021";  //foggy
-                    break;
-                }
-                case 8: {
-                    icon = "\uF013";    //cloudy
-                    break;
-                }
+                case 2: { icon = "\uF01E"; break; }     //thunder
+                case 3: { icon = "\uF009"; break; }     // drizzle
+                case 5: { icon = "\uF019"; break; }     // rainy
+                case 6: { icon = "\uF01B"; break; }     //snowy
+                case 7: { icon = "\uF021"; break; }     //foggy
+                case 8: { icon = "\uF013"; break; }     //cloudy
             }
         }
-
         return icon;
     }
 
@@ -120,19 +96,17 @@ public class DataParser implements Keys {
                     int temperature = list.getJSONObject("main").getInt("temp");
 
                     forecasts.add(new Forecast(time, icon, temperature));
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         settings.setForecasts(forecasts);
     }
 
     public class Forecast {
-        String dayTime;
-        String icon;
-        int temperature;
+        private String dayTime;
+        private String icon;
+        private int temperature;
 
         private Forecast(String dayTime, String icon, int temperature) {
             this.dayTime = dayTime;

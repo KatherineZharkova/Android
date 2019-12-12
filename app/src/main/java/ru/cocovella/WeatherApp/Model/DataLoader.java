@@ -18,14 +18,13 @@ public class DataLoader implements Keys {
     private static HttpURLConnection connection;
 
 
-    public JSONObject load() {
+    public JSONObject load(String city) {
         settings.setServerResultCode(CONFIRMATION_WAIT);
         JSONObject jsonObject = null;
 
         try {
-            URL url = new URL(String.format(WEATHER_API_URL, settings.getCity()));
+            URL url = new URL(String.format(WEATHER_API_URL, city));
             connection = (HttpURLConnection) url.openConnection();
-
             connection.addRequestProperty(KEY, WEATHER_API_KEY);
             connection.connect();
 
@@ -42,9 +41,7 @@ public class DataLoader implements Keys {
             settings.setServerResultCode(CONFIRMATION_ERROR);
             e.printStackTrace();
 
-        } finally {
-            if (connection != null) connection.disconnect();
-        }
+        } finally { if (connection != null) connection.disconnect(); }
 
         return jsonObject;
     }
