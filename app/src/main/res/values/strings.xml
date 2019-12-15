@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">WeatherApp</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">CoolWeather</string>
     <string name="welcome">Welcome! Choose a City…</string>
     <string name="error_city_not_found">Error: city not found, please try again ☀</string>
     <string name="ForecastDescription">🌺 Sunny skies all day long ☀</string>
@@ -23,4 +23,6 @@
     <string name="preferences">Preferences</string>
     <string name="feels_like">Feels like…</string>
     <string name="please_wait">Please wait…</string>
+    <string name="load_background_from_web">load background from web</string>
+    <string name="defaultBackgroundUrl" tools:ignore="TypographyDashes">https://avatars.mds.yandex.net/get–pdb/223663/abc94791-b45b-4b17-b481-31593649786d/s1200</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">WeatherApp</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">CoolWeather</string>
     <string name="ForecastDescription">🌺 Солнечно и ясно весь день ☀</string>
     <string name="barometerTV">"Давление "</string>
     <string name="barometerUnit">мм рт.ст.</string>
@@ -22,4 +22,6 @@
     <string name="feels_like">По ощущениям…</string>
     <string name="ok">Применить</string>
     <string name="please_wait">Запрос выполняется</string>
+    <string name="load_background_from_web">загрузить фон из сети</string>
+    <string name="defaultBackgroundUrl" tools:ignore="TypographyDashes">https://avatars.mds.yandex.net/get–pdb/223663/abc94791–b45b–4b17-b481-31593649786d/s1200</string>
 </resources>
