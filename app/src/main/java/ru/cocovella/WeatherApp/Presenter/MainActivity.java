@@ -7,14 +7,13 @@ import android.util.Log;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.DataParser;
+import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Observer;
 import ru.cocovella.WeatherApp.Model.Settings;
@@ -60,8 +59,10 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         }
 
         new Thread(() -> {
-            JSONObject jsonObject = new DataLoader().load(recentInput);
-            runOnUiThread(() -> new DataParser(jsonObject));
+            try {
+                WeatherModel weatherModel = new DataLoader().load(recentInput);
+                runOnUiThread(() -> new DataParser(weatherModel));
+            } catch (Exception e) { e.printStackTrace(); }
         }).start();
     }
 

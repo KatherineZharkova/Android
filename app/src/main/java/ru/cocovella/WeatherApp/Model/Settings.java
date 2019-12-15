@@ -6,14 +6,14 @@ import java.util.Collections;
 
 public class Settings implements Keys, Observable{
     private static Settings instance;
+    private ArrayList<String> citiesChoice;
     private String city;
     private String description;
     private String icon;
     private int temperature;
-    private String humidity;
-    private ArrayList<String> citiesChoice;
-    private String wind;
-    private String barometer;
+    private int humidity;
+    private int wind;
+    private int barometer;
     private int serverResultCode;
     private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
@@ -69,27 +69,27 @@ public class Settings implements Keys, Observable{
         }
     }
 
-    public String getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
-    void setHumidity(String humidity) {
+    void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
-    public String getWind() {
+    public int getWind() {
         return wind;
     }
 
-    void setWind(String wind) {
+    void setWind(int wind) {
         this.wind = wind;
     }
 
-    public String getBarometer() {
+    public int getBarometer() {
         return barometer;
     }
 
-    void setBarometer(String barometer) {
+    void setBarometer(int barometer) {
         this.barometer = barometer;
     }
 

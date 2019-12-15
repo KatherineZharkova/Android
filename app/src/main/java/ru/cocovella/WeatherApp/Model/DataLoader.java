@@ -2,47 +2,47 @@ package ru.cocovella.WeatherApp.Model;
 
 import android.util.Log;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 
 
 public class DataLoader implements Keys {
     private Settings settings = Settings.getInstance();
     private static final String WEATHER_API_KEY = Keys.API_KEY1;
-    private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
-    private static final String KEY = "x-api-key";
-    private static HttpURLConnection connection;
+    //    private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
 
 
-    public JSONObject load(String city) {
-        settings.setServerResultCode(CONFIRMATION_WAIT);
-        JSONObject jsonObject = null;
-
-        try {
-            URL url = new URL(String.format(WEATHER_API_URL, city));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.addRequestProperty(KEY, WEATHER_API_KEY);
-            connection.connect();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder rawData = new StringBuilder(1024);
-            String tempVariable;
-            while ((tempVariable = reader.readLine()) != null) { rawData.append(tempVariable).append("\n"); }
-            reader.close();
-
-            jsonObject = new JSONObject(rawData.toString());
-            Log.d(LOG_TAG, "json: " + jsonObject.toString());
-
-        } catch (Exception e) {
-            settings.setServerResultCode(CONFIRMATION_ERROR);
-            e.printStackTrace();
-
-        } finally { if (connection != null) connection.disconnect(); }
-
-        return jsonObject;
+    interface OpenWeather{
+        @GET("data/2.5/forecast")
+        Call<WeatherModel> getWeather(@Query("q")String q, @Query("units")String units, @Query("appid") String key);
     }
+
+    public WeatherModel load(String city) throws Exception {
+        settings.setServerResultCode(CONFIRMATION_WAIT);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.openweathermap.org")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        OpenWeather openWeather = retrofit.create(OpenWeather.class);
+
+        Response<WeatherModel> response = openWeather.getWeather(city, "metric", WEATHER_API_KEY).execute();
+
+        Log.d(LOG_TAG, "ResponseCode: " + response.code());
+
+        if (response.isSuccessful()) {
+        settings.setServerResultCode(CONFIRMATION_WAIT);
+            return response.body();
+        } else {
+            settings.setServerResultCode(CONFIRMATION_ERROR);
+            assert response.errorBody() != null;
+            throw new Exception(response.errorBody().string(), null);
+        }
+    }
+
 }

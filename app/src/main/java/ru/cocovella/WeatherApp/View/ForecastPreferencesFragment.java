@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,6 +22,7 @@ import java.util.regex.Pattern;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.DataParser;
+import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -102,10 +101,13 @@ public class ForecastPreferencesFragment extends Fragment {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
-            new Thread(() -> {
-                JSONObject jsonObject = new DataLoader().load(sharedPreferences.getString(CITY_KEY, ""));
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(jsonObject));
-            }).start();
+        new Thread(() -> {
+            try {
+                String recentInput = sharedPreferences.getString(CITY_KEY, "");
+                WeatherModel weatherModel = new DataLoader().load(recentInput);
+                Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(weatherModel));
+            } catch (Exception e) { e.printStackTrace(); }
+        }).start();
         });
     }
 
