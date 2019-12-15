@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 
@@ -66,7 +67,8 @@ public class DataParser implements Keys {
 
     private void parseDayTimesForecast() {
         ArrayList<Forecast> forecasts = new ArrayList<>();
-        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.ROOT);
+        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (int i = 1; i <= 8; i++) {
             String time = dateFormat.format(new Date(model.getList().get(i).getDt() * 1000));
             String icon = getWeatherIcon();

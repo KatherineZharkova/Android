@@ -52,7 +52,6 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         Picasso.with(this)
                 .load(path)
                 .fit()
-                .error(R.drawable.sky)
                 .into(imageView);
     }
     private void setCitiesChoice() {
