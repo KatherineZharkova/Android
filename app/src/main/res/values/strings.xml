@@ -11,7 +11,7 @@
     <string name="windTV">"Wind "</string>
     <string name="windUnit">m/s</string>
     <string name="barometerTV">"Barometer "</string>
-    <string name="barometerUnit">" hpa"</string>
+    <string name="barometerUnit">hpa</string>
     <string name="themeSwitch">Theme</string>
     <string name="pink">pink</string>
     <string name="blue">blue</string>

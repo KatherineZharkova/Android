@@ -1,7 +1,5 @@
 package ru.cocovella.WeatherApp.Model;
 
-import android.util.Log;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +12,7 @@ public class DataParser implements Keys {
     private Settings settings = Settings.getInstance();
     private WeatherModel model;
 
-    public DataParser(WeatherModel model) {
+    DataParser(WeatherModel model) {
         if (model != null) {
             this.model = model;
             if (!parseCurrentForecast()) return;
@@ -23,15 +21,13 @@ public class DataParser implements Keys {
         }
     }
 
-
     private boolean parseCurrentForecast() {
-        try {
             String city = model.getCity().getName() + ", " + model.getCity().getCountry();
             String description = model.getList().get(0).getWeather().get(0).getDescription();
             String icon = getWeatherIcon();
-            int temperature = Integer.parseInt(Double.toString(model.getList().get(0).getMain().getTemp()));
+            double temperature = model.getList().get(0).getMain().getTemp();
             int humidity = model.getList().get(0).getMain().getHumidity();
-            int wind = Integer.parseInt(Double.toString(model.getList().get(0).getWind().getSpeed()));
+            double wind = model.getList().get(0).getWind().getSpeed();
             int pressure = model.getList().get(0).getMain().getPressure();
 
             settings.setCity(city);
@@ -43,12 +39,6 @@ public class DataParser implements Keys {
             settings.setWind(wind);
             settings.setBarometer(pressure);
             return true;
-
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Some fields are not found in the JSON data");
-            e.printStackTrace();
-            return false;
-        }
     }
 
     private String getWeatherIcon() {
@@ -56,7 +46,6 @@ public class DataParser implements Keys {
         long sunrise = model.getCity().getSunrise() * 1000;
         long sunset =  model.getCity().getSunset() * 1000;
         int iconID = model.getList().get(0).getWeather().get(0).getId();
-
         int id = iconID / 100;
 
         if(iconID == 800) {
@@ -81,7 +70,7 @@ public class DataParser implements Keys {
         for (int i = 1; i <= 8; i++) {
             String time = dateFormat.format(new Date(model.getList().get(i).getDt() * 1000));
             String icon = getWeatherIcon();
-            int temp = Integer.parseInt(Double.toString(model.getList().get(i).getMain().getTemp()));
+            double temp = model.getList().get(i).getMain().getTemp();
             forecasts.add(new Forecast(time, icon, temp));
         }
         settings.setForecasts(forecasts);
@@ -90,9 +79,9 @@ public class DataParser implements Keys {
     public class Forecast {
         private String dayTime;
         private String icon;
-        private int temperature;
+        private double temperature;
 
-        private Forecast(String dayTime, String icon, int temperature) {
+        private Forecast(String dayTime, String icon, double temperature) {
             this.dayTime = dayTime;
             this.icon = icon;
             this.temperature = temperature;
@@ -106,7 +95,7 @@ public class DataParser implements Keys {
             return icon;
         }
 
-        public int getTemperature() {
+        public double getTemperature() {
             return temperature;
         }
 

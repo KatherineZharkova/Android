@@ -3,7 +3,7 @@
     <string name="app_name">WeatherApp</string>
     <string name="ForecastDescription">🌺 Солнечно и ясно весь день ☀</string>
     <string name="barometerTV">"Давление "</string>
-    <string name="barometerUnit">" мм рт.ст."</string>
+    <string name="barometerUnit">мм рт.ст.</string>
     <string name="blue">голубая</string>
     <string name="cityInput">Введи город или выбери ниже…</string>
     <string name="error_city_not_found">Запрашиваемый город не найден ☀</string>
@@ -15,7 +15,7 @@
     <string name="themeSwitch">Тема</string>
     <string name="welcome">Привет! Выбери город…</string>
     <string name="windTV">"Ветер "</string>
-    <string name="windUnit">" м\\с"</string>
+    <string name="windUnit">м\\с</string>
     <string name="InputErrorMessage">Неверное название города</string>
     <string name="forecast">Погода</string>
     <string name="preferences">Город</string>

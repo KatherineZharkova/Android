@@ -10,9 +10,9 @@ public class Settings implements Keys, Observable{
     private String city;
     private String description;
     private String icon;
-    private int temperature;
+    private double temperature;
     private int humidity;
-    private int wind;
+    private double wind;
     private int barometer;
     private int serverResultCode;
     private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
@@ -50,11 +50,11 @@ public class Settings implements Keys, Observable{
         this.icon = icon;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    void setTemperature(int temperature) {
+    void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -77,11 +77,11 @@ public class Settings implements Keys, Observable{
         this.humidity = humidity;
     }
 
-    public int getWind() {
+    public double getWind() {
         return wind;
     }
 
-    void setWind(int wind) {
+    void setWind(double wind) {
         this.wind = wind;
     }
 

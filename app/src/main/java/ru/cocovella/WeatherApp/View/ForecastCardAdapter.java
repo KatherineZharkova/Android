@@ -1,6 +1,5 @@
 package ru.cocovella.WeatherApp.View;
 
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +61,12 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
             this.when.setText(dayTime);
         }
 
-        void setTemperature(int temperature) {
-            String result = temperature + "°C";
+        void setTemperature(double temperature) {
+            String result = (int)temperature + "°C";
             this.temperature.setText(result);
         }
 
         void setIcon(String icon) {
-            this.icon.setTypeface(Typeface.createFromAsset(this.icon.getContext().getAssets(), "fonts/weather.ttf"));
             this.icon.setText(icon);
         }
 

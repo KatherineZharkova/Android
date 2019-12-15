@@ -21,8 +21,6 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
-import ru.cocovella.WeatherApp.Model.DataParser;
-import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -42,7 +40,6 @@ public class ForecastPreferencesFragment extends Fragment {
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
-    private CitiesListAdapter adapter;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -101,13 +98,8 @@ public class ForecastPreferencesFragment extends Fragment {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
-        new Thread(() -> {
-            try {
-                String recentInput = sharedPreferences.getString(CITY_KEY, "");
-                WeatherModel weatherModel = new DataLoader().load(recentInput);
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(weatherModel));
-            } catch (Exception e) { e.printStackTrace(); }
-        }).start();
+            String recentInput = sharedPreferences.getString(CITY_KEY, "");
+            new Thread(() -> new DataLoader().load(recentInput)).start();
         });
     }
 
