@@ -1,7 +1,6 @@
 package ru.cocovella.WeatherApp.Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -64,9 +63,9 @@ public class Settings implements Keys, Observable{
         return citiesChoice;
     }
 
-    public void setCitiesChoice(String[] array) {
+    public void setCitiesChoice(ArrayList<String> array) {
         if (citiesChoice == null) {
-            citiesChoice = new ArrayList<>(Arrays.asList(array));
+            citiesChoice = array;
         }
     }
 

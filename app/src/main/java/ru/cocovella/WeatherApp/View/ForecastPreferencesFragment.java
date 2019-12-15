@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -26,6 +28,7 @@ import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
 import static ru.cocovella.WeatherApp.Model.Keys.BAROMETER_KEY;
+import static ru.cocovella.WeatherApp.Model.Keys.CITIES_LIST;
 import static ru.cocovella.WeatherApp.Model.Keys.CITY_KEY;
 import static ru.cocovella.WeatherApp.Model.Keys.HUMIDITY_KEY;
 import static ru.cocovella.WeatherApp.Model.Keys.SHARED_PREFS;
@@ -40,6 +43,7 @@ public class ForecastPreferencesFragment extends Fragment {
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
+    private CitiesListAdapter adapter;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -96,7 +100,8 @@ public class ForecastPreferencesFragment extends Fragment {
     }
 
     private void setApplyButton() {
-        Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> { savePreferences();
+        Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
+            savePreferences();
             new Thread(() -> {
                 JSONObject jsonObject = new DataLoader().load(sharedPreferences.getString(CITY_KEY, ""));
                 Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(jsonObject));
@@ -105,11 +110,13 @@ public class ForecastPreferencesFragment extends Fragment {
     }
 
     private void savePreferences() {
-        String recentCityChoice = Objects.requireNonNull(city.getText()).toString();
-        editor.putString(CITY_KEY, recentCityChoice);
+        String recentCity = Objects.requireNonNull(city.getText()).toString();
+        ArrayList<String> citiesChoice = Settings.getInstance().getCitiesChoice();
+        editor.putString(CITY_KEY, recentCity);
         editor.putBoolean(HUMIDITY_KEY, humidityCB.isChecked());
         editor.putBoolean(WIND_KEY, windCB.isChecked());
         editor.putBoolean(BAROMETER_KEY, barometerCB.isChecked());
+        editor.putStringSet(CITIES_LIST, new HashSet<>(citiesChoice));
         editor.commit();
     }
 

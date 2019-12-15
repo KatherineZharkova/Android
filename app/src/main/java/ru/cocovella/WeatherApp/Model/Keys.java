@@ -13,4 +13,5 @@ public interface Keys {
     String WIND_KEY = "MY_WIND_KEY";
     String BAROMETER_KEY = "MY_BAROMETER_KEY";
     String THEME_ID = "MY_THEME_ID";
+    String CITIES_LIST = "MY_CITIES_ARRAY_LIST";
 }

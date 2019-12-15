@@ -9,6 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.DataParser;
 import ru.cocovella.WeatherApp.Model.Keys;
@@ -36,9 +40,16 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         setContentView(R.layout.activity_main);
         settings = Settings.getInstance();
         settings.addObserver(this);
-        settings.setCitiesChoice(getResources().getStringArray(R.array.cities));
-        sensors = getResources().getStringArray(R.array.cities)[0];
+        setCitiesChoice();
         welcome();
+    }
+
+    private void setCitiesChoice() {
+        String [] array  = getResources().getStringArray(R.array.cities);
+        sensors = array[0];
+        HashSet<String> set = new HashSet<>(Arrays.asList(array));
+        ArrayList<String> result = new ArrayList<>(sharedPreferences.getStringSet(CITIES_LIST, set));
+        settings.setCitiesChoice(result);
     }
 
     private void welcome () {
