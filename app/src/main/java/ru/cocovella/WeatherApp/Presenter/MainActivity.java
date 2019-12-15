@@ -41,8 +41,8 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         setContentView(R.layout.activity_main);
         settings = Settings.getInstance();
         settings.addObserver(this);
-        setCitiesChoice();
         setBackground();
+        setCitiesChoice();
         welcome();
     }
 

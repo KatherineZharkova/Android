@@ -43,7 +43,7 @@ public class NavigationFragment extends Fragment {
                     if (isNewInput()) {
                         Snackbar snackbar = Snackbar.make(view, "Leave without saving?", Snackbar.LENGTH_LONG);
                         snackbar.setAction("confirm", v1 ->
-                                transaction.replace(R.id.container, new SettingsFragment()).addToBackStack(null).commit())
+                                transaction.replace(R.id.container, new SettingsFragment()).commit())
                                 .setActionTextColor(Color.WHITE).getView().setBackgroundColor(Color.WHITE);
                         snackbar.show();
                     } else { transaction.replace(R.id.container, new SettingsFragment()).commit(); }
