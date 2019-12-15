@@ -1,6 +1,8 @@
 package ru.cocovella.WeatherApp.View;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,15 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.Objects;
 
-import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
+
+import static ru.cocovella.WeatherApp.Model.Keys.BAROMETER_KEY;
+import static ru.cocovella.WeatherApp.Model.Keys.HUMIDITY_KEY;
+import static ru.cocovella.WeatherApp.Model.Keys.SHARED_PREFS;
+import static ru.cocovella.WeatherApp.Model.Keys.WIND_KEY;
 
 
 public class ForecastFragment extends Fragment {
@@ -69,6 +76,9 @@ public class ForecastFragment extends Fragment {
 
     private void inflateViews() {
         Settings settings = Settings.getInstance();
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity())
+                .getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
         cityName.setText(settings.getCity());
         icon.setText(settings.getIcon());
         String tmp = settings.getTemperature() + "°C";
@@ -77,9 +87,9 @@ public class ForecastFragment extends Fragment {
         humidityInfo.setText(settings.getHumidity());
         windInfo.setText(settings.getWind());
         barometerInfo.setText(settings.getBarometer());
-        showExtraInfo(settings.isHumidityCB(), humidity);
-        showExtraInfo(settings.isWindCB(), wind);
-        showExtraInfo(settings.isBarometerCB(), barometer);
+        showExtraInfo(sharedPreferences.getBoolean(HUMIDITY_KEY, false), humidity);
+        showExtraInfo(sharedPreferences.getBoolean(WIND_KEY, false), wind);
+        showExtraInfo(sharedPreferences.getBoolean(BAROMETER_KEY, false), barometer);
         setRecyclerView();
     }
 

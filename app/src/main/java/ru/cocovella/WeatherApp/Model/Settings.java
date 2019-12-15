@@ -1,10 +1,7 @@
 package ru.cocovella.WeatherApp.Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-
-import ru.cocovella.WeatherApp.R;
 
 
 public class Settings implements Keys, Observable{
@@ -15,21 +12,12 @@ public class Settings implements Keys, Observable{
     private int temperature;
     private String humidity;
     private ArrayList<String> citiesChoice;
-    private boolean isHumidityCB;
     private String wind;
-    private boolean isWindCB;
     private String barometer;
-    private boolean isBarometerCB;
-    private int themeID;
     private int serverResultCode;
-    private ArrayList<ForecastLoader.Forecast> forecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
 
-
-    private Settings() {
-        city = "";
-        themeID = R.style.ColdTheme;
-    }
 
     public static Settings getInstance() {
         if (instance == null) {
@@ -42,7 +30,7 @@ public class Settings implements Keys, Observable{
         return city;
     }
 
-    public void setCity(String city) {
+    void setCity(String city) {
         this.city = city;
     }
 
@@ -75,9 +63,9 @@ public class Settings implements Keys, Observable{
         return citiesChoice;
     }
 
-    public void setCitiesChoice(String[] array) {
+    public void setCitiesChoice(ArrayList<String> array) {
         if (citiesChoice == null) {
-            citiesChoice = new ArrayList<>(Arrays.asList(array));
+            citiesChoice = array;
         }
     }
 
@@ -89,14 +77,6 @@ public class Settings implements Keys, Observable{
         this.humidity = humidity;
     }
 
-    public boolean isHumidityCB() {
-        return isHumidityCB;
-    }
-
-    public void setHumidityCB(boolean humidityCB) {
-        isHumidityCB = humidityCB;
-    }
-
     public String getWind() {
         return wind;
     }
@@ -105,36 +85,12 @@ public class Settings implements Keys, Observable{
         this.wind = wind;
     }
 
-    public boolean isWindCB() {
-        return isWindCB;
-    }
-
-    public void setWindCB(boolean windCB) {
-        isWindCB = windCB;
-    }
-
     public String getBarometer() {
         return barometer;
     }
 
     void setBarometer(String barometer) {
         this.barometer = barometer;
-    }
-
-    public boolean isBarometerCB() {
-        return isBarometerCB;
-    }
-
-    public void setBarometerCB(boolean barometerCB) {
-        isBarometerCB = barometerCB;
-    }
-
-    public int getThemeID() {
-        return themeID;
-    }
-
-    public void setThemeID(int themeID) {
-        this.themeID = themeID;
     }
 
     public int getServerResultCode() {
@@ -146,11 +102,11 @@ public class Settings implements Keys, Observable{
         notifyObservers();
     }
 
-    public ArrayList<ForecastLoader.Forecast> getForecasts() {
+    public ArrayList<DataParser.Forecast> getForecasts() {
         return forecasts;
     }
 
-    void setForecasts(ArrayList<ForecastLoader.Forecast> forecasts) {
+    void setForecasts(ArrayList<DataParser.Forecast> forecasts) {
         this.forecasts = forecasts;
     }
 
