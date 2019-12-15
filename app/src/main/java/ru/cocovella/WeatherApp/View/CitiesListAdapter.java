@@ -4,15 +4,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+
 import ru.cocovella.WeatherApp.R;
 
 
 public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Item> {
     private ArrayList<String> dataList;
     private OnItemClickListener itemClickListener;
+    private OnItemLongClickListener itemLongClickListener;
 
 
     CitiesListAdapter(ArrayList<String> data) {
@@ -46,6 +50,14 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.It
         this.itemClickListener = itemClickListener;
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(String itemName, int position);
+    }
+
+    void setOnItemLongClickListener(OnItemLongClickListener itemLongClickListener){
+        this.itemLongClickListener = itemLongClickListener;
+    }
+
 
     class Item extends RecyclerView.ViewHolder {
         private TextView textView;
@@ -59,6 +71,14 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.It
                             textView.getText().toString(),
                             Item.this.getAdapterPosition());
                 }
+            });
+            textView.setOnLongClickListener(v -> {
+                if (itemLongClickListener != null) {
+                    itemLongClickListener.onItemLongClick(
+                            textView.getText().toString(),
+                            Item.this.getAdapterPosition());
+                }
+                return false;
             });
         }
 

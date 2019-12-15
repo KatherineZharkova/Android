@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal">
 
 
@@ -21,7 +21,7 @@
 
     <Switch
         android:id="@+id/themeSwitch"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
         android:background="@color/whiteTransparent"
@@ -35,10 +35,41 @@
         android:textOn="@string/blue"
         android:textSize="@dimen/TextSizeDefault"
         android:thumbTextPadding="@dimen/padding_8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         tools:checked="false"
         tools:ignore="UnusedAttribute" />
+
+    <LinearLayout
+        android:id="@+id/urlTIL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/themeSwitch">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/load_background_from_web"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urlInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_12"
+                android:gravity="center_vertical"
+                android:inputType="textWebEditText"
+                android:textStyle="bold|italic" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/setBackgroundButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

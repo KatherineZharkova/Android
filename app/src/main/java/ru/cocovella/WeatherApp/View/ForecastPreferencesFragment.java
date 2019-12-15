@@ -3,6 +3,7 @@ package ru.cocovella.WeatherApp.View;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,19 +24,12 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
-import ru.cocovella.WeatherApp.Model.DataParser;
+import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
-import static ru.cocovella.WeatherApp.Model.Keys.BAROMETER_KEY;
-import static ru.cocovella.WeatherApp.Model.Keys.CITIES_LIST;
-import static ru.cocovella.WeatherApp.Model.Keys.CITY_KEY;
-import static ru.cocovella.WeatherApp.Model.Keys.HUMIDITY_KEY;
-import static ru.cocovella.WeatherApp.Model.Keys.SHARED_PREFS;
-import static ru.cocovella.WeatherApp.Model.Keys.WIND_KEY;
 
-
-public class ForecastPreferencesFragment extends Fragment {
+public class ForecastPreferencesFragment extends Fragment implements Keys {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private TextInputEditText city;
@@ -43,7 +37,6 @@ public class ForecastPreferencesFragment extends Fragment {
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
-    private CitiesListAdapter adapter;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -94,18 +87,27 @@ public class ForecastPreferencesFragment extends Fragment {
     private void setRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        CitiesListAdapter adapter = new CitiesListAdapter(Settings.getInstance().getCitiesChoice());
+        ArrayList<String> citiesChoice = Settings.getInstance().getCitiesChoice();
+        CitiesListAdapter adapter = new CitiesListAdapter(citiesChoice);
         adapter.setOnItemClickListener((itemName, position) -> city.setText(itemName));
+        adapter.setOnItemLongClickListener((itemName, position) -> {
+            Snackbar snackbar = Snackbar.make(Objects.requireNonNull(getView()), "remove " + itemName + "?", Snackbar.LENGTH_LONG);
+            snackbar.setAction("confirm", v1 -> {
+                        citiesChoice.remove(position);
+                        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+                        transaction.replace(R.id.container, new ForecastPreferencesFragment()).commit();
+            })
+                    .setActionTextColor(Color.WHITE).getView().setBackgroundColor(Color.WHITE);
+            snackbar.show();
+        });
         recyclerView.setAdapter(adapter);
     }
 
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
-            new Thread(() -> {
-                JSONObject jsonObject = new DataLoader().load(sharedPreferences.getString(CITY_KEY, ""));
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> new DataParser(jsonObject));
-            }).start();
+            String recentInput = sharedPreferences.getString(CITY_KEY, "");
+            new Thread(() -> new DataLoader().load(recentInput)).start();
         });
     }
 

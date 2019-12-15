@@ -3,18 +3,18 @@ package ru.cocovella.WeatherApp.Presenter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.json.JSONObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
-import ru.cocovella.WeatherApp.Model.DataParser;
 import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Observer;
 import ru.cocovella.WeatherApp.Model.Settings;
@@ -32,18 +32,28 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     private String sensors;
     private int resultCode;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         setTheme(sharedPreferences.getInt(THEME_ID, R.style.ColdTheme));
-        super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = Settings.getInstance();
         settings.addObserver(this);
+        setBackground();
         setCitiesChoice();
         welcome();
     }
 
+    private void setBackground() {
+        ImageView imageView = findViewById(R.id.imageView);
+        String path = sharedPreferences.getString(BACKGROUND, getString(R.string.defaultBackgroundUrl));
+        Picasso.with(this)
+                .load(path)
+                .fit()
+                .into(imageView);
+    }
     private void setCitiesChoice() {
         String [] array  = getResources().getStringArray(R.array.cities);
         sensors = array[0];
@@ -58,11 +68,7 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
             handleTransaction();
             return;
         }
-
-        new Thread(() -> {
-            JSONObject jsonObject = new DataLoader().load(recentInput);
-            runOnUiThread(() -> new DataParser(jsonObject));
-        }).start();
+        new Thread(() -> new DataLoader().load(recentInput)).start();
     }
 
     private void handleTransaction() {

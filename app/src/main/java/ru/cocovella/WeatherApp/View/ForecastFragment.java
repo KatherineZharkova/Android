@@ -81,12 +81,15 @@ public class ForecastFragment extends Fragment {
 
         cityName.setText(settings.getCity());
         icon.setText(settings.getIcon());
-        String tmp = settings.getTemperature() + "°C";
+        String tmp = (int)settings.getTemperature() + "°C";
         temperature.setText(tmp);
         description.setText(settings.getDescription());
-        humidityInfo.setText(settings.getHumidity());
-        windInfo.setText(settings.getWind());
-        barometerInfo.setText(settings.getBarometer());
+        String h = settings.getHumidity() + "";
+        humidityInfo.setText(h);
+        String w = (int)settings.getWind() + " ";
+        windInfo.setText(w);
+        String b = settings.getBarometer() + " ";
+        barometerInfo.setText(b);
         showExtraInfo(sharedPreferences.getBoolean(HUMIDITY_KEY, false), humidity);
         showExtraInfo(sharedPreferences.getBoolean(WIND_KEY, false), wind);
         showExtraInfo(sharedPreferences.getBoolean(BAROMETER_KEY, false), barometer);
