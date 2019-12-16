@@ -40,47 +40,63 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/margin_12"
-        app:layout_constraintBottom_toTopOf="@+id/applyButton"
+        app:layout_constraintBottom_toTopOf="@id/applyButton"
         app:layout_constraintEnd_toStartOf="@id/moreDetails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cityInputBox" />
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/moreDetails"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/applyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_view"
         app:layout_constraintTop_toBottomOf="@id/cityInputBox">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_6"
-            android:text="@string/show_extra_details"
-            android:textStyle="bold|italic" />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/humidityCB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/humidityTV" />
 
-        <CheckBox
-            android:id="@+id/windCB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/windTV" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_6"
+                android:text="@string/show_extra_details"
+                android:textStyle="bold|italic" />
 
-        <CheckBox
-            android:id="@+id/barometerCB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/barometerTV" />
+            <CheckBox
+                android:id="@+id/humidityCB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/humidityTV" />
 
-    </LinearLayout>
+            <CheckBox
+                android:id="@+id/windCB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/windTV" />
+
+            <CheckBox
+                android:id="@+id/barometerCB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/barometerTV" />
+
+            <Switch
+                android:id="@+id/periodSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:switchPadding="@dimen/margin_6"
+                android:textAlignment="textStart"
+                android:text="@string/_24_hour_5_days"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyButton"

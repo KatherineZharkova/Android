@@ -15,7 +15,8 @@ public class Settings implements Keys, Observable{
     private double wind;
     private int barometer;
     private int serverResultCode;
-    private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> hoursForecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> daysForecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
 
 
@@ -102,12 +103,20 @@ public class Settings implements Keys, Observable{
         notifyObservers();
     }
 
-    public ArrayList<DataParser.Forecast> getForecasts() {
-        return forecasts;
+    public ArrayList<DataParser.Forecast> getHoursForecasts() {
+        return hoursForecasts;
     }
 
-    void setForecasts(ArrayList<DataParser.Forecast> forecasts) {
-        this.forecasts = forecasts;
+    void setHoursForecasts(ArrayList<DataParser.Forecast> hoursForecasts) {
+        this.hoursForecasts = hoursForecasts;
+    }
+
+    public ArrayList<DataParser.Forecast> getDaysForecasts() {
+        return daysForecasts;
+    }
+
+    void setDaysForecasts(ArrayList<DataParser.Forecast> daysForecasts) {
+        this.daysForecasts = daysForecasts;
     }
 
     @Override

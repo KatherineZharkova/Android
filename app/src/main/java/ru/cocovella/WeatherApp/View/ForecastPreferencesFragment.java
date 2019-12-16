@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,6 +38,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
+    private Switch periodSwitch;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -62,6 +64,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         windCB = getView().findViewById(R.id.windCB);
         barometerCB = getView().findViewById(R.id.barometerCB);
         recyclerView = getView().findViewById(R.id.recycler_view);
+        periodSwitch = getView().findViewById(R.id.periodSwitch);
     }
 
     private void inflateViews() {
@@ -69,6 +72,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         humidityCB.setChecked(sharedPreferences.getBoolean(HUMIDITY_KEY, false));
         windCB.setChecked(sharedPreferences.getBoolean(WIND_KEY, false));
         barometerCB.setChecked(sharedPreferences.getBoolean(BAROMETER_KEY, false));
+        periodSwitch.setChecked(sharedPreferences.getBoolean(PERIOD, false));
         setSpellingCheck();
         setRecyclerView();
         setApplyButton();
@@ -118,6 +122,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         editor.putBoolean(HUMIDITY_KEY, humidityCB.isChecked());
         editor.putBoolean(WIND_KEY, windCB.isChecked());
         editor.putBoolean(BAROMETER_KEY, barometerCB.isChecked());
+        editor.putBoolean(PERIOD, periodSwitch.isChecked());
         editor.putStringSet(CITIES_LIST, new HashSet<>(citiesChoice));
         editor.commit();
     }

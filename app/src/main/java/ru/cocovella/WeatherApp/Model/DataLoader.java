@@ -24,6 +24,7 @@ public class DataLoader implements Keys {
     interface OpenWeather{
         @GET("data/2.5/forecast")
         Call<WeatherModel> getWeather(@Query("q")String q, @Query("units")String units, @Query("appid") String key);
+//        http://api.openweathermap.org/data/2.5/forecast?q=Moscow,Ru&units=metric&appid=15187eae9316fbcbc4a42dc59d95169d
     }
 
     public void load(String city) {
@@ -34,6 +35,7 @@ public class DataLoader implements Keys {
             initRetrofit();
             new DataParser(getData());
         } catch (Exception e) {
+            e.printStackTrace();
             settings.setServerResultCode(CONFIRMATION_ERROR);
         }
 

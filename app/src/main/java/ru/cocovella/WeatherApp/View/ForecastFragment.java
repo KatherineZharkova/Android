@@ -22,6 +22,7 @@ import ru.cocovella.WeatherApp.R;
 
 import static ru.cocovella.WeatherApp.Model.Keys.BAROMETER_KEY;
 import static ru.cocovella.WeatherApp.Model.Keys.HUMIDITY_KEY;
+import static ru.cocovella.WeatherApp.Model.Keys.PERIOD;
 import static ru.cocovella.WeatherApp.Model.Keys.SHARED_PREFS;
 import static ru.cocovella.WeatherApp.Model.Keys.WIND_KEY;
 
@@ -38,6 +39,8 @@ public class ForecastFragment extends Fragment {
     private LinearLayout barometer;
     private TextView barometerInfo;
     private RecyclerView recyclerView;
+    private SharedPreferences sharedPreferences;
+    private Settings settings;
 
 
     @Override
@@ -75,8 +78,8 @@ public class ForecastFragment extends Fragment {
     }
 
     private void inflateViews() {
-        Settings settings = Settings.getInstance();
-        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity())
+        settings = Settings.getInstance();
+        sharedPreferences = Objects.requireNonNull(getActivity())
                 .getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
         cityName.setText(settings.getCity());
@@ -103,7 +106,8 @@ public class ForecastFragment extends Fragment {
     private void setRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new ForecastCardAdapter(Settings.getInstance().getForecasts()));
+        recyclerView.setAdapter(sharedPreferences.getBoolean(PERIOD, false) ?
+                new ForecastCardAdapter(settings.getHoursForecasts()) : new ForecastCardAdapter(settings.getDaysForecasts()));
     }
 
 }

@@ -25,4 +25,5 @@
     <string name="please_wait">Please wait…</string>
     <string name="load_background_from_web">load background from web</string>
     <string name="defaultBackgroundUrl" tools:ignore="TypographyDashes">https://avatars.mds.yandex.net/get–pdb/223663/abc94791-b45b-4b17-b481-31593649786d/s1200</string>
+    <string name="_24_hour_5_days">24 h / 5 days</string>
 </resources>

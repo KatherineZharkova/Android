@@ -61,9 +61,8 @@ public class ForecastCardAdapter extends RecyclerView.Adapter<ForecastCardAdapte
             this.when.setText(dayTime);
         }
 
-        void setTemperature(double temperature) {
-            String result = (int)temperature + "°C";
-            this.temperature.setText(result);
+        void setTemperature(String temperature) {
+            this.temperature.setText(temperature);
         }
 
         void setIcon(String icon) {

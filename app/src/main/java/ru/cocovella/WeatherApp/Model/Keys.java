@@ -15,4 +15,5 @@ public interface Keys {
     String THEME_ID = "MY_THEME_ID";
     String CITIES_LIST = "MY_CITIES_ARRAY_LIST";
     String BACKGROUND = "MY_BACKGROUND_IMAGE_PATH";
+    String PERIOD = "MY_PERIOD_SWITCH";
 }

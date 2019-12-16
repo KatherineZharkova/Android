@@ -24,4 +24,5 @@
     <string name="please_wait">Запрос выполняется</string>
     <string name="load_background_from_web">загрузить фон из сети</string>
     <string name="defaultBackgroundUrl" tools:ignore="TypographyDashes">https://avatars.mds.yandex.net/get–pdb/223663/abc94791–b45b–4b17-b481-31593649786d/s1200</string>
+    <string name="_24_hour_5_days">24 ч / 5 дней</string>
 </resources>
