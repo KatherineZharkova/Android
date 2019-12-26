@@ -111,7 +111,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
             String recentInput = sharedPreferences.getString(CITY_KEY, "");
-            new Thread(() -> new DataLoader().load(recentInput)).start();
+            new Thread(() -> new DataLoader(recentInput)).start();
         });
     }
 

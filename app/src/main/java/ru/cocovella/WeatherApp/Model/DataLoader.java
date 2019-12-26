@@ -14,11 +14,18 @@ import ru.cocovella.WeatherApp.Model.ForecastModel.WeatherModel;
 
 
 public class DataLoader implements Keys {
-    private Settings settings = Settings.getInstance();
-    private static final String WEATHER_API_KEY = Keys.API_KEY1;
-    private OpenWeather openWeather;
+    private Settings settings;
     private Response<WeatherModel> response;
     private String cityName;
+    private Retrofit retrofit;
+
+
+    public DataLoader(String cityName) {
+        this.cityName = cityName;
+        settings = Settings.getInstance();
+        initRetrofit();
+        load();
+    }
 
 
     interface OpenWeather{
@@ -27,44 +34,41 @@ public class DataLoader implements Keys {
 //        http://api.openweathermap.org/data/2.5/forecast?q=Moscow,Ru&units=metric&appid=15187eae9316fbcbc4a42dc59d95169d
     }
 
-    public void load(String city) {
+    private void load() {
         settings.setServerResultCode(CONFIRMATION_WAIT);
-        cityName = city;
-
         try {
-            initRetrofit();
             new DataParser(getData());
         } catch (Exception e) {
             e.printStackTrace();
-            settings.setServerResultCode(CONFIRMATION_ERROR);
+//            settings.setServerResultCode(CONFIRMATION_ERROR);
+            Log.e(LOG_TAG, "ResponseCode: Exception on DataLoader.load()");
         }
-
     }
 
     private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        openWeather = retrofit.create(OpenWeather.class);
     }
 
-    private WeatherModel getData() throws Exception {
-        try {
-            response = openWeather.getWeather(cityName, "metric", WEATHER_API_KEY).execute();
-        } catch (IOException e) {
-            Log.d(LOG_TAG, "ResponseCode: IOException");
-        }
+    private WeatherModel getData() throws IOException {
+        OpenWeather openWeather = retrofit.create(OpenWeather.class);
+        int apiRequests = settings.getApiRequestCounter();
+        if (response != null && response.errorBody() != null) { response.errorBody().close(); }
+        response = openWeather.getWeather(cityName, "metric",
+                apiRequests % 2 == 0 ? API_KEY2 : API_KEY1).execute();
+        settings.setApiRequestCounter(apiRequests+1);
 
         if(response.isSuccessful()) {
-            settings.setServerResultCode(Keys.CONFIRMATION_OK);
-            Log.d(LOG_TAG, "ResponseCode: success " + response.code());
             return response.body();
         } else {
-            settings.setServerResultCode(CONFIRMATION_ERROR);
-            Log.d(LOG_TAG, "ResponseCode: failure " + response.code());
+            settings.setServerResultCode(response.code());
+            Log.e(LOG_TAG, "ResponseCode: failure on DataLoader.getData() " + response.message());
             assert response.errorBody() != null;
-            throw new Exception(response.errorBody().string(), null);
+            Log.d(LOG_TAG, response.errorBody().toString());
+            response.errorBody().string();
+            return null;
         }
     }
 

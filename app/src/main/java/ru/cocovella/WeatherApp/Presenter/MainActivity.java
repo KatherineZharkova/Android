@@ -68,14 +68,11 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
             handleTransaction();
             return;
         }
-        new Thread(() -> new DataLoader().load(recentInput)).start();
+        new Thread(() -> new DataLoader(recentInput)).start();
     }
 
     private void handleTransaction() {
-        recentInput = sharedPreferences.getString(CITY_KEY, "");
         resultCode = settings.getServerResultCode();
-        Log.d(LOG_TAG, "ResultCode: " + resultCode + ", SharedPrefs: " + recentInput);
-
         transaction = getSupportFragmentManager().beginTransaction();
         if (showForecast()) return;
         if (showSensors()) return;
@@ -85,7 +82,7 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     private boolean showForecast() {
         if (resultCode != CONFIRMATION_OK) return false;
         transaction.replace(R.id.container, new ForecastFragment());
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
         return true;
     }
 
@@ -102,16 +99,20 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
             message = getString(R.string.welcome);
         } else if (resultCode == CONFIRMATION_WAIT) {
             message = getString(R.string.please_wait);
+        } else if (resultCode == CONFIRMATION_BANNED){
+            message = getString(R.string.error_banned);
         } else if (resultCode == CONFIRMATION_ERROR){
             message = getString(R.string.error_city_not_found);
         }
         transaction.replace(R.id.container, new MessageFragment(message));
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
     public void update() {
         handleTransaction();
+        Log.d(LOG_TAG, "MainActivity.update()");
+
     }
 
 }

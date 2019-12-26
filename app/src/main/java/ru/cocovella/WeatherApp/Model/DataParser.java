@@ -1,7 +1,5 @@
 package ru.cocovella.WeatherApp.Model;
 
-import android.util.Log;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class DataParser implements Keys {
             String city = model.getCity().getName() + ", " + model.getCity().getCountry();
             String description = model.getList().get(0).getWeather().get(0).getDescription();
             String icon = getWeatherIcon();
-            double temperature = model.getList().get(0).getMain().getFeelsLike();
+            double temperature = model.getList().get(0).getMain().getTemp();
             int humidity = model.getList().get(0).getMain().getHumidity();
             double wind = model.getList().get(0).getWind().getSpeed();
             int pressure = model.getList().get(0).getMain().getPressure();
@@ -48,13 +46,14 @@ public class DataParser implements Keys {
 
     private String getWeatherIcon() {
         String icon = "";
-        long sunrise = model.getCity().getSunrise() * 1000;
-        long sunset =  model.getCity().getSunset() * 1000;
         int iconID = model.getList().get(0).getWeather().get(0).getId();
         int id = iconID / 100;
 
         if(iconID == 800) {
             long currentTime = new Date().getTime();
+            long sunrise = model.getCity().getSunrise() * 1000;
+            long sunset = model.getCity().getSunset() * 1000;
+
             icon = currentTime >= sunrise && currentTime < sunset ? "\uF00D" : "\uF02E";    //sunny or clear_night
         } else {
             switch (id) {
@@ -90,12 +89,11 @@ public class DataParser implements Keys {
         for (int i = 0; i <= 4; i++) {
             String dayOfWeek = dateFormat.format(new Date(model.getList().get(i*8).getDt() * 1000));
             String icon = getWeatherIcon();
-            double tempMin = model.getList().get(i*8).getMain().getFeelsLike();
-            double tempMax = model.getList().get(i*8).getMain().getTempMax();
+            double tempMin = model.getList().get(i*8).getMain().getTempMin();
+            double tempMax = model.getList().get(i*8).getMain().getFeelsLike();
             String temperature = tempMax > tempMin ? (int) tempMin + ".." + (int) tempMax + "°C" :
                     (int) tempMax + ".." + (int) tempMin + "°C";
             forecasts.add(new Forecast(dayOfWeek, icon, temperature));
-            Log.d(LOG_TAG, "time " + dayOfWeek + "temp " + temperature);
         }
         settings.setDaysForecasts(forecasts);
     }

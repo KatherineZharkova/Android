@@ -1,5 +1,7 @@
 package ru.cocovella.WeatherApp.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,6 +20,7 @@ public class Settings implements Keys, Observable{
     private ArrayList<DataParser.Forecast> hoursForecasts = new ArrayList<>();
     private ArrayList<DataParser.Forecast> daysForecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
+    private int apiRequestCounter;
 
 
     public static Settings getInstance() {
@@ -100,7 +103,9 @@ public class Settings implements Keys, Observable{
 
     void setServerResultCode(int resultCode) {
         this.serverResultCode = resultCode;
-        notifyObservers();
+        Log.d(LOG_TAG, "Settings.setServerResultCode(): " + resultCode);
+        if (resultCode != CONFIRMATION_WAIT)
+            notifyObservers();
     }
 
     public ArrayList<DataParser.Forecast> getHoursForecasts() {
@@ -136,4 +141,12 @@ public class Settings implements Keys, Observable{
         }
     }
 
+    int getApiRequestCounter() {
+        return apiRequestCounter;
+    }
+
+    void setApiRequestCounter(int counter) {
+        Log.d(LOG_TAG, "DataLoader.getData().apiRequests = " + counter);
+        this.apiRequestCounter = counter;
+    }
 }
