@@ -9,7 +9,7 @@
     tools:context=".Presenter.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/customBackgroundView"
         android:contentDescription="@string/ok"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"

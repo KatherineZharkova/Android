@@ -35,6 +35,7 @@ public class Settings implements Keys, Observable{
     }
 
     void setCity(String city) {
+        Log.d(LOG_TAG, "Settings.setCity(): " + city);
         this.city = city;
     }
 
@@ -104,8 +105,7 @@ public class Settings implements Keys, Observable{
     void setServerResultCode(int resultCode) {
         this.serverResultCode = resultCode;
         Log.d(LOG_TAG, "Settings.setServerResultCode(): " + resultCode);
-        if (resultCode != CONFIRMATION_WAIT)
-            notifyObservers();
+        if (resultCode != CONFIRMATION_WAIT) notifyObservers();
     }
 
     public ArrayList<DataParser.Forecast> getHoursForecasts() {
@@ -136,17 +136,12 @@ public class Settings implements Keys, Observable{
 
     @Override
     public void notifyObservers() {
-        for (Observer o : observers) {
-            o.update();
-        }
+        for (Observer o : observers) { o.update(); }
     }
 
     int getApiRequestCounter() {
+        Log.d(LOG_TAG, "DataLoader.getData().apiRequests = " + apiRequestCounter++);
         return apiRequestCounter;
     }
 
-    void setApiRequestCounter(int counter) {
-        Log.d(LOG_TAG, "DataLoader.getData().apiRequests = " + counter);
-        this.apiRequestCounter = counter;
-    }
 }

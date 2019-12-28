@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.Keys;
+import ru.cocovella.WeatherApp.Model.LocationLoader;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -39,6 +40,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     private CheckBox windCB;
     private CheckBox barometerCB;
     private Switch periodSwitch;
+    private LocationLoader locationLoader;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -76,6 +78,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         setSpellingCheck();
         setRecyclerView();
         setApplyButton();
+        setLocationButton();
     }
 
     private void setSpellingCheck() {
@@ -111,7 +114,19 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
             String recentInput = sharedPreferences.getString(CITY_KEY, "");
-            new Thread(() -> new DataLoader(recentInput)).start();
+            if (recentInput.contains(CITY_KEY)) {
+                String lat = locationLoader.getLatitude();
+                String lon = locationLoader.getLongitude();
+                new Thread(() -> new DataLoader(lat, lon)).start();
+            } else {
+                new Thread(() -> new DataLoader(recentInput)).start();
+            }
+        });
+    }
+
+    private void setLocationButton() {
+        Objects.requireNonNull(getView()).findViewById(R.id.locationButton).setOnClickListener(v -> {
+            locationLoader = new LocationLoader(Objects.requireNonNull(getActivity()));
         });
     }
 

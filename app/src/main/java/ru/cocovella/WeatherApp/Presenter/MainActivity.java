@@ -1,13 +1,16 @@
 package ru.cocovella.WeatherApp.Presenter;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import java.util.HashSet;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.Keys;
+import ru.cocovella.WeatherApp.Model.LocationLoader;
 import ru.cocovella.WeatherApp.Model.Observer;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
@@ -47,13 +51,14 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     }
 
     private void setBackground() {
-        ImageView imageView = findViewById(R.id.imageView);
+        ImageView imageView = findViewById(R.id.customBackgroundView);
         String path = sharedPreferences.getString(BACKGROUND, getString(R.string.defaultBackgroundUrl));
         Picasso.with(this)
                 .load(path)
                 .fit()
                 .into(imageView);
     }
+
     private void setCitiesChoice() {
         String [] array  = getResources().getStringArray(R.array.cities);
         sensors = array[0];
@@ -89,12 +94,12 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     private boolean showSensors() {
         if (!recentInput.equals(sensors)) { return false; }
         transaction.replace(R.id.container, new SensorsFragment());
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
         return true;
     }
 
     private void prepareMessage() {
-        String message = "";
+        String message;
         if (recentInput.isEmpty()) {
             message = getString(R.string.welcome);
         } else if (resultCode == CONFIRMATION_WAIT) {
@@ -102,6 +107,8 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         } else if (resultCode == CONFIRMATION_BANNED){
             message = getString(R.string.error_banned);
         } else if (resultCode == CONFIRMATION_ERROR){
+            message = getString(R.string.error_city_not_found);
+        } else {
             message = getString(R.string.error_city_not_found);
         }
         transaction.replace(R.id.container, new MessageFragment(message));
@@ -111,8 +118,24 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     @Override
     public void update() {
         handleTransaction();
-        Log.d(LOG_TAG, "MainActivity.update()");
-
     }
 
+    @Override
+    public void onBackPressed() {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.MainLayout), "Exit now?", Snackbar.LENGTH_LONG);
+        snackbar.setAction("confirm", v1 -> super.onBackPressed())
+                .setActionTextColor(Color.WHITE).getView().setBackgroundColor(Color.WHITE);
+        snackbar.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length == 2 &&
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                            grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                new LocationLoader(this);
+            }
+        }
+    }
 }
