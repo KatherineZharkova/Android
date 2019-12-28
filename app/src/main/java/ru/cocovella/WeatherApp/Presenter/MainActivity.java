@@ -90,7 +90,7 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     }
 
     private boolean showSensors() {
-        if (!recentInput.contains("Sensor") || recentInput.contains("sensor")) { return false; }
+        if (!recentInput.contains(sensors)) { return false; }
         transaction.replace(R.id.container, new SensorsFragment());
         transaction.commit();
         return true;
