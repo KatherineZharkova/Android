@@ -1,12 +1,10 @@
 package ru.cocovella.WeatherApp.Presenter;
 
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,7 +17,6 @@ import java.util.HashSet;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.Keys;
-import ru.cocovella.WeatherApp.Model.LocationLoader;
 import ru.cocovella.WeatherApp.Model.Observer;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
@@ -69,14 +66,15 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
 
     private void welcome () {
         recentInput = sharedPreferences.getString(CITY_KEY, "");
-        if (recentInput.isEmpty() || recentInput.equals(sensors)) {
+//        if (recentInput.isEmpty() || recentInput.contains("Sensors") || recentInput.contains("sensors")) {
             handleTransaction();
-            return;
-        }
+//            return;
+//        }
         new Thread(() -> new DataLoader(recentInput)).start();
     }
 
     private void handleTransaction() {
+        recentInput = sharedPreferences.getString(CITY_KEY, "");
         resultCode = settings.getServerResultCode();
         transaction = getSupportFragmentManager().beginTransaction();
         if (showForecast()) return;
@@ -92,9 +90,9 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     }
 
     private boolean showSensors() {
-        if (!recentInput.equals(sensors)) { return false; }
+        if (!recentInput.contains("Sensor") || recentInput.contains("sensor")) { return false; }
         transaction.replace(R.id.container, new SensorsFragment());
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
         return true;
     }
 
@@ -106,8 +104,6 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
             message = getString(R.string.please_wait);
         } else if (resultCode == CONFIRMATION_BANNED){
             message = getString(R.string.error_banned);
-        } else if (resultCode == CONFIRMATION_ERROR){
-            message = getString(R.string.error_city_not_found);
         } else {
             message = getString(R.string.error_city_not_found);
         }
@@ -128,14 +124,4 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
         snackbar.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length == 2 &&
-                    (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
-                new LocationLoader(this);
-            }
-        }
-    }
 }

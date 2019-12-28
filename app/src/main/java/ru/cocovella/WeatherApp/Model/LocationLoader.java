@@ -1,7 +1,6 @@
 package ru.cocovella.WeatherApp.Model;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -14,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,119 +26,135 @@ import static ru.cocovella.WeatherApp.Model.Keys.LOG_TAG;
 import static ru.cocovella.WeatherApp.Model.Keys.PERMISSION_REQUEST_CODE;
 
 
-public class LocationLoader implements Closeable {
+public class LocationLoader implements LocationListener, Closeable {
+    private static LocationLoader instance;
+    private static final long MIN_TIME = 5000;
+    private static final float MIN_DISTANCE = 0;
+    private Settings settings;
+    private Fragment fragment;
     private Activity activity;
     private LocationManager locationManager;
-    private LocationListener locationListener;
-    private String latitude;
-    private String longitude;
-    private String coordinates;
-    private String provider;
-    private boolean isUpdated;
     private TextInputEditText city;
 
 
-    public LocationLoader(Activity activity) {
-        this.activity = activity;
-        isUpdated = false;
-        city = activity.findViewById(R.id.cityInput);
-        getLocation();
+    public static LocationLoader getInstance() {
+        if (instance == null) {
+            instance = new LocationLoader();
+        }
+        return instance;
     }
 
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions();
-                    return;
-        }
 
-        locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+    public void load(Fragment fragment) {
+        this.fragment = fragment;
+        settings = Settings.getInstance();
+        initView();
+
+        Context context = fragment.getContext();
+        if (context != null) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions();
+            } else {
+                Log.d(LOG_TAG, "checkPermissions = TRUE, context != null");
+            }
+        } else { Log.e(LOG_TAG, "context == null");}
+
+
+        String provider = getProvider();
+        if(provider == null) return;
+        Log.d(LOG_TAG, "provider = " + provider);
+
+        Log.d(LOG_TAG, "getLastKnownLocation");
+        Location location = locationManager.getLastKnownLocation(provider);
+        showCoordinates(location);
+
+        locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DISTANCE, this);
+    }
+
+    private void initView() {
+        Activity activity = fragment.getActivity();
+        if (activity != null) {
+            Log.d(LOG_TAG, "fragment.getActivity()=true");
+            this.activity = activity;
+            city = activity.findViewById(R.id.cityInput);
+            locationManager = (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE);
+        } else {
+            Log.e(LOG_TAG, "fragment.getActivity()=false, locationManager == null");
+        }
+    }
+
+    private String getProvider() {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        provider = locationManager.getBestProvider(criteria, true);     // Получим наиболее подходящий провайдер геолокации по критериям
-        if (provider != null) {
-
-
-            locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    if (!isUpdated) {
-                        Log.e(LOG_TAG, "onLocationChanged");
-                        setCoordinates(location);
-                        isUpdated = true;
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                    Log.d(LOG_TAG, "Status: " + status);
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-                    Log.d(LOG_TAG, "onProviderEnabled: GPS: " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) +
-                            ", NETWORK: " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-                    Log.d(LOG_TAG, "onProviderDisabled: GPS: " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) +
-                            ", NETWORK: " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
-                }
-            };
-
-            locationManager.requestLocationUpdates(provider, 10000, 100, locationListener);
-
-            if (!isUpdated) {
-                Log.d(LOG_TAG, "getLastKnownLocation");
-                Location location = locationManager.getLastKnownLocation(provider);
-                setCoordinates(location);
-            }
-        }
+        return locationManager.getBestProvider(criteria, true);
     }
 
-    @SuppressLint("MissingPermission")
-    private void setCoordinates(Location location) {
-        Log.e(LOG_TAG, "setCoordinates");
+    private void showCoordinates(Location location) {
+        double lat = -33.87605;
+        double lon = 151.20936;
+
         if (location != null) {
             Log.d(LOG_TAG, "location != null");
-            double lat = location.getLatitude();
-            double lon = location.getLongitude();
-            latitude = Double.toString(lat);
-            longitude = Double.toString(lon);
-            coordinates = CITY_KEY + (int) lat + " : " + (int) lon;
+            lat = location.getLatitude();
+            lon = location.getLongitude();
         } else {
-            latitude = "55.7522";
-            longitude = "37.6155";
-            coordinates = CITY_KEY + "55" + " : " + "37";
+            Log.e(LOG_TAG, "location == null");
         }
 
-        if (city.getVisibility() == View.VISIBLE) { city.setText(coordinates); }
-        Log.e(LOG_TAG, coordinates);
+        settings.setLatitude(Double.toString(lat));
+        settings.setLongitude(Double.toString(lon));
+        String coordinates = CITY_KEY + lat + " : " + lon;
+
+        if (city.getVisibility() == View.VISIBLE) {
+            city.setText(coordinates);
+            this.close();
+        }
+
+        Log.d(LOG_TAG, coordinates);
+
     }
 
     private void requestPermissions() {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CALL_PHONE)) {
+        if (!fragment.shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
             ActivityCompat.requestPermissions(
                     activity,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_REQUEST_CODE
             );
+            Log.d(LOG_TAG, "requestPermissions() requested");
+        } else {
+            Log.e(LOG_TAG, "requestPermissions() failed");
         }
     }
 
-    public String getLatitude() {
-        return latitude;
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.e(LOG_TAG, "onLocationChanged");
+        showCoordinates(location);
     }
 
-    public String getLongitude() {
-        return longitude;
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d(LOG_TAG, "Status: " + status);
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d(LOG_TAG, "onProviderEnabled: GPS: " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) +
+                ", NETWORK: " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d(LOG_TAG, "onProviderDisabled: GPS: " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) +
+                ", NETWORK: " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
     }
 
     @Override
     public void close() {
-        locationManager.removeUpdates(locationListener);
-        locationListener = null;
-        locationManager = null;
+        if (locationManager != null)
+        locationManager.removeUpdates(this);
     }
 }

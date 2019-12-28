@@ -16,6 +16,8 @@ public class Settings implements Keys, Observable{
     private int humidity;
     private double wind;
     private int barometer;
+    private String latitude;
+    private String longitude;
     private int serverResultCode;
     private ArrayList<DataParser.Forecast> hoursForecasts = new ArrayList<>();
     private ArrayList<DataParser.Forecast> daysForecasts = new ArrayList<>();
@@ -96,6 +98,23 @@ public class Settings implements Keys, Observable{
 
     void setBarometer(int barometer) {
         this.barometer = barometer;
+    }
+
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public int getServerResultCode() {

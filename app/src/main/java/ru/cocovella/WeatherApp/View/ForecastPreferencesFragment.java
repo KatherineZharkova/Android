@@ -50,6 +50,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         sharedPreferences = Objects.requireNonNull(getActivity())
                 .getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        locationLoader = LocationLoader.getInstance();
         return inflater.inflate(R.layout.fragment_forecast_preferences, container, false);
     }
 
@@ -113,10 +114,11 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
+            locationLoader.close();
             String recentInput = sharedPreferences.getString(CITY_KEY, "");
             if (recentInput.contains(CITY_KEY)) {
-                String lat = locationLoader.getLatitude();
-                String lon = locationLoader.getLongitude();
+                String lat = Settings.getInstance().getLatitude();
+                String lon = Settings.getInstance().getLongitude();
                 new Thread(() -> new DataLoader(lat, lon)).start();
             } else {
                 new Thread(() -> new DataLoader(recentInput)).start();
@@ -125,9 +127,8 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     }
 
     private void setLocationButton() {
-        Objects.requireNonNull(getView()).findViewById(R.id.locationButton).setOnClickListener(v -> {
-            locationLoader = new LocationLoader(Objects.requireNonNull(getActivity()));
-        });
+        Objects.requireNonNull(getView()).findViewById(R.id.locationButton)
+                .setOnClickListener(v -> locationLoader.load(this));
     }
 
     private void savePreferences() {
