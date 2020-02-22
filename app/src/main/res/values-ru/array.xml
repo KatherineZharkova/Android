@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="cities">
-        <item>*Сенсоры смартфона*</item>
+        <item>*Сенсоры*</item>
         <item>Москва, РФ</item>
         <item>Лондон, Англия</item>
         <item>Токио, Япония</item>

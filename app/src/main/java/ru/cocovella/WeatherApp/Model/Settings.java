@@ -1,5 +1,7 @@
 package ru.cocovella.WeatherApp.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -14,9 +16,13 @@ public class Settings implements Keys, Observable{
     private int humidity;
     private double wind;
     private int barometer;
+    private String latitude;
+    private String longitude;
     private int serverResultCode;
-    private ArrayList<DataParser.Forecast> forecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> hoursForecasts = new ArrayList<>();
+    private ArrayList<DataParser.Forecast> daysForecasts = new ArrayList<>();
     private ArrayList<Observer> observers = new ArrayList<>();
+    private int apiRequestCounter;
 
 
     public static Settings getInstance() {
@@ -31,6 +37,7 @@ public class Settings implements Keys, Observable{
     }
 
     void setCity(String city) {
+        Log.d(LOG_TAG, "Settings.setCity(): " + city);
         this.city = city;
     }
 
@@ -93,21 +100,47 @@ public class Settings implements Keys, Observable{
         this.barometer = barometer;
     }
 
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
     public int getServerResultCode() {
         return serverResultCode;
     }
 
     void setServerResultCode(int resultCode) {
         this.serverResultCode = resultCode;
-        notifyObservers();
+        Log.d(LOG_TAG, "Settings.setServerResultCode(): " + resultCode);
+        if (resultCode != CONFIRMATION_WAIT) notifyObservers();
     }
 
-    public ArrayList<DataParser.Forecast> getForecasts() {
-        return forecasts;
+    public ArrayList<DataParser.Forecast> getHoursForecasts() {
+        return hoursForecasts;
     }
 
-    void setForecasts(ArrayList<DataParser.Forecast> forecasts) {
-        this.forecasts = forecasts;
+    void setHoursForecasts(ArrayList<DataParser.Forecast> hoursForecasts) {
+        this.hoursForecasts = hoursForecasts;
+    }
+
+    public ArrayList<DataParser.Forecast> getDaysForecasts() {
+        return daysForecasts;
+    }
+
+    void setDaysForecasts(ArrayList<DataParser.Forecast> daysForecasts) {
+        this.daysForecasts = daysForecasts;
     }
 
     @Override
@@ -122,9 +155,12 @@ public class Settings implements Keys, Observable{
 
     @Override
     public void notifyObservers() {
-        for (Observer o : observers) {
-            o.update();
-        }
+        for (Observer o : observers) { o.update(); }
+    }
+
+    int getApiRequestCounter() {
+        Log.d(LOG_TAG, "DataLoader.getData().apiRequests = " + apiRequestCounter++);
+        return apiRequestCounter;
     }
 
 }

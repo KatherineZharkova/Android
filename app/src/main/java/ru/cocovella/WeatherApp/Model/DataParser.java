@@ -1,6 +1,7 @@
 package ru.cocovella.WeatherApp.Model;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -17,7 +18,8 @@ public class DataParser implements Keys {
         if (model != null) {
             this.model = model;
             if (!parseCurrentForecast()) return;
-            parseDayTimesForecast();
+            parseDayHoursForecast();
+            parseWeekDaysForecast();
             settings.setServerResultCode(Keys.CONFIRMATION_OK);
         }
     }
@@ -44,13 +46,14 @@ public class DataParser implements Keys {
 
     private String getWeatherIcon() {
         String icon = "";
-        long sunrise = model.getCity().getSunrise() * 1000;
-        long sunset =  model.getCity().getSunset() * 1000;
         int iconID = model.getList().get(0).getWeather().get(0).getId();
         int id = iconID / 100;
 
         if(iconID == 800) {
             long currentTime = new Date().getTime();
+            long sunrise = model.getCity().getSunrise() * 1000;
+            long sunset = model.getCity().getSunset() * 1000;
+
             icon = currentTime >= sunrise && currentTime < sunset ? "\uF00D" : "\uF02E";    //sunny or clear_night
         } else {
             switch (id) {
@@ -65,25 +68,43 @@ public class DataParser implements Keys {
         return icon;
     }
 
-    private void parseDayTimesForecast() {
+    private void parseDayHoursForecast() {
         ArrayList<Forecast> forecasts = new ArrayList<>();
         DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (int i = 1; i <= 8; i++) {
             String time = dateFormat.format(new Date(model.getList().get(i).getDt() * 1000));
             String icon = getWeatherIcon();
-            double temp = model.getList().get(i).getMain().getTemp();
-            forecasts.add(new Forecast(time, icon, temp));
+            double temp = model.getList().get(i).getMain().getFeelsLike();
+            String temperature = (int)temp + "°C";
+            forecasts.add(new Forecast(time, icon, temperature));
         }
-        settings.setForecasts(forecasts);
+        settings.setHoursForecasts(forecasts);
     }
+
+    private void parseWeekDaysForecast() {
+        ArrayList<Forecast> forecasts = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        for (int i = 0; i <= 4; i++) {
+            String dayOfWeek = dateFormat.format(new Date(model.getList().get(i*8).getDt() * 1000));
+            String icon = getWeatherIcon();
+            double tempMin = model.getList().get(i*8).getMain().getTempMin();
+            double tempMax = model.getList().get(i*8).getMain().getFeelsLike();
+            String temperature = tempMax > tempMin ? (int) tempMin + ".." + (int) tempMax + "°C" :
+                    (int) tempMax + ".." + (int) tempMin + "°C";
+            forecasts.add(new Forecast(dayOfWeek, icon, temperature));
+        }
+        settings.setDaysForecasts(forecasts);
+    }
+
 
     public class Forecast {
         private String dayTime;
         private String icon;
-        private double temperature;
+        private String temperature;
 
-        private Forecast(String dayTime, String icon, double temperature) {
+        private Forecast(String dayTime, String icon, String temperature) {
             this.dayTime = dayTime;
             this.icon = icon;
             this.temperature = temperature;
@@ -97,7 +118,7 @@ public class DataParser implements Keys {
             return icon;
         }
 
-        public double getTemperature() {
+        public String getTemperature() {
             return temperature;
         }
 

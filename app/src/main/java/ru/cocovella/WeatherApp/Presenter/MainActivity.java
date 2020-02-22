@@ -1,13 +1,14 @@
 package ru.cocovella.WeatherApp.Presenter;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,13 +48,14 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     }
 
     private void setBackground() {
-        ImageView imageView = findViewById(R.id.imageView);
+        ImageView imageView = findViewById(R.id.customBackgroundView);
         String path = sharedPreferences.getString(BACKGROUND, getString(R.string.defaultBackgroundUrl));
         Picasso.with(this)
                 .load(path)
                 .fit()
                 .into(imageView);
     }
+
     private void setCitiesChoice() {
         String [] array  = getResources().getStringArray(R.array.cities);
         sensors = array[0];
@@ -64,18 +66,16 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
 
     private void welcome () {
         recentInput = sharedPreferences.getString(CITY_KEY, "");
-        if (recentInput.isEmpty() || recentInput.equals(sensors)) {
+//        if (recentInput.isEmpty() || recentInput.contains("Sensors") || recentInput.contains("sensors")) {
             handleTransaction();
-            return;
-        }
-        new Thread(() -> new DataLoader().load(recentInput)).start();
+//            return;
+//        }
+        new Thread(() -> new DataLoader(recentInput)).start();
     }
 
     private void handleTransaction() {
         recentInput = sharedPreferences.getString(CITY_KEY, "");
         resultCode = settings.getServerResultCode();
-        Log.d(LOG_TAG, "ResultCode: " + resultCode + ", SharedPrefs: " + recentInput);
-
         transaction = getSupportFragmentManager().beginTransaction();
         if (showForecast()) return;
         if (showSensors()) return;
@@ -85,33 +85,43 @@ public class MainActivity extends FragmentActivity implements Observer, Keys {
     private boolean showForecast() {
         if (resultCode != CONFIRMATION_OK) return false;
         transaction.replace(R.id.container, new ForecastFragment());
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
         return true;
     }
 
     private boolean showSensors() {
-        if (!recentInput.equals(sensors)) { return false; }
+        if (!recentInput.contains(sensors)) { return false; }
         transaction.replace(R.id.container, new SensorsFragment());
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commit();
         return true;
     }
 
     private void prepareMessage() {
-        String message = "";
+        String message;
         if (recentInput.isEmpty()) {
             message = getString(R.string.welcome);
         } else if (resultCode == CONFIRMATION_WAIT) {
             message = getString(R.string.please_wait);
-        } else if (resultCode == CONFIRMATION_ERROR){
+        } else if (resultCode == CONFIRMATION_BANNED){
+            message = getString(R.string.error_banned);
+        } else {
             message = getString(R.string.error_city_not_found);
         }
         transaction.replace(R.id.container, new MessageFragment(message));
-        transaction.addToBackStack(null).commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override
     public void update() {
         handleTransaction();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.MainLayout), "Exit now?", Snackbar.LENGTH_LONG);
+        snackbar.setAction("confirm", v1 -> super.onBackPressed())
+                .setActionTextColor(Color.WHITE).getView().setBackgroundColor(Color.WHITE);
+        snackbar.show();
     }
 
 }

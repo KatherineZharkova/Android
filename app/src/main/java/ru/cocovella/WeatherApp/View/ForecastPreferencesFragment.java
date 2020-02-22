@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,6 +26,7 @@ import java.util.regex.Pattern;
 
 import ru.cocovella.WeatherApp.Model.DataLoader;
 import ru.cocovella.WeatherApp.Model.Keys;
+import ru.cocovella.WeatherApp.Model.LocationLoader;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
@@ -37,6 +39,8 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     private CheckBox humidityCB;
     private CheckBox windCB;
     private CheckBox barometerCB;
+    private Switch periodSwitch;
+    private LocationLoader locationLoader;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -46,6 +50,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         sharedPreferences = Objects.requireNonNull(getActivity())
                 .getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        locationLoader = LocationLoader.getInstance();
         return inflater.inflate(R.layout.fragment_forecast_preferences, container, false);
     }
 
@@ -62,6 +67,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         windCB = getView().findViewById(R.id.windCB);
         barometerCB = getView().findViewById(R.id.barometerCB);
         recyclerView = getView().findViewById(R.id.recycler_view);
+        periodSwitch = getView().findViewById(R.id.periodSwitch);
     }
 
     private void inflateViews() {
@@ -69,9 +75,11 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         humidityCB.setChecked(sharedPreferences.getBoolean(HUMIDITY_KEY, false));
         windCB.setChecked(sharedPreferences.getBoolean(WIND_KEY, false));
         barometerCB.setChecked(sharedPreferences.getBoolean(BAROMETER_KEY, false));
+        periodSwitch.setChecked(sharedPreferences.getBoolean(PERIOD, false));
         setSpellingCheck();
         setRecyclerView();
         setApplyButton();
+        setLocationButton();
     }
 
     private void setSpellingCheck() {
@@ -106,9 +114,21 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
     private void setApplyButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.applyButton).setOnClickListener(v -> {
             savePreferences();
+            locationLoader.close();
             String recentInput = sharedPreferences.getString(CITY_KEY, "");
-            new Thread(() -> new DataLoader().load(recentInput)).start();
+            if (recentInput.contains(CITY_KEY)) {
+                String lat = Settings.getInstance().getLatitude();
+                String lon = Settings.getInstance().getLongitude();
+                new Thread(() -> new DataLoader(lat, lon)).start();
+            } else {
+                new Thread(() -> new DataLoader(recentInput)).start();
+            }
         });
+    }
+
+    private void setLocationButton() {
+        Objects.requireNonNull(getView()).findViewById(R.id.locationButton)
+                .setOnClickListener(v -> locationLoader.load(this));
     }
 
     private void savePreferences() {
@@ -118,6 +138,7 @@ public class ForecastPreferencesFragment extends Fragment implements Keys {
         editor.putBoolean(HUMIDITY_KEY, humidityCB.isChecked());
         editor.putBoolean(WIND_KEY, windCB.isChecked());
         editor.putBoolean(BAROMETER_KEY, barometerCB.isChecked());
+        editor.putBoolean(PERIOD, periodSwitch.isChecked());
         editor.putStringSet(CITIES_LIST, new HashSet<>(citiesChoice));
         editor.commit();
     }

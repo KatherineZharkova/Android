@@ -17,16 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
+import ru.cocovella.WeatherApp.Model.Keys;
 import ru.cocovella.WeatherApp.Model.Settings;
 import ru.cocovella.WeatherApp.R;
 
-import static ru.cocovella.WeatherApp.Model.Keys.BAROMETER_KEY;
-import static ru.cocovella.WeatherApp.Model.Keys.HUMIDITY_KEY;
-import static ru.cocovella.WeatherApp.Model.Keys.SHARED_PREFS;
-import static ru.cocovella.WeatherApp.Model.Keys.WIND_KEY;
 
-
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment implements Keys {
     private TextView cityName;
     private TextView icon;
     private TextView temperature;
@@ -38,6 +34,8 @@ public class ForecastFragment extends Fragment {
     private LinearLayout barometer;
     private TextView barometerInfo;
     private RecyclerView recyclerView;
+    private SharedPreferences sharedPreferences;
+    private Settings settings;
 
 
     @Override
@@ -75,9 +73,11 @@ public class ForecastFragment extends Fragment {
     }
 
     private void inflateViews() {
-        Settings settings = Settings.getInstance();
-        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity())
-                .getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        settings = Settings.getInstance();
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(CITY_KEY, settings.getCity());
+        editor.apply();
 
         cityName.setText(settings.getCity());
         icon.setText(settings.getIcon());
@@ -103,7 +103,8 @@ public class ForecastFragment extends Fragment {
     private void setRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new ForecastCardAdapter(Settings.getInstance().getForecasts()));
+        recyclerView.setAdapter(sharedPreferences.getBoolean(PERIOD, false) ?
+                new ForecastCardAdapter(settings.getHoursForecasts()) : new ForecastCardAdapter(settings.getDaysForecasts()));
     }
 
 }

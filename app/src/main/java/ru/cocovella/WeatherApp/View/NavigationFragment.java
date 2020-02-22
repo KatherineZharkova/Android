@@ -50,7 +50,6 @@ public class NavigationFragment extends Fragment {
                     break;
 
                 case R.id.homeButton:
-
                     if (isNewInput()) {
                         Snackbar snackbar = Snackbar.make(view, "Leave without saving?", Snackbar.LENGTH_LONG);
                         snackbar.setAction("confirm", v1 ->

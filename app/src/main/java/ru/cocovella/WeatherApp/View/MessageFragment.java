@@ -1,13 +1,16 @@
 package ru.cocovella.WeatherApp.View;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.Objects;
+
 import ru.cocovella.WeatherApp.R;
 
 
@@ -42,7 +45,7 @@ public class MessageFragment extends Fragment {
     private void setMessageButton() {
         Objects.requireNonNull(getView()).findViewById(R.id.messageButton).setOnClickListener(v -> {
             FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
-            transaction.replace(R.id.container, new ForecastPreferencesFragment()).addToBackStack(null).commit();
+            transaction.replace(R.id.container, new ForecastPreferencesFragment()).commit();
         });
     }
 
